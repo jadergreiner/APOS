@@ -101,7 +101,7 @@ Iniciando Sessão de Definição de Fundações...
 **Responsável:** Engenharia de Framework  
 **Esforço:** 1 dia planejado / < 1 dia real  
 **Status:** ✅ **COMPLETO** (19 jul)  
-**Commit:** `[a definir]` — feat: implement APOS auto-identification + SessionManager (T0.0.3)
+**Commit:** `6be1b53` — feat: implement APOS auto-identification + SessionManager (T0.0.3)
 
 ---
 
@@ -207,7 +207,7 @@ Social: [como eles querem ser percebidos]
 | T0.0.1 | Release Management Framework | 1d | ✅ COMPLETO | — | PM |
 | T0.0.2 | Bootstrap Gate + Validators | 2d/1d | ✅ COMPLETO | `f152801` | Engenharia |
 | **Doc Updates** | BOARD + STATUS | — | ✅ COMPLETO | `5ce6124`, `4a3b4a8` | PM |
-| T0.0.3 | Auto-ID APOS + CLI | 1d | ✅ COMPLETO | `[a definir]` | Engenharia |
+| T0.0.3 | Auto-ID APOS + CLI | 1d | ✅ COMPLETO | `6be1b53` | Engenharia |
 | T0.0.A | Entrevistas JTBD | 2d | 📋 CRÍTICO | — | PM |
 | T0.0.B | Análise de Forças | 1d | 📋 PRÓXIMO | — | PM |
 | T0.0.C | Validação Job Statement | 1d | 📋 PRÓXIMO | — | PM |
@@ -233,4 +233,4 @@ Social: [como eles querem ser percebidos]
 - `5ce6124` — docs: update Sprint 0.0 board - T0.0.2 Bootstrap Gate complete
 - `4a3b4a8` — docs: update Sprint 0.0 status - T0.0.2 complete, velocity +50%
 - `ce01074` — docs: establish Commit Tracking as APOS kernel pattern
-- `[a definir]` — feat: implement APOS auto-identification + SessionManager (T0.0.3)
+- `6be1b53` — feat: implement APOS auto-identification + SessionManager (T0.0.3)

@@ -42,7 +42,7 @@ Backlog        A Fazer       Em Progresso    Em Revisão    Completo
   - `apos/bootstrap/session.py` ✅ `SessionManager.initialize()` + `matches_session_trigger()`
   - `apos/__main__.py` ✅ CLI (`python -m apos init`) validado com testes
   - Testes end-to-end ✅ 10 novos testes (test_apos_project_identity.py + extras)
-  - **Commit:** `[a definir]` (19 jul)
+  - **Commit:** `6be1b53` (19 jul)
 
 ### Tier 2: Validação de Job (JTBD Discovery)
 
@@ -136,7 +136,7 @@ Backlog        A Fazer       Em Progresso    Em Revisão    Completo
 - [x] **Fix**: `Sprint._parse_narrative_status()` passou a reconhecer status com emoji/negrito
 - [x] **Test Suite** — 10 novos testes (SessionManager, matches_session_trigger, auto-ID, CLI init)
 
-**Taxa de Conclusão**: 100% | **Pontos**: 1 | **Esforço Real**: < 1 dia | **Commit**: `[a definir]`
+**Taxa de Conclusão**: 100% | **Pontos**: 1 | **Esforço Real**: < 1 dia | **Commit**: `6be1b53`
 
 ---
 
