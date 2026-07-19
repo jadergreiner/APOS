@@ -464,23 +464,84 @@ pytest tests/unit/test_daily_runner.py -v
 
 ---
 
+## Comando CLI: `python -m apos daily`
+
+### Uso
+
+```bash
+# Com modo explícito
+python -m apos daily --sprint sprint-0.0 --date 2026-07-22 --mode automatic --tasks-json tasks.json
+
+# Modo colaborativo
+python -m apos daily --sprint sprint-0.0 --date 2026-07-22 --mode collaborative --tasks-json tasks.json
+
+# Sem modo: pergunta interativamente
+python -m apos daily --sprint sprint-0.0 --tasks-json tasks.json
+```
+
+### Argumentos
+
+- `--sprint` (obrigatório): ID do sprint (ex: `sprint-0.0`)
+- `--date` (opcional): Data da daily (formato `YYYY-MM-DD`, default: hoje)
+- `--mode` (opcional): `automatic` ou `collaborative`. Se não fornecido, pergunta ao usuário
+- `--release` (opcional): ID da release (default: `R0`)
+- `--tasks-json` (obrigatório): Caminho para arquivo JSON com tasks
+
+### Formato JSON de Tasks
+
+```json
+[
+  {
+    "id": "T0.0.1",
+    "title": "Bootstrap Gate",
+    "description": "Implementar Bootstrap Gate",
+    "days_estimate": 2.0,
+    "status": "in_progress",
+    "assignee": "Jader",
+    "depends_on": [],
+    "notes": ""
+  }
+]
+```
+
+### Status Válidos (TaskStatus enum)
+
+- `backlog`
+- `planned`
+- `in_progress`
+- `in_review`
+- `complete`
+- `blocked`
+
+### Limitação Atual
+
+**TODO:** Hoje não existe um método para reconstruir um Sprint a partir de `TASKS.md`/`BOARD.md` já gravados em disco. `--tasks-json` é uma solução temporária. Quando essa funcionalidade existir (ex: um método `Sprint.load_from_markdown()` ou similar), este comando deve passar a usá-la como default, tornando `--tasks-json` opcional/legado.
+
+### Output
+
+```
+✅ Daily salva em: docs/releases/R0/sprint-0.0/DAILY_STANDUP_2026-07-22.md
+```
+
+---
+
 ## Próximos Passos
 
-1. **Integração com CLI**
-   - `python -m apos daily <date> --mode=automatic`
-   - `python -m apos daily <date> --mode=collaborative`
-
-2. **Webhooks e Notificações**
+1. **Webhooks e Notificações**
    - Post daily summary to Slack
    - Email relatório de bloqueadores
 
-3. **Dashboards**
+2. **Dashboards**
    - Visualizar velocity histórica
    - Trends de blockers ao longo das sprints
 
-4. **Histórico**
+3. **Histórico**
    - Guardar histórico de dailies
    - Análise de trends
+
+4. **Reconstrução a partir de Markdown**
+   - Implementar `Sprint.load_from_markdown()` para ler `TASKS.md`/`BOARD.md`
+   - Tornar `--tasks-json` opcional no CLI
 
 ---
 
