@@ -135,6 +135,12 @@ APOS/
 │   │       ├── ONTOLOGY.md
 │   │       ├── SEMANTIC_LAYER.md
 │   │       └── GOVERNANCE.md
+│   ├── release_management/        # Gerenciamento de Releases & Sprints (NOVO!)
+│   │   ├── __init__.py            # Exports: ReleaseManager, SprintManager, Ceremonies
+│   │   ├── release.py             # Release, ReleaseManager, ReleaseObjective
+│   │   ├── sprint.py              # Sprint, SprintManager, Task, UserStory, TaskStatus
+│   │   ├── ceremonies.py          # DailyStandup, SprintPlanning, Retrospective
+│   │   └── templates.py           # ReleaseTemplateGenerator (4+ formatos)
 │   ├── governance/                # Framework de governança (stubs vazios)
 │   │   ├── __init__.py
 │   │   ├── gate.py                # Verificações de qualidade SemanticGate
@@ -221,6 +227,77 @@ Portais de qualidade e auditoria para garantir confiabilidade de contexto:
   - Limiares de portais semânticos
   - Pesos de métricas (coverage, quality, consistency)
   - Regras de governança customizadas
+
+### Camada Release Management (`apos/release_management/`)
+
+**Sistema operacional de gerenciamento de produto** embarcado em APOS. Quando um projeto importa APOS, recebe automaticamente:
+
+- **release.py**: `Release` + `ReleaseManager`
+  - Gerenciar múltiplas releases (R0-R4) com objetivos, sprints, dependências
+  - Auto-gerar estrutura de diretórios (`docs/releases/R0/`)
+  - Rastrear fases (planning, active, shipped, retro)
+
+- **sprint.py**: `Sprint` + `SprintManager`
+  - Gerenciar sprints com tarefas (`Task`), user stories (`UserStory`)
+  - Rastrear status (`TaskStatus`: backlog, planned, in_progress, in_review, complete, blocked)
+  - Calcular métricas (total_days_estimate, completion_rate, velocity)
+  - Auto-gerar estrutura de sprint (`docs/releases/R0/sprint-0.0/`)
+
+- **ceremonies.py**: `DailyStandup`, `SprintPlanning`, `Retrospective`
+  - Daily Standup: capturar updates de participantes (o que fez, o que faz, blockers)
+  - Sprint Planning: planejar tarefas, goals, velocity target
+  - Retrospective: capturar o que correu bem/mal, ideias de melhoria, ações
+
+- **templates.py**: `ReleaseTemplateGenerator`
+  - Gerar templates de documentos (README, TASKS, BOARD, STATUS, RETRO)
+  - Daily Standup com **4 formatos**: text, markdown, kanban, estruturado
+  - Todos os templates são Markdown prontos para usar
+
+**Estrutura gerada automaticamente:**
+```
+docs/releases/R0/
+├── README.md (release level)
+├── OKR.md
+├── SPRINT_PLAN.md
+├── BACKLOG.md
+├── DEPENDENCY_MAP.md
+└── sprint-0.0/
+    ├── README.md (sprint context)
+    ├── TASKS.md (tarefas detalhadas)
+    ├── USER_STORIES.md (histórias)
+    ├── BOARD.md (kanban visual)
+    ├── STATUS.md (burndown + métricas)
+    ├── DAILY_STANDUP_[DATE].md (múltiplos formatos)
+    ├── RISK_MITIGATION.md (riscos + mitigações)
+    └── RETRO.md (retrospectiva)
+```
+
+**Exemplo de uso:**
+```python
+from apos.release_management import ReleaseManager, SprintManager
+
+# Gerenciar releases
+rm = ReleaseManager(project_name="seu-projeto")
+r0 = rm.create_release("R0", "Bootstrap", "...", "2026-07-19", "2026-08-02")
+rm.initialize_release_directory("R0")
+
+# Gerenciar sprints
+sm = SprintManager(release_id="R0")
+sprint = sm.create_sprint("sprint-0.0", "Scaffold", "2026-07-22", "2026-07-26")
+sprint.add_task("T0.0.1", "Bootstrap Gate", days=2)
+sm.initialize_sprint_directory("sprint-0.0")
+
+# Conduzir cerimônias
+daily = DailyStandup(sprint_id="sprint-0.0", date="2026-07-22")
+daily.add_update(DailyStandupUpdate(...))
+
+planning = SprintPlanning(sprint_id="sprint-0.0", date="2026-07-22")
+planning.add_goal("Implementar Bootstrap Gate")
+
+retro = Retrospective(sprint_id="sprint-0.0", date="2026-07-26")
+retro.add_well("Velocidade excepcional")
+retro.add_action(RetroAction(...))
+```
 
 ### Camada Bootstrap (`apos/bootstrap/`)
 
