@@ -31,6 +31,37 @@ class SprintPhase(str, Enum):
     COMPLETE = "complete"
 
 
+# Mapeamento de valores de status em texto livre (formato narrativo de
+# TASKS.md, ex: "**Status:** COMPLETO (Em R0/APOS...)") para TaskStatus.
+# Chaves em minúsculas; o parser normaliza e remove parenteticais antes de
+# comparar. Estender aqui ao encontrar novos rótulos usados nos TASKS.md.
+NARRATIVE_STATUS_MAP = {
+    "não iniciado": TaskStatus.PLANNED,
+    "planejado": TaskStatus.PLANNED,
+    "planned": TaskStatus.PLANNED,
+    "definido": TaskStatus.PLANNED,
+    "em andamento": TaskStatus.IN_PROGRESS,
+    "ativo": TaskStatus.IN_PROGRESS,
+    "in progress": TaskStatus.IN_PROGRESS,
+    "em revisão": TaskStatus.IN_REVIEW,
+    "completo": TaskStatus.COMPLETE,
+    "concluído": TaskStatus.COMPLETE,
+    "complete": TaskStatus.COMPLETE,
+    "bloqueado": TaskStatus.BLOCKED,
+    "blocked": TaskStatus.BLOCKED,
+}
+
+# Formato tabular: qualquer linha de cabeçalho "| ID | ... |" em qualquer
+# lugar do arquivo indica que o documento usa o formato gerado por
+# ReleaseTemplateGenerator.generate_sprint_tasks_template().
+_TABULAR_HEADER_RE = re.compile(r"^\s*\|\s*ID\s*\|", re.IGNORECASE | re.MULTILINE)
+
+# Formato narrativo: headers "## {ID}: {Título}" — só é considerado task
+# se o ID casar com o padrão usado no projeto (ex: T0.0.1, T0.0.A, T1.2.5).
+_NARRATIVE_HEADER_RE = re.compile(r"^##\s+(?P<id>\S+?):\s*(?P<title>.+)$", re.MULTILINE)
+_TASK_ID_PATTERN = re.compile(r"^T\d+\.\d+\.\w+$")
+
+
 @dataclass
 class Task:
     """Representa uma tarefa em um sprint."""
@@ -142,15 +173,19 @@ class Sprint:
     ) -> "Sprint":
         """Reconstruir um Sprint a partir de um arquivo TASKS.md.
 
-        Parseia as tabelas Markdown no formato gerado por
-        ReleaseTemplateGenerator.generate_sprint_tasks_template() (colunas
-        ID | Título | Descrição | Duração | Status | Responsável), sob
-        headers "### Tier N: ...". Ignora linhas de cabeçalho, separadores
-        e placeholders não preenchidos (ID vazio ou "T").
-
         Não parseia BOARD.md nem reconstrói status_history/timestamps — o
         objetivo é apenas reconstruir tasks + status atual a partir de
         TASKS.md.
+
+        Suporta dois formatos, detectados automaticamente:
+        - **Tabular**: tabelas Markdown "| ID | Título | Descrição | Duração
+          | Status | Responsável |" sob headers "### Tier N: ..." (formato
+          gerado por ReleaseTemplateGenerator.generate_sprint_tasks_template()).
+          Ignora linhas de cabeçalho, separadores e placeholders não
+          preenchidos (ID vazio ou "T")
+        - **Narrativo**: headers "## {ID}: {Título}" com campos em negrito
+          ("**Objetivo:**", "**Esforço:**", "**Status:**", "**Responsável:**")
+          — formato usado nos TASKS.md reais do projeto
 
         Args:
             sprint_id: ID do sprint (ex: "sprint-0.0")
@@ -165,6 +200,8 @@ class Sprint:
 
         Raises:
             FileNotFoundError: se tasks_md_path não existir
+            ValueError: se o formato do arquivo não for reconhecido (nem
+                tabular, nem narrativo com pelo menos um header de task)
         """
         tasks_md_path = Path(tasks_md_path)
         if not tasks_md_path.exists():
@@ -180,6 +217,29 @@ class Sprint:
             end_date=end_date,
         )
 
+        if _TABULAR_HEADER_RE.search(content):
+            cls._parse_tabular_format(sprint, content)
+        elif any(
+            _TASK_ID_PATTERN.match(m.group("id")) for m in _NARRATIVE_HEADER_RE.finditer(content)
+        ):
+            cls._parse_narrative_format(sprint, content)
+        else:
+            raise ValueError(
+                f"Formato de TASKS.md não reconhecido em '{tasks_md_path}': "
+                "esperado formato tabular ('| ID | Título | ... |') ou "
+                "narrativo ('## T0.0.1: Título' com campos em negrito)"
+            )
+
+        return sprint
+
+    @classmethod
+    def _parse_tabular_format(cls, sprint: "Sprint", content: str) -> None:
+        """Parsear formato tabular ("| ID | Título | ... |") e popular sprint.
+
+        Comportamento inalterado desde a implementação original (Fase 1):
+        tabelas sob headers "### Tier N: ...", ignora cabeçalho, separador
+        e placeholders não preenchidos (ID vazio ou "T").
+        """
         for line in content.splitlines():
             stripped = line.strip()
             if not stripped.startswith("|"):
@@ -216,7 +276,83 @@ class Sprint:
             )
             sprint.add_task(task)
 
-        return sprint
+    @classmethod
+    def _parse_narrative_format(cls, sprint: "Sprint", content: str) -> None:
+        """Parsear formato narrativo ("## {ID}: {Título}") e popular sprint.
+
+        Para cada header cujo ID case com _TASK_ID_PATTERN, extrai campos
+        em negrito ("**Objetivo:**", "**Esforço:**", "**Status:**",
+        "**Responsável:**") do corpo da seção (até o próximo header "## "
+        ou fim do arquivo). Headers cujo ID não case com o padrão (ex:
+        "## Resumo") são ignorados silenciosamente.
+        """
+        matches = list(_NARRATIVE_HEADER_RE.finditer(content))
+
+        for i, match in enumerate(matches):
+            task_id = match.group("id").strip()
+            if not _TASK_ID_PATTERN.match(task_id):
+                continue  # Não é uma seção de task (ex: "## Resumo")
+
+            title_raw = match.group("title").strip()
+            # Remover parenteticais no fim do título, ex: "(1 dia-pessoa)"
+            title = re.sub(r"\s*\([^)]*\)\s*$", "", title_raw).strip()
+
+            body_start = match.end()
+            body_end = matches[i + 1].start() if i + 1 < len(matches) else len(content)
+            body = content[body_start:body_end]
+
+            description = cls._extract_narrative_field(body, "Objetivo") or ""
+            effort_str = cls._extract_narrative_field(body, "Esforço")
+            status_str = cls._extract_narrative_field(body, "Status")
+            assignee_str = cls._extract_narrative_field(body, "Responsável")
+
+            days_estimate = cls._parse_duration(effort_str.replace(",", ".")) if effort_str else 0.0
+            status = cls._parse_narrative_status(status_str) if status_str else TaskStatus.PLANNED
+            assignee = assignee_str if assignee_str else None
+
+            task = Task(
+                id=task_id,
+                title=title,
+                description=description,
+                days_estimate=days_estimate,
+                status=status,
+                assignee=assignee,
+            )
+            sprint.add_task(task)
+
+    @staticmethod
+    def _extract_narrative_field(body: str, field_name: str) -> Optional[str]:
+        """Extrair valor de um campo em negrito ("**Campo:** valor").
+
+        Captura o texto até a próxima linha em branco, o próximo campo em
+        negrito, ou o fim do corpo — o que vier primeiro.
+
+        Returns:
+            Texto extraído (strip aplicado), ou None se o campo não existir.
+        """
+        pattern = rf"\*\*{re.escape(field_name)}:\*\*\s*(.+?)(?=\n[ \t]*\n|\n\*\*[^\n*]+:\*\*|\Z)"
+        match = re.search(pattern, body, re.DOTALL)
+        if not match:
+            return None
+        return match.group(1).strip()
+
+    @staticmethod
+    def _parse_narrative_status(status_str: str) -> TaskStatus:
+        """Mapear valor de status narrativo para TaskStatus via NARRATIVE_STATUS_MAP.
+
+        Remove parenteticais (ex: "COMPLETO (Em R0/APOS...)" -> "COMPLETO")
+        antes de comparar. Valor não reconhecido -> TaskStatus.PLANNED +
+        warning de log.
+        """
+        cleaned = re.sub(r"\([^)]*\)", "", status_str).strip()
+        normalized = cleaned.lower()
+
+        for key in sorted(NARRATIVE_STATUS_MAP, key=len, reverse=True):
+            if normalized.startswith(key):
+                return NARRATIVE_STATUS_MAP[key]
+
+        logger.warning("Status narrativo desconhecido '%s', usando TaskStatus.PLANNED", status_str)
+        return TaskStatus.PLANNED
 
     @staticmethod
     def _parse_duration(duration_str: str) -> float:

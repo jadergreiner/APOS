@@ -515,21 +515,57 @@ python -m apos daily --sprint sprint-0.0
 
 ### Fonte de Tasks: TASKS.md (padrão) ou JSON
 
-Por padrão, o comando lê `docs/releases/{release}/{sprint}/TASKS.md` — o
-mesmo arquivo gerado por
-`ReleaseTemplateGenerator.generate_sprint_tasks_template()` e preenchido
-manualmente pelo time nas tabelas "Tier 1/2/3". `Sprint.load_from_markdown()`
-parseia essas tabelas (colunas ID | Título | Descrição | Duração | Status |
-Responsável) e reconstrói as Tasks com seu status atual.
+Por padrão, o comando lê `docs/releases/{release}/{sprint}/TASKS.md`.
+`Sprint.load_from_markdown()` detecta automaticamente qual dos dois formatos
+suportados o arquivo usa — não é preciso informar qual é:
 
-**Limitações da reconstrução via Markdown:**
+- **Tabular**: tabelas Markdown `| ID | Título | Descrição | Duração |
+  Status | Responsável |`, no formato gerado por
+  `ReleaseTemplateGenerator.generate_sprint_tasks_template()` (tabelas
+  "Tier 1/2/3")
+- **Narrativo**: headers `## {ID}: {Título}` com campos em negrito
+  `**Objetivo:**`, `**Esforço:**`, `**Status:**`, `**Responsável:**` — o
+  formato usado nos `TASKS.md` reais de sprints do projeto (ex:
+  `docs/releases/R0/sprint-0.0/TASKS.md`)
+
+A detecção procura primeiro por uma tabela com cabeçalho `| ID | ...`; se
+não encontrar, procura headers `## {ID}: ...` cujo ID case com o padrão
+`T\d+\.\d+\.\w+` (ex: `T0.0.1`, `T0.0.A`). Se nenhum dos dois padrões for
+encontrado, o comando falha com um erro explicando os formatos aceitos.
+
+**Mapeamento de status no formato narrativo** (`NARRATIVE_STATUS_MAP` em
+`apos/release_management/sprint.py`, case-insensitive, ignora texto entre
+parênteses como "COMPLETO (Em R0/APOS...)"):
+
+| Texto no TASKS.md | TaskStatus |
+|---|---|
+| Não Iniciado, Planejado, Definido | `PLANNED` |
+| Em Andamento, Ativo | `IN_PROGRESS` |
+| Em Revisão | `IN_REVIEW` |
+| Completo, Concluído | `COMPLETE` |
+| Bloqueado | `BLOCKED` |
+
+**Limitações da reconstrução via Markdown (ambos os formatos):**
 - Não reconstrói `status_history` nem timestamps de transições — apenas o
   status atual de cada task
 - Não lê `BOARD.md` — somente `TASKS.md`
-- Linhas de placeholder não preenchidas (ID vazio ou `"T"`, como no template
-  em branco) são ignoradas silenciosamente
-- Durações não parseáveis (ex: "TBD") viram `0.0` com um warning de log
 - Status desconhecidos viram `TaskStatus.PLANNED` com um warning de log
+- Durações/esforços não parseáveis viram `0.0` com um warning de log
+
+**Específico do formato tabular:** linhas de placeholder não preenchidas
+(ID vazio ou `"T"`, como no template em branco) são ignoradas
+silenciosamente.
+
+**Específico do formato narrativo:** headers `## {ID}: ...` cujo ID não
+case com o padrão de task (ex: `## Resumo`) são ignorados; o efeito é
+parseado a partir de `**Esforço:**` aceitando vírgula como separador
+decimal (ex: "1,5 dia" → `1.5`).
+
+**Nota conhecida:** nem todo `TASKS.md` do repositório usa um dos dois
+formatos suportados — `docs/releases/R0/sprint-0.1/TASKS.md`, por exemplo,
+usa headers `### {ID}: ...` (nível 3, não 2) com campos no formato
+`**Campo**: valor` (dois-pontos fora do negrito), que não são reconhecidos
+por nenhum dos dois parsers atuais. Para esse caso, use `--tasks-json`.
 
 Se nenhum `TASKS.md` existir no caminho esperado e `--tasks-json` não for
 fornecido, o comando falha com uma mensagem explicando as duas opções.
