@@ -233,3 +233,16 @@ Velocity:     🚀 (7 pts/dia vs. 1.6 pts/dia planejado)
 **Status Atualizado:** 2026-07-19 (19:30 — T0.0.2 Completo)
 **Próxima Atualização:** 2026-07-20 (Daily 07:00 — Interview Prep update)
 **Próximo Kick-off**: 2026-07-22 (Sprint 0.0 — Dia 1)
+
+---
+
+## 📌 Commit Tracking (Audit Trail)
+
+| Commit | Descrição | Data | Componente |
+| --- | --- | --- | --- |
+| `f152801` | feat: implement Bootstrap Gate with real semantic validation (T0.0.2) | 19 jul | T0.0.2 |
+| `5ce6124` | docs: update Sprint 0.0 board - T0.0.2 Bootstrap Gate complete | 19 jul | BOARD.md |
+| `4a3b4a8` | docs: update Sprint 0.0 status - T0.0.2 complete, velocity +50% | 19 jul | STATUS.md |
+| `4265724` | docs: add commit tracking to TASKS.md for T0.0.2 and doc updates | 19 jul | TASKS.md |
+
+**Rastreamento Completo:** Todos os artefatos entregues (código + docs) possuem commits com refs diretas
