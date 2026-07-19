@@ -42,6 +42,26 @@ Quando você importa APOS, você recebe:
 - `sprint-X/STATUS.md` — Status report
 - `sprint-X/RISK_MITIGATION.md` — Risk log
 - `sprint-X/RETRO.md` — Retrospectiva
+- `sprint-X/DAILY_STANDUP_{date}.md` — Gerado por `DailyStandupRunner`
+  (`python -m apos daily`), não pelo gerador de template estático
+
+### Daily Standup: DailyStandupRunner
+
+Diferente dos demais artefatos (templates estáticos preenchidos manualmente),
+a Daily Standup é **executada e computada** pelo `DailyStandupRunner`
+(`apos/release_management/daily_runner.py`), com dois modos:
+
+- **Automático** — infere `what_done`/`what_today`/`blockers` a partir do
+  status das tasks (`TaskStatus`) e de commits reais encontrados via
+  `git log`, sem interação do usuário
+- **Colaborativo** — apresenta a análise inferida e pede confirmação/
+  complemento do usuário antes de registrar
+
+As tasks do sprint são reconstruídas automaticamente a partir de `TASKS.md`
+(via `Sprint.load_from_markdown()`) ou de um `--tasks-json` explícito. Ver
+[docs/DAILY_STANDUP_MODES.md](docs/DAILY_STANDUP_MODES.md) para o
+comportamento completo, incluindo as limitações da evidência de git
+(match literal de autor, falhas silenciosas).
 
 ### Como Funciona (Semanticamente)
 
