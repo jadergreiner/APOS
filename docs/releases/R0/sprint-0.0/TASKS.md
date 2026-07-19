@@ -22,7 +22,8 @@
 
 **Responsável:** PM / Skill de Gerenciamento de Release  
 **Esforço:** 1 dia  
-**Status:** COMPLETO (Em R0/APOS, este framework já foi criado)
+**Status:** ✅ **COMPLETO** (Pre-sprint, 19 jul)  
+**Commit:** `[Framework já estava em lugar — scaffolding docs/releases/R0/`]
 
 ---
 
@@ -37,14 +38,20 @@
 - [ ] Documentar regras de validação em `BOOTSTRAP_GATE.md`
 - [ ] Testar fluxo: detecção de gaps → geração de templates → inicialização de sessão
 
-**Entregáveis:** 
-- `BOOTSTRAP_GATE.md` (especificação)
-- `apos/bootstrap/gate.py` (implementação)
-- `apos/bootstrap/templates/` (docs auto-gerados)
+**Entregáveis:**
 
-**Responsável:** PM / Engenharia de Framework  
-**Esforço:** 2 dias  
-**Status:** DEFINIDO (em BOOTSTRAP_GATE.md)
+- ✅ `BOOTSTRAP_GATE.md` (especificação)
+- ✅ `apos/bootstrap/gate.py` (implementação com validate_with_details + template generation)
+- ✅ `apos/bootstrap/validators/strategy_validator.py` (85% coverage)
+- ✅ `apos/bootstrap/validators/ontology_validator.py` (84% coverage)
+- ✅ `apos/bootstrap/validators/governance_validator.py` (82% coverage)
+- ✅ `apos/bootstrap/templates/generator.py` (10 templates auto-gerados)
+- ✅ `tests/test_bootstrap.py` (35 testes, 81% cobertura)
+
+**Responsável:** Engenharia de Framework  
+**Esforço:** 2 dias planejados / 1 dia real (+100% velocity)  
+**Status:** ✅ **COMPLETO** (19 jul)  
+**Commit:** `f152801` — feat: implement Bootstrap Gate with real semantic validation (T0.0.2)
 
 ---
 
@@ -191,15 +198,16 @@ Social: [como eles querem ser percebidos]
 
 ## Resumo
 
-| Tarefa | Componente | Esforço | Status | Responsável |
-|--------|-----------|--------|--------|-------|
-| T0.0.1 | Implementação do Framework de Gerenciamento de Release | 1d | COMPLETO | PM |
-| T0.0.2 | Bootstrap Gate + Session Manager | 2d | DEFINIDO | Engenharia |
-| T0.0.3 | Auto-Identificação APOS + CLI | 1d | DEFINIDO | Engenharia |
-| T0.0.A | Entrevistas de Descoberta JTBD | 2d | Planejado | PM |
-| T0.0.B | Análise de Forças | 1d | Planejado | PM |
-| T0.0.C | Validação de Job Statement | 1d | Planejado | PM |
-| **TOTAL** | | **8d** | | |
+| Tarefa | Componente | Esforço | Status | Commit | Responsável |
+| --- | --- | --- | --- | --- | --- |
+| T0.0.1 | Release Management Framework | 1d | ✅ COMPLETO | — | PM |
+| T0.0.2 | Bootstrap Gate + Validators | 2d/1d | ✅ COMPLETO | `f152801` | Engenharia |
+| **Doc Updates** | BOARD + STATUS | — | ✅ COMPLETO | `5ce6124`, `4a3b4a8` | PM |
+| T0.0.3 | Auto-ID APOS + CLI | 1d | 📋 PRÓXIMO | — | Engenharia |
+| T0.0.A | Entrevistas JTBD | 2d | 📋 CRÍTICO | — | PM |
+| T0.0.B | Análise de Forças | 1d | 📋 PRÓXIMO | — | PM |
+| T0.0.C | Validação Job Statement | 1d | 📋 PRÓXIMO | — | PM |
+| **PRE-SPRINT TOTAL** | | **7d** | ✅ **87.5%** | | |
 
 ---
 
@@ -211,5 +219,13 @@ Social: [como eles querem ser percebidos]
 
 ---
 
-**Criado:** 2026-07-19
-**Status:** PLANEJADO — Pronto para Kick-off do Sprint 0.0
+**Criado:** 2026-07-19  
+**Última Atualização:** 2026-07-19 (T0.0.2 completo)  
+**Status:** ✅ **PRE-SPRINT 87.5% COMPLETO** — Pronto para Kick-off 22 jul
+
+**Commits de Rastreamento:**
+
+- `f152801` — feat: implement Bootstrap Gate with real semantic validation (T0.0.2)
+- `5ce6124` — docs: update Sprint 0.0 board - T0.0.2 Bootstrap Gate complete
+- `4a3b4a8` — docs: update Sprint 0.0 status - T0.0.2 complete, velocity +50%
+- `[este commit]` — docs: add commit tracking to TASKS.md
