@@ -394,6 +394,43 @@ config = GovernanceConfig(
 gate = SemanticGate(config=config)
 ```
 
+## PM Skills & Frameworks Complementares
+
+Para ontologias, workflows e frameworks de **Product Management específicos**, recomendamos:
+
+### PM-Skills Library
+
+**Referência**: [github.com/product-on-purpose/pm-skills](https://github.com/product-on-purpose/pm-skills)
+
+- **68 production-ready PM skills** organizados por ciclo (Discover → Define → Develop → Deliver → Measure → Iterate)
+- **Triple Diamond Framework** — modelo estruturado para inovação de produto
+- **12 workflows prontos** (Feature Kickoff, Lean Startup, Foundation Sprint, Design Sprint, etc.)
+- **5 sub-agentes orquestrados** para automação de processos PM
+- **200+ output samples** como referência de qualidade
+
+**Quando usar**:
+- Você precisa de templates de PM executáveis (PRD, user stories, roadmaps)
+- Você quer workflows orquestrados para processos comuns (feature discovery, sprint planning)
+- Você busca referência de estrutura para skills customizados
+
+**Integração com APOS**:
+- Use PM-Skills para **executar processos** que fundamentam suas ontologias de domínio
+- Use APOS para **validar semântica e confiança** dos artefatos gerados por PM-Skills
+- Complementaridade: PM-Skills = "como fazer" | APOS = "validar qualidade e alinhamento"
+
+**Instalação**:
+```bash
+# Claude Code (recomendado)
+/plugin marketplace add product-on-purpose/agent-plugins
+/plugin install pm-skills@product-on-purpose
+
+# Cross-agent (Cursor, Copilot, Cline, etc)
+npx skills add product-on-purpose/pm-skills
+
+# Clone direto
+git clone https://github.com/product-on-purpose/pm-skills.git
+```
+
 ## Tarefas Comuns de Desenvolvimento
 
 ### Adicionar novo tipo de entidade ao modelo de ontologia
