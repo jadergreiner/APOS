@@ -5,8 +5,48 @@ import pytest
 from pathlib import Path
 from unittest.mock import patch, MagicMock
 
-from apos.__main__ import handle_daily_command
+from apos.__main__ import handle_daily_command, main
 from apos.release_management.daily_runner import DailyMode
+
+
+class TestInitCommand:
+    """Testes para o comando `python -m apos init`."""
+
+    def test_init_command_invokes_bootstrap_gate(self, monkeypatch, tmp_path):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setattr("sys.argv", ["apos", "init"])
+
+        with patch("apos.bootstrap.gate.BootstrapGate") as mock_gate_class:
+            mock_gate = MagicMock()
+            mock_gate_class.return_value = mock_gate
+
+            result = main()
+
+            assert result == 0
+            mock_gate_class.assert_called_once_with(project_root=tmp_path)
+            mock_gate.run.assert_called_once()
+
+    def test_init_command_creates_marker_file_end_to_end(self, monkeypatch, tmp_path):
+        """Sem mocks: `init` deve gerar BOOTSTRAP_GATE.md e demais fundações."""
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setattr("sys.argv", ["apos", "init"])
+
+        result = main()
+
+        assert result == 0
+        assert (tmp_path / "BOOTSTRAP_GATE.md").exists()
+
+    def test_no_command_shows_help(self, monkeypatch):
+        monkeypatch.setattr("sys.argv", ["apos"])
+        result = main()
+        assert result == 1
+
+    def test_version_command(self, monkeypatch, capsys):
+        monkeypatch.setattr("sys.argv", ["apos", "--version"])
+        result = main()
+        assert result == 0
+        captured = capsys.readouterr()
+        assert "APOS" in captured.out
 
 
 @pytest.fixture

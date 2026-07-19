@@ -10,7 +10,11 @@ from apos.bootstrap.validators import (
     GovernanceValidator,
 )
 from apos.bootstrap.templates import TemplateGenerator
-from apos.bootstrap.session import FoundationDefinitionSession
+from apos.bootstrap.session import (
+    FoundationDefinitionSession,
+    SessionManager,
+    matches_session_trigger,
+)
 
 
 class TestBootstrapGate:
@@ -235,8 +239,7 @@ class TestOntologyValidator:
         validator = OntologyValidator(tmp_path)
 
         # Create valid ontology files with proper content
-        (tmp_path / "ONTOLOGY.md").write_text(
-            """# Ontology
+        (tmp_path / "ONTOLOGY.md").write_text("""# Ontology
 
 ## Entity Feature
 - Description: Product capability
@@ -266,11 +269,9 @@ class TestOntologyValidator:
 ## Constraints
 - Each Feature must have a Release
 - Tasks cannot exceed Feature scope
-"""
-        )
+""")
 
-        (tmp_path / "SEMANTIC_LAYER.md").write_text(
-            """# Semantic Layer
+        (tmp_path / "SEMANTIC_LAYER.md").write_text("""# Semantic Layer
 
 ## Scoring Components
 - Coverage: Entity attribute completeness
@@ -295,8 +296,7 @@ class TestOntologyValidator:
 - Gate 1: Coverage >= 80%
 - Gate 2: Quality >= 0.70
 - Gate 3: Consistency >= 0.85
-"""
-        )
+""")
 
         results = validator.validate_all()
 
@@ -335,8 +335,7 @@ class TestGovernanceValidator:
         validator = GovernanceValidator(tmp_path)
 
         # Create valid governance files with proper content
-        (tmp_path / "GOVERNANCE.md").write_text(
-            """# Governance
+        (tmp_path / "GOVERNANCE.md").write_text("""# Governance
 
 ## Quality Gates
 - Gate 1: Coverage must be >= 80%
@@ -352,11 +351,9 @@ class TestGovernanceValidator:
 - PM approves feature spec
 - CTO approves architecture
 - Release Manager approves release
-"""
-        )
+""")
 
-        (tmp_path / "BOOTSTRAP_GATE.md").write_text(
-            """# Bootstrap Gate
+        (tmp_path / "BOOTSTRAP_GATE.md").write_text("""# Bootstrap Gate
 
 ## Required Foundations
 - NORTH_STAR.md
@@ -374,11 +371,9 @@ class TestGovernanceValidator:
 1. Check all files exist
 2. Validate content structure
 3. Verify semantic alignment
-"""
-        )
+""")
 
-        (tmp_path / "CAPABILITIES.md").write_text(
-            """# Capabilities
+        (tmp_path / "CAPABILITIES.md").write_text("""# Capabilities
 
 ## Built-in Frameworks
 - Release Management Framework
@@ -393,11 +388,9 @@ class TestGovernanceValidator:
 ## APIs and Integrations
 - APOS REST API
 - Python SDK
-"""
-        )
+""")
 
-        (tmp_path / "IMPLEMENTATION_STATUS.md").write_text(
-            """# Implementation Status
+        (tmp_path / "IMPLEMENTATION_STATUS.md").write_text("""# Implementation Status
 
 ## Current Phase
 - Phase: Beta (v0.1.0)
@@ -419,8 +412,7 @@ class TestGovernanceValidator:
 ## Known Limitations
 - Limited to 100 entities per ontology (Beta)
 - Real-time sync requires polling
-"""
-        )
+""")
 
         results = validator.validate_all()
 
@@ -565,6 +557,68 @@ class TestFoundationDefinitionSession:
         # All files should exist after session
         for file in missing:
             assert (tmp_path / file).exists()
+
+
+class TestSessionTrigger:
+    """Tests for matches_session_trigger detection helper."""
+
+    @pytest.mark.parametrize(
+        "message",
+        [
+            "Inicie uma sessão com APOS",
+            "APOS inicie uma sessão nova e gerencie",
+            "Start a session with APOS",
+            "vamos começar uma sessão do APOS agora",
+        ],
+    )
+    def test_matches_valid_triggers(self, message):
+        assert matches_session_trigger(message)
+
+    @pytest.mark.parametrize(
+        "message",
+        [
+            "Qual o estado atual da Sprint 0-0?",
+            "Inicie uma sessão",  # missing "apos"
+            "APOS é um framework de camada semântica",  # no verb+session combo
+        ],
+    )
+    def test_rejects_non_triggers(self, message):
+        assert not matches_session_trigger(message)
+
+
+class TestSessionManager:
+    """Tests for SessionManager (auto-identification + session entry point)."""
+
+    def test_initialize_returns_manager(self, tmp_path):
+        manager = SessionManager.initialize(tmp_path)
+        assert isinstance(manager, SessionManager)
+        assert manager.project_root == tmp_path
+
+    def test_default_project_root(self, monkeypatch, tmp_path):
+        monkeypatch.chdir(tmp_path)
+        manager = SessionManager()
+        assert manager.project_root == Path.cwd()
+
+    def test_run_skips_session_when_complete(self, tmp_path, capsys):
+        for foundation in BootstrapGate.REQUIRED_FOUNDATIONS:
+            (tmp_path / foundation).write_text(f"# {foundation}")
+
+        manager = SessionManager(tmp_path)
+        result = manager.run()
+
+        assert result == {}
+        captured = capsys.readouterr()
+        assert "no session needed" in captured.out
+
+    def test_run_generates_templates_and_runs_session(self, tmp_path, capsys):
+        manager = SessionManager(tmp_path)
+        result = manager.run()
+
+        assert isinstance(result, dict)
+        # Templates should have been generated as part of the session
+        assert (tmp_path / "NORTH_STAR.md").exists()
+        captured = capsys.readouterr()
+        assert "Foundation Definition Workflow" in captured.out
 
 
 class TestBootstrapIntegration:

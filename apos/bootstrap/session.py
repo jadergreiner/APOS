@@ -50,9 +50,7 @@ Template files have been auto-generated. Review and update them.\n""")
             self.run_ontology_definition()
 
         # Step 4: Governance Setup
-        if "GOVERNANCE.md" in self.missing_foundations or self._should_update(
-            "GOVERNANCE"
-        ):
+        if "GOVERNANCE.md" in self.missing_foundations or self._should_update("GOVERNANCE"):
             self.run_governance_setup()
 
         print("\n" + "=" * 60)
@@ -217,3 +215,50 @@ Instructions:
     def _should_update(self, foundation_name: str) -> bool:
         """Check if a foundation should be updated (simplified for now)."""
         return False
+
+
+SESSION_TRIGGER_KEYWORDS = ("sessão", "sessao", "session")
+SESSION_TRIGGER_VERBS = ("inicie", "iniciar", "start", "começar", "comecar")
+
+
+def matches_session_trigger(message: str) -> bool:
+    """Detect whether a user message is asking APOS to start a foundation session.
+
+    Matches phrases like "Inicie uma sessão com APOS" or "Start a session with APOS".
+    """
+    text = message.lower()
+    if "apos" not in text:
+        return False
+    has_verb = any(verb in text for verb in SESSION_TRIGGER_VERBS)
+    has_session = any(kw in text for kw in SESSION_TRIGGER_KEYWORDS)
+    return has_verb and has_session
+
+
+class SessionManager:
+    """
+    High-level entry point for a project to recognize itself as an APOS project
+    and initialize/run a Foundation Definition Session.
+    """
+
+    def __init__(self, project_root: Optional[Path] = None):
+        self.project_root = project_root or Path.cwd()
+
+    @classmethod
+    def initialize(cls, project_root: Optional[Path] = None) -> "SessionManager":
+        """Create a SessionManager bound to the given project root."""
+        return cls(project_root)
+
+    def run(self) -> dict:
+        """Validate foundations and, if needed, run the guided definition session."""
+        from apos.bootstrap.gate import BootstrapGate
+
+        gate = BootstrapGate(self.project_root)
+        result = gate.validate()
+
+        if result.passed:
+            print("\n✨ Foundations already complete — no session needed.\n")
+            return {}
+
+        gate.generate_missing_templates()
+        session = FoundationDefinitionSession(self.project_root, result.missing_foundations)
+        return session.run()

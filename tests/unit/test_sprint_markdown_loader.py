@@ -455,11 +455,10 @@ Isso não é uma task.
         task_ids = {t.id for t in sprint.tasks}
         assert task_ids == {"T0.0.1", "T0.0.2", "T0.0.3", "T0.0.A", "T0.0.B", "T0.0.C"}
 
-        # T0.0.1 está documentado como "COMPLETO (Em R0/APOS...)"
+        # T0.0.1, T0.0.2 e T0.0.3 estão documentados como "COMPLETO"
         assert sprint.get_task("T0.0.1").status == TaskStatus.COMPLETE
-        # T0.0.2 e T0.0.3 estão documentados como "DEFINIDO"
-        assert sprint.get_task("T0.0.2").status == TaskStatus.PLANNED
-        assert sprint.get_task("T0.0.3").status == TaskStatus.PLANNED
+        assert sprint.get_task("T0.0.2").status == TaskStatus.COMPLETE
+        assert sprint.get_task("T0.0.3").status == TaskStatus.COMPLETE
         # T0.0.A/B/C estão documentados como "Planejado"
         assert sprint.get_task("T0.0.A").status == TaskStatus.PLANNED
         assert sprint.get_task("T0.0.B").status == TaskStatus.PLANNED

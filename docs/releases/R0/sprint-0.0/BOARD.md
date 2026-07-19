@@ -1,24 +1,24 @@
 # Sprint 0.0: Quadro Kanban
 
-**Status Atualizado:** 2026-07-19 (Daily - T0.0.2 COMPLETADO!)  
-**Contexto:** R0-S0.1 (Platform Identity) COMPLETADA em 1 dia. T0.0.2 (Bootstrap Gate) COMPLETADO em 1 dia. S0.0 inicia 22 jul.
+**Status Atualizado:** 2026-07-19 (Daily - T0.0.3 COMPLETADO!)  
+**Contexto:** R0-S0.1 (Platform Identity), T0.0.2 (Bootstrap Gate) e T0.0.3 (Auto-ID + CLI) COMPLETADOS. S0.0 inicia 22 jul.
 
 ---
 
 ## 📊 Resumo Visual
 
-```
+```text
 Backlog        A Fazer       Em Progresso    Em Revisão    Completo
-   (7)            (5)            (0)            (0)          (1)
-   
-   ↓→ Preparação  ↓             ↓              ↓          T0.0.2 ✅
+   (7)            (3)            (0)            (0)          (3)
+
+   ↓→ Preparação  ↓             ↓              ↓          T0.0.1/2/3 ✅
 ```
 
 ---
 
 ## 📋 Backlog (Não Iniciado)
 
-**Total de Backlog**: 7 items | 7 pontos planejados | 1 completo
+**Total de Backlog**: 7 items | 7 pontos planejados | 3 completos
 
 ### Tier 1: Implementação Core (Framework + Bootstrap)
 
@@ -37,11 +37,12 @@ Backlog        A Fazer       Em Progresso    Em Revisão    Completo
   - `tests/test_bootstrap.py` ✅ 35 testes (81% cobertura)
   - **Commit:** f152801 (19 jul, 1 dia)
 
-- [ ] **T0.0.3** — Implementar Auto-Identificação APOS + CLI (1d) *NÃO INICIADO*
-  - `apos/__init__.py` com metadata
-  - `apos/bootstrap/session.py` — SessionManager interativa
-  - `apos/__main__.py` — CLI (`python -m apos init`)
-  - Testes end-to-end
+- [x] **T0.0.3** — Implementar Auto-Identificação APOS + CLI (1d) ✅ COMPLETO
+  - `apos/__init__.py` ✅ `APOS_PROJECT_METADATA` + `is_apos_project()`
+  - `apos/bootstrap/session.py` ✅ `SessionManager.initialize()` + `matches_session_trigger()`
+  - `apos/__main__.py` ✅ CLI (`python -m apos init`) validado com testes
+  - Testes end-to-end ✅ 10 novos testes (test_apos_project_identity.py + extras)
+  - **Commit:** `[a definir]` (19 jul)
 
 ### Tier 2: Validação de Job (JTBD Discovery)
 
@@ -125,6 +126,18 @@ Backlog        A Fazer       Em Progresso    Em Revisão    Completo
 
 **Taxa de Conclusão**: 100% | **Pontos**: 2 | **Esforço Real**: 1 dia | **Commit**: f152801
 
+### Sprint 0.0.3: Auto-Identificação APOS + SessionManager ✅ (Concluído: 19 jul)
+
+- [x] **`apos.APOS_PROJECT_METADATA`** — Metadata identificando projeto APOS
+- [x] **`apos.is_apos_project()`** — Detecção via `BOOTSTRAP_GATE.md`
+- [x] **`SessionManager.initialize()` / `.run()`** — Entry point de alto nível para sessões
+- [x] **`matches_session_trigger()`** — Reconhece frases como "Inicie uma sessão com APOS"
+- [x] **CLI `python -m apos init`** — Validado com testes (já implementado, agora coberto)
+- [x] **Fix**: `Sprint._parse_narrative_status()` passou a reconhecer status com emoji/negrito
+- [x] **Test Suite** — 10 novos testes (SessionManager, matches_session_trigger, auto-ID, CLI init)
+
+**Taxa de Conclusão**: 100% | **Pontos**: 1 | **Esforço Real**: < 1 dia | **Commit**: `[a definir]`
+
 ---
 
 ## 🚨 Bloqueado
@@ -153,8 +166,9 @@ Backlog        A Fazer       Em Progresso    Em Revisão    Completo
 **Saúde Geral**: 🟢 **VERDE** (acelerado)
 - S0.1 (Platform Identity): 5 pts em 1 dia ✅
 - T0.0.2 (Bootstrap Gate): 2 pts em 1 dia ✅
+- T0.0.3 (Auto-ID + SessionManager): 1 pt em < 1 dia ✅
 - Velocidade: +50% acima estimado
-- 3 tarefas core completadas antes de kick-off
+- 3/3 tarefas core (T0.0.1-T0.0.3) completadas antes de kick-off
 - Zero blockers
 
 **Risco**: 🟡 **MÉDIO** (em recrutamento de entrevistas)

@@ -345,6 +345,9 @@ class Sprint:
         warning de log.
         """
         cleaned = re.sub(r"\([^)]*\)", "", status_str).strip()
+        # Remove markdown bold markers and leading emoji/symbols (ex: "✅ **COMPLETO**")
+        cleaned = cleaned.replace("*", "").strip()
+        cleaned = re.sub(r"^[^\w]+", "", cleaned, flags=re.UNICODE).strip()
         normalized = cleaned.lower()
 
         for key in sorted(NARRATIVE_STATUS_MAP, key=len, reverse=True):
