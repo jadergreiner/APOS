@@ -1,141 +1,141 @@
-# Sprint 0.0: Risk Mitigation
+# Sprint 0.0: Mitigação de Riscos
 
-**Sprint:** 0.0 — JTBD Discovery
-
----
-
-## Risk Register
-
-### Risk 1: JTBD interviews don't validate the job
-
-**Probability:** MEDIUM  
-**Impact:** HIGH  
-**Severity:** HIGH
-
-**Description:**
-Interviews reveal that the "job" we think APOS solves isn't actually felt by teams. Job statement is invalid.
-
-**Consequences:**
-- Invalidates entire R0 strategy
-- Blocks Sprint 0.1 (value prop becomes pointless)
-- May require pivoting the product
-
-**Mitigation:**
-- Interview 5+ personas from DIFFERENT roles (not just PMs)
-- Use rigorous JTBD framework (wondelai/skills)
-- Validate job statement with stakeholder (get sign-off)
-- If job changes mid-sprint, document and escalate
-
-**Monitoring:**
-- Daily: Review interview notes for alignment
-- EOD Thu 24: Preliminary job statement review with stakeholder
+**Sprint:** 0.0 — Descoberta JTBD
 
 ---
 
-### Risk 2: Interview subjects are biased/leading
+## Registro de Riscos
 
-**Probability:** LOW  
-**Impact:** MEDIUM  
-**Severity:** MEDIUM
+### Risco 1: Entrevistas JTBD não validam o job
 
-**Description:**
-Interview subjects tell us what they think we want to hear (confirmation bias).
+**Probabilidade:** MÉDIA  
+**Impacto:** ALTO  
+**Severidade:** ALTO
 
-**Consequences:**
-- Job statement doesn't reflect reality
-- Risk of building something nobody wants
+**Descrição:**
+Entrevistas revelam que o "job" que pensamos que APOS resolve não é realmente sentido pelos times. Job statement é inválido.
 
-**Mitigation:**
-- Ask open-ended questions (not leading)
-- Focus on past behavior ("tell me when this happened") not hypotheticals
-- Interview diverse personas (not just fans of the idea)
-- Look for dissent (if everyone agrees 100%, something is wrong)
+**Consequências:**
+- Invalida estratégia inteira de R0
+- Bloqueia Sprint 0.1 (value prop fica sem propósito)
+- Pode exigir pivotar o produto
 
-**Monitoring:**
-- Review interview questions before conducting
-- In interviews: watch for yes-bias, push back gently
+**Mitigação:**
+- Entrevistar 5+ personas de PAPÉIS DIFERENTES (não só PMs)
+- Usar framework JTBD rigoroso (wondelai/skills)
+- Validar job statement com stakeholder (obter assinatura)
+- Se job muda mid-sprint, documentar e escalar
 
----
-
-### Risk 3: Only 3-4 people available for interviews
-
-**Probability:** LOW  
-**Impact:** MEDIUM  
-**Severity:** LOW-MEDIUM
-
-**Description:**
-Can't get 5+ interviews scheduled in time.
-
-**Consequences:**
-- Job validation is weaker
-- May need to extend Sprint 0.0
-
-**Mitigation:**
-- Start recruiting interview subjects NOW (before Jul 22)
-- Have backup list of 10+ potential interviewees
-- If can't get 5, minimum is 3 (but flag risk in final sign-off)
-
-**Monitoring:**
-- Interview schedule locked by Jul 21 EOD
+**Monitoramento:**
+- Diariamente: Revisar anotações de entrevista para alinhamento
+- Fim Qui 24: Revisão preliminar de job statement com stakeholder
 
 ---
 
-### Risk 4: Time overrun (interviews take longer than expected)
+### Risco 2: Sujeitos de entrevista são tendenciosos/lideradores
 
-**Probability:** MEDIUM  
-**Impact:** LOW  
-**Severity:** LOW
+**Probabilidade:** BAIXA  
+**Impacto:** MÉDIO  
+**Severidade:** MÉDIO
 
-**Description:**
-Interviews are more detailed than expected, analysis takes longer.
+**Descrição:**
+Sujeitos de entrevista nos dizem o que pensam que queremos ouvir (viés de confirmação).
 
-**Consequences:**
-- Tight schedule for job statement refinement
-- May need to cut Friday refinement time
+**Consequências:**
+- Job statement não reflete realidade
+- Risco de construir algo que ninguém quer
 
-**Mitigation:**
-- Time-box interviews (90 min each)
-- Take structured notes (don't transcribe everything)
-- Have template for analysis (don't do free-form)
+**Mitigação:**
+- Fazer perguntas abertas (não lideradores)
+- Focar em comportamento passado ("diga-me quando isso aconteceu") não hipotéticos
+- Entrevistar personas diversas (não só fãs da ideia)
+- Procurar dissidência (se todos concordam 100%, algo está errado)
 
-**Monitoring:**
-- Mid-sprint (Wed EOD): Review pace, adjust if needed
+**Monitoramento:**
+- Revisar perguntas de entrevista antes de conduzir
+- Em entrevistas: observar viés de sim, questionar suavemente
 
 ---
 
-## Risk Status
+### Risco 3: Apenas 3-4 pessoas disponíveis para entrevistas
 
-| Risk ID | Risk | Status | Owner | Next Action |
+**Probabilidade:** BAIXA  
+**Impacto:** MÉDIO  
+**Severidade:** BAIXA-MÉDIA
+
+**Descrição:**
+Não conseguir agendar 5+ entrevistas a tempo.
+
+**Consequências:**
+- Validação de job é mais fraca
+- Pode ser necessário estender Sprint 0.0
+
+**Mitigação:**
+- Começar recrutamento de sujeitos de entrevista AGORA (antes de 22 jul)
+- Ter lista de backup de 10+ potenciais entrevistados
+- Se não conseguir 5, mínimo é 3 (mas sinalizar risco na assinatura final)
+
+**Monitoramento:**
+- Cronograma de entrevistas trancado por 21 jul fim de dia
+
+---
+
+### Risco 4: Estouro de tempo (entrevistas levam mais tempo que esperado)
+
+**Probabilidade:** MÉDIA  
+**Impacto:** BAIXO  
+**Severidade:** BAIXA
+
+**Descrição:**
+Entrevistas são mais detalhadas que esperado, análise leva mais tempo.
+
+**Consequências:**
+- Cronograma apertado para refinamento de job statement
+- Pode ser necessário cortar tempo de refinamento de sexta-feira
+
+**Mitigação:**
+- Time-box entrevistas (90 min cada)
+- Tomar anotações estruturadas (não transcrever tudo)
+- Ter template para análise (não fazer libre-form)
+
+**Monitoramento:**
+- Mid-sprint (Qua fim de dia): Revisar ritmo, ajustar se necessário
+
+---
+
+## Status de Riscos
+
+| ID Risco | Risco | Status | Responsável | Próxima Ação |
 |---------|------|--------|-------|------------|
-| R1 | Job validation fails | ACTIVE | PM | Daily monitoring |
-| R2 | Interview bias | ACTIVE | PM | Question review |
-| R3 | Insufficient subjects | MONITORING | PM | Recruit by Jul 21 |
-| R4 | Time overrun | MONITORING | PM | Time-box interviews |
+| R1 | Validação de job falha | ATIVO | PM | Monitoramento diário |
+| R2 | Viés de entrevista | ATIVO | PM | Revisão de perguntas |
+| R3 | Sujeitos insuficientes | MONITORANDO | PM | Recrutar antes de 21 jul |
+| R4 | Estouro de tempo | MONITORANDO | PM | Time-box entrevistas |
 
 ---
 
-## Escalation Protocol
+## Protocolo de Escalação
 
-**If Risk R1 (job invalid) occurs:**
+**Se Risco R1 (job inválido) ocorrer:**
 
-1. Document findings (what was discovered)
-2. Escalate to stakeholder (same day)
-3. Decision: pivot or continue?
-4. If pivot: decide on delay to Sprint 0.1
+1. Documentar descobertas (o que foi descoberto)
+2. Escalar para stakeholder (mesmo dia)
+3. Decisão: pivotar ou continuar?
+4. Se pivotar: decidir atraso para Sprint 0.1
 
-**If Risk R2 (bias detected):**
+**Se Risco R2 (viés detectado):**
 
-1. Re-interview subjects with different approach
-2. Add more subjects to balance bias
-3. Document correction
+1. Re-entrevistar sujeitos com abordagem diferente
+2. Adicionar mais sujeitos para balancear viés
+3. Documentar correção
 
-**If Risk R3 (can't get 5 subjects):**
+**Se Risco R3 (não conseguir 5 sujeitos):**
 
-1. Proceed with 3+ (minimum viable)
-2. Flag in final sign-off: "job validated with 3/5 interviews, lower confidence"
-3. Plan follow-up interviews in Sprint 0.1
+1. Prosseguir com 3+ (mínimo viável)
+2. Sinalizar na assinatura final: "job validado com 3/5 entrevistas, confiança menor"
+3. Planejar entrevistas de acompanhamento em Sprint 0.1
 
 ---
 
-**Created:** 2026-07-19  
-**Status:** ACTIVE (start of sprint)
+**Criado:** 2026-07-19  
+**Status:** ATIVO (início do sprint)

@@ -1,84 +1,84 @@
-# Sprint 0.0: Status Report
+# Sprint 0.0: Relatório de Status
 
-**Last Updated:** 2026-07-19 (pre-sprint)  
-**Sprint Duration:** Jul 22-26, 2026
+**Última Atualização:** 2026-07-19 (pré-sprint)  
+**Duração do Sprint:** 22-26 jul, 2026
 
 ---
 
-## 📊 Overall Status
+## 📊 Status Geral
 
-**Current Phase:** PLANNED (kickoff on Jul 22)
+**Fase Atual:** PLANEJADO (kick-off em 22 jul)
 
 ```
-Progress: 0 / 4 person-days (0%)
-├─ Completed: —
-├─ In Progress: —
-├─ Planned: 4 tasks
-└─ At Risk: —
+Progresso: 0 / 4 dias-pessoa (0%)
+├─ Completo: —
+├─ Em Progresso: —
+├─ Planejado: 4 tarefas
+└─ Em Risco: —
 ```
 
 ---
 
 ## 📈 Burndown
 
-| Day | Planned | Completed | Velocity |
-|-----|---------|-----------|----------|
-| Tue 22 | 4d | — | — |
-| Wed 23 | 4d | — | — |
-| Thu 24 | 4d | — | — |
-| Fri 25 | 4d | — | — |
+| Dia | Planejado | Completo | Velocidade |
+|-----|-----------|----------|-----------|
+| Ter 22 | 4d | — | — |
+| Qua 23 | 4d | — | — |
+| Qui 24 | 4d | — | — |
+| Sex 25 | 4d | — | — |
 
-(Will be updated daily during sprint)
-
----
-
-## ✅ Completed Items
-
-(None yet)
+(Será atualizado diariamente durante o sprint)
 
 ---
 
-## 🔄 In Progress
+## ✅ Itens Completos
 
-(None yet)
+(Nenhum ainda)
 
 ---
 
-## ⏳ Planned (Not Started)
+## 🔄 Em Progresso
 
-- T0.0.1: JTBD Interviews (2d)
-- T0.0.2: Map Forces (1d)
+(Nenhum ainda)
+
+---
+
+## ⏳ Planejado (Não Iniciado)
+
+- T0.0.1: Entrevistas JTBD (2d)
+- T0.0.2: Mapear Forças (1d)
 - T0.0.3: Job Statement (1d)
 
 ---
 
-## 🚨 Risks
+## 🚨 Riscos
 
-**Active Risks:** 0  
-**Mitigated Risks:** 0  
+**Riscos Ativos:** 0  
+**Riscos Mitigados:** 0  
 
-See [RISK_MITIGATION.md](RISK_MITIGATION.md) for details.
-
----
-
-## 🎯 Key Metrics
-
-| Metric | Target | Current | Status |
-|--------|--------|---------|--------|
-| Interview Completion | 5+ | 0 | Planned |
-| Job Statement Clarity | > 90% | — | Pending |
-| Stakeholder Alignment | > 90% | — | Pending |
+Veja [RISK_MITIGATION.md](RISK_MITIGATION.md) para detalhes.
 
 ---
 
-## 📝 Notes
+## 🎯 Métricas Chave
 
-- Kick-off meeting: Jul 22 09:00
-- Interview prep: Jul 22-23
-- Interview execution: Jul 23-24
-- Analysis + refinement: Jul 25
+| Métrica | Alvo | Atual | Status |
+|---------|------|-------|--------|
+| Conclusão de Entrevistas | 5+ | 0 | Planejado |
+| Clareza do Job Statement | > 90% | — | Pendente |
+| Alinhamento de Stakeholder | > 90% | — | Pendente |
 
 ---
 
-**Status Updated:** Daily (7am start of day)  
-**Next Update:** Jul 22 (start of sprint)
+## 📝 Notas
+
+- Reunião de kick-off: 22 jul 09:00
+- Preparação de entrevistas: 22-23 jul
+- Execução de entrevistas: 23-24 jul
+- Análise + refinamento: 25 jul
+
+---
+
+**Status Atualizado:** Diariamente (07:00 início do dia)  
+**Próxima Atualização:** 22 jul (início do sprint)

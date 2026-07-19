@@ -1,60 +1,60 @@
-# Sprint 0.0: Tasks
+# Sprint 0.0: Tarefas
 
-**CRITICAL:** Sprint 0.0 não é só JTBD Discovery. É implementação de **3 componentes core**:
-1. **Release Management Framework** (T0.0.1)
-2. **Bootstrap Gate + Foundation Definition Session** (T0.0.2-T0.0.3)
-3. **APOS Self-Identification** (T0.0.4)
+**CRÍTICO:** Sprint 0.0 não é só Descoberta de JTBD. É implementação de **3 componentes core**:
+1. **Framework de Gerenciamento de Release** (T0.0.1)
+2. **Bootstrap Gate + Sessão de Definição de Fundações** (T0.0.2-T0.0.3)
+3. **Auto-Identificação APOS** (T0.0.4)
 
 ---
 
-## T0.0.1: Implement Release Management Framework (1 person-day)
+## T0.0.1: Implementar Framework de Gerenciamento de Release (1 dia-pessoa)
 
-**Objective:** Criar artefatos de Release Management que todo projeto que importa APOS recebe
+**Objetivo:** Criar artefatos de Gerenciamento de Release que todo projeto que importa APOS recebe
 
-**Tasks:**
+**Tarefas:**
 - [ ] Criar `docs/releases/R0/SPRINT_PLAN.md` (10 sprints estruturados)
-- [ ] Criar `docs/releases/R0/BACKLOG.md` (items priorizados P0-P3)
-- [ ] Criar `docs/releases/R0/DEPENDENCY_MAP.md` (dependencies, critical path)
-- [ ] Criar `sprint-X/` structure (README, TASKS, USER_STORIES, BOARD, STATUS, RISK_MITIGATION, RETRO)
-- [ ] Validar que framework é operacional e pronto para execução
+- [ ] Criar `docs/releases/R0/BACKLOG.md` (itens priorizados P0-P3)
+- [ ] Criar `docs/releases/R0/DEPENDENCY_MAP.md` (dependências, caminho crítico)
+- [ ] Criar estrutura `sprint-X/` (README, TASKS, USER_STORIES, BOARD, STATUS, RISK_MITIGATION, RETRO)
+- [ ] Validar que o framework é operacional e pronto para execução
 
-**Deliverable:** `Release Management Framework (templates + docs)`
+**Entregável:** `Framework de Gerenciamento de Release (templates + docs)`
 
-**Owner:** PM / Release Management Skill  
-**Effort:** 1 day  
-**Status:** DONE (Em R0/APOS, este framework já foi criado)
+**Responsável:** PM / Skill de Gerenciamento de Release  
+**Esforço:** 1 dia  
+**Status:** COMPLETO (Em R0/APOS, este framework já foi criado)
 
 ---
 
-## T0.0.2: Implement Bootstrap Gate + Foundation Definition Session (2 person-days)
+## T0.0.2: Implementar Bootstrap Gate + Sessão de Definição de Fundações (2 dias-pessoa)
 
-**Objective:** Criar validator automático que detecta gaps de fundação e inicia sessão de definição
+**Objetivo:** Criar validador automático que detecta gaps de fundação e inicia sessão de definição
 
-**Tasks:**
+**Tarefas:**
 - [ ] Implementar `apos.bootstrap_gate.validate()` — checa existência de 10 itens obrigatórios
 - [ ] Implementar `apos.bootstrap_gate.initialize_foundation_session()` — auto-gera templates + guias
 - [ ] Criar templates auto-gerados (NORTH_STAR.md, OKR.md, ONTOLOGY.md, etc)
-- [ ] Documentar validação rules em `BOOTSTRAP_GATE.md`
-- [ ] Testar fluxo: gap detection → template generation → session initialization
+- [ ] Documentar regras de validação em `BOOTSTRAP_GATE.md`
+- [ ] Testar fluxo: detecção de gaps → geração de templates → inicialização de sessão
 
-**Deliverables:** 
-- `BOOTSTRAP_GATE.md` (specification)
-- `apos/bootstrap/gate.py` (implementation)
-- `apos/bootstrap/templates/` (auto-generated docs)
+**Entregáveis:** 
+- `BOOTSTRAP_GATE.md` (especificação)
+- `apos/bootstrap/gate.py` (implementação)
+- `apos/bootstrap/templates/` (docs auto-gerados)
 
-**Owner:** PM / Framework Engineering  
-**Effort:** 2 days  
-**Status:** DEFINED (em BOOTSTRAP_GATE.md)
+**Responsável:** PM / Engenharia de Framework  
+**Esforço:** 2 dias  
+**Status:** DEFINIDO (em BOOTSTRAP_GATE.md)
 
 ---
 
-## T0.0.3: Implement APOS Self-Identification + Session Management (1 person-day)
+## T0.0.3: Implementar Auto-Identificação APOS + Gerenciamento de Sessão (1 dia-pessoa)
 
-**Objective:** Projeto que importa APOS sabe que É um projeto APOS e pode iniciar sesão
+**Objetivo:** Projeto que importa APOS sabe que É um projeto APOS e pode iniciar sessão
 
-**Tasks:**
-- [ ] Criar `apos.__init__.py` com `apos_project` metadata
-- [ ] Implementar `apos.SessionManager.initialize()` — gerencia sessão de foundation definition
+**Tarefas:**
+- [ ] Criar `apos.__init__.py` com metadata `apos_project`
+- [ ] Implementar `apos.SessionManager.initialize()` — gerencia sessão de definição de fundações
 - [ ] Criar CLI: `python -m apos init` — inicia setup de novo projeto
 - [ ] Implementar detecção: projeto reconhece "Inicie uma sessão com APOS"
 - [ ] Criar exemplo: `apos.SessionManager().run()` → conduz usuário através de JTBD → Strategy → Ontology
@@ -63,153 +63,153 @@
 ```
 $ python -m apos init
 
-APOS Project Initialization
-===========================
+Inicialização de Projeto APOS
+=============================
 
-Detectando status de fundações...
+Detectando status das fundações...
 
-✅ Cheque: NORTH_STAR.md
-✅ Cheque: OKR.md
-✅ Cheque: PURPOSE.md
+✅ Verificação: NORTH_STAR.md
+✅ Verificação: OKR.md
+✅ Verificação: PURPOSE.md
 ...
 
 GAPS DETECTADOS:
-❌ ONTOLOGY.md (missing)
-❌ SEMANTIC_LAYER.md (missing)
-❌ GOVERNANCE.md (missing)
+❌ ONTOLOGY.md (faltando)
+❌ SEMANTIC_LAYER.md (faltando)
+❌ GOVERNANCE.md (faltando)
 
-Iniciando Foundation Definition Session...
+Iniciando Sessão de Definição de Fundações...
 (Conduzindo usuário através de JTBD → Strategy → Ontology)
 ```
 
-**Deliverables:**
+**Entregáveis:**
 - `apos/__init__.py` (metadata + imports)
 - `apos/bootstrap/session.py` (SessionManager)
 - `apos/__main__.py` (CLI: `python -m apos init`)
 - Documentação em `BOOTSTRAP_GATE.md`
 
-**Owner:** Framework Engineering  
-**Effort:** 1 day  
-**Status:** DEFINED
+**Responsável:** Engenharia de Framework  
+**Esforço:** 1 dia  
+**Status:** DEFINIDO
 
 ---
 
-## T0.0.A: Conduct JTBD Interviews (2 person-days)
+## T0.0.A: Conduzir Entrevistas JTBD (2 dias-pessoa)
 
-**Objective:** Interview 5+ personas to understand the job APOS solves
+**Objetivo:** Entrevistar 5+ personas para entender o job que APOS resolve
 
-**Tasks:**
+**Tarefas:**
 
-- [ ] Prepare interview kit (scenarios, questions, consent form)
-- [ ] Schedule 5+ interviews (target: PM, agent, stakeholder personas)
-- [ ] Conduct interviews (2-3 per day)
-- [ ] Record/transcribe notes
-- [ ] Document raw insights
+- [ ] Preparar kit de entrevista (cenários, perguntas, termo de consentimento)
+- [ ] Agendar 5+ entrevistas (alvo: PM, agente, personas stakeholder)
+- [ ] Conduzir entrevistas (2-3 por dia)
+- [ ] Gravar/transcrever anotações
+- [ ] Documentar insights brutos
 
-**Interviews to Conduct:**
+**Entrevistas a Conduzir:**
 
-1. Product Manager (team lead) — focus on overhead of alignment
-2. AI Agent (conceptual) — focus on context needs
-3. CTO/Architect — focus on technical feasibility
-4. Stakeholder (business) — focus on ROI/value
-5. Additional (early adopter team) — focus on adoption
+1. Product Manager (líder de time) — foco em overhead de alinhamento
+2. Agente de IA (conceitual) — foco em necessidades de contexto
+3. CTO/Arquiteto — foco em viabilidade técnica
+4. Stakeholder (negócios) — foco em ROI/valor
+5. Adicional (time early adopter) — foco em adoção
 
-**Deliverable:** `JTBD-INTERVIEWS-RAW-NOTES.md`
+**Entregável:** `JTBD-INTERVIEWS-RAW-NOTES.md`
 
-**Owner:** PM
-**Effort:** 2 days
-**Status:** Planned
+**Responsável:** PM
+**Esforço:** 2 dias
+**Status:** Planejado
 
 ---
 
-## T0.0.B: Map Forces of Progress (1 person-day)
+## T0.0.B: Mapear Forças de Progresso (1 dia-pessoa)
 
-**Objective:** Analyze Push/Pull/Anxiety/Habit for each persona
+**Objetivo:** Analisar Push/Pull/Ansiedade/Hábito para cada persona
 
-**Tasks:**
+**Tarefas:**
 
-- [ ] Review interview notes
-- [ ] Extract signals of Push (frustration, pain, current workarounds)
-- [ ] Extract signals of Pull (attraction to APOS, desired outcome)
-- [ ] Extract signals of Anxiety (fears, concerns, risks)
-- [ ] Extract signals of Habit (current patterns, inertia)
-- [ ] Create forces matrix
+- [ ] Revisar anotações de entrevista
+- [ ] Extrair sinais de Push (frustração, dor, workarounds atuais)
+- [ ] Extrair sinais de Pull (atração por APOS, resultado desejado)
+- [ ] Extrair sinais de Ansiedade (medos, preocupações, riscos)
+- [ ] Extrair sinais de Hábito (padrões atuais, inércia)
+- [ ] Criar matriz de forças
 
 **Framework:**
 
 ```
-For each persona:
-  Push: What frustrates them? What's the current pain?
-  Pull: What excites them about APOS?
-  Anxiety: What worries them?
-  Habit: What are they used to doing?
+Para cada persona:
+  Push: O que os frustra? Qual é a dor atual?
+  Pull: O que os excita sobre APOS?
+  Ansiedade: Do que eles se preocupam?
+  Hábito: O que eles estão acostumados a fazer?
 
-Score each (1-10): How strong is each force?
+Pontue cada (1-10): Quão forte é cada força?
 ```
 
-**Deliverable:** `COMPETITIVE_FORCES.md` (updated with interview data)
+**Entregável:** `COMPETITIVE_FORCES.md` (atualizado com dados de entrevista)
 
-**Owner:** PM
-**Effort:** 1 day
-**Status:** Planned
+**Responsável:** PM
+**Esforço:** 1 dia
+**Status:** Planejado
 
 ---
 
-## T0.0.C: Finalize Job Statement (1 person-day)
+## T0.0.C: Finalizar Job Statement (1 dia-pessoa)
 
-**Objective:** Write and validate final job statement
+**Objetivo:** Escrever e validar job statement final
 
-**Tasks:**
+**Tarefas:**
 
-- [ ] Draft job statement from interviews: "When [circumstances], I want to [progress], so I can [outcome]"
-- [ ] Validate against interview data (does it reflect real insights?)
-- [ ] Check three dimensions: Functional + Emotional + Social
-- [ ] Review with stakeholders
-- [ ] Refine based on feedback
-- [ ] Get sign-off (stakeholder approval)
+- [ ] Rascunhar job statement das entrevistas: "When [circunstâncias], I want to [progresso], so I can [resultado]"
+- [ ] Validar contra dados de entrevista (reflete insights reais?)
+- [ ] Verificar três dimensões: Funcional + Emocional + Social
+- [ ] Revisar com stakeholders
+- [ ] Refinar com base em feedback
+- [ ] Obter aprovação (assinatura de stakeholder)
 
 **Template:**
 
 ```
 Job Statement (Final):
-"When [PM/Agent receives task in distributed team],
- I want [cadeia Task→Feature→Release→OKR→Métrica visible],
- so I can [execute with purpose, not at drift]."
+"When [PM/Agente recebe tarefa em time distribuído],
+ I want [cadeia Task→Feature→Release→OKR→Métrica visível],
+ so I can [executar com propósito, não à deriva]."
 
-Functional: [what needs to be done]
-Emotional: [how they want to feel]
-Social: [how they want to be perceived]
+Funcional: [o que precisa ser feito]
+Emocional: [como eles querem se sentir]
+Social: [como eles querem ser percebidos]
 ```
 
-**Deliverable:** `JOB_STATEMENT.md` (signed off)
+**Entregável:** `JOB_STATEMENT.md` (assinado)
 
-**Owner:** PM
-**Effort:** 1 day
-**Status:** Planned
+**Responsável:** PM
+**Esforço:** 1 dia
+**Status:** Planejado
 
 ---
 
-## Summary
+## Resumo
 
-| Task | Component | Effort | Status | Owner |
-|------|-----------|--------|--------|-------|
-| T0.0.1 | Release Management Framework Implementation | 1d | DONE | PM |
-| T0.0.2 | Bootstrap Gate + Session Manager | 2d | DEFINED | Engineering |
-| T0.0.3 | APOS Self-Identification + CLI | 1d | DEFINED | Engineering |
-| T0.0.A | JTBD Discovery Interviews | 2d | Planned | PM |
-| T0.0.B | Forces Analysis | 1d | Planned | PM |
-| T0.0.C | Job Statement Validation | 1d | Planned | PM |
+| Tarefa | Componente | Esforço | Status | Responsável |
+|--------|-----------|--------|--------|-------|
+| T0.0.1 | Implementação do Framework de Gerenciamento de Release | 1d | COMPLETO | PM |
+| T0.0.2 | Bootstrap Gate + Session Manager | 2d | DEFINIDO | Engenharia |
+| T0.0.3 | Auto-Identificação APOS + CLI | 1d | DEFINIDO | Engenharia |
+| T0.0.A | Entrevistas de Descoberta JTBD | 2d | Planejado | PM |
+| T0.0.B | Análise de Forças | 1d | Planejado | PM |
+| T0.0.C | Validação de Job Statement | 1d | Planejado | PM |
 | **TOTAL** | | **8d** | | |
 
 ---
 
-**Critical Context:**
+**Contexto Crítico:**
 
-- **T0.0.1-T0.0.3 são implementação de APOS Core** — Quando um projeto importa APOS, recebe Release Management Framework + Bootstrap Gate
-- **T0.0.A-T0.0.C é JTBD Discovery** — Validar que APOS resolve job real
-- **Resultado Final:** Projeto que importa APOS sabe ser APOS, valida seus fundamentos, e pode iniciar sesões de definição
+- **T0.0.1-T0.0.3 são implementação de APOS Core** — Quando um projeto importa APOS, recebe Framework de Gerenciamento de Release + Bootstrap Gate
+- **T0.0.A-T0.0.C é Descoberta JTBD** — Validar que APOS resolve o job real
+- **Resultado Final:** Projeto que importa APOS sabe ser APOS, valida seus fundamentos, e pode iniciar sessões de definição
 
 ---
 
-**Created:** 2026-07-19
-**Status:** PLANNED — Ready for Sprint 0.0 Kickoff
+**Criado:** 2026-07-19
+**Status:** PLANEJADO — Pronto para Kick-off do Sprint 0.0

@@ -1,0 +1,6 @@
+"""Bootstrap module — automated project initialization and foundation validation."""
+
+from apos.bootstrap.gate import BootstrapGate
+from apos.bootstrap.session import FoundationDefinitionSession
+
+__all__ = ["BootstrapGate", "FoundationDefinitionSession"]

@@ -1,141 +1,141 @@
-# Sprint 0.0: User Stories
+# Sprint 0.0: Histórias de Usuário
 
-**Sprint:** 0.0 — JTBD Discovery
+**Sprint:** 0.0 — Descoberta JTBD
 
 ---
 
-## US-0.0.1: As a PM, I want to understand why agentes hallucinate
+## US-0.0.1: Como PM, quero entender por que agentes alucinam
 
-**Description:**
-Understand the root cause of agent hallucination in product management context. What is the job that agentes can't do today?
+**Descrição:**
+Entender a causa raiz da alucinação de agentes no contexto de gerenciamento de produto. Qual é o job que agentes não conseguem fazer hoje?
 
-**Acceptance Criteria:**
-- [ ] Interviewed 5+ personas
-- [ ] Identified 3+ examples of agent hallucination in their teams
-- [ ] Root cause analysis: "agentes lack context" is validated
-- [ ] Job statement reflects this insight
+**Critérios de Aceitação:**
+- [ ] Entrevistou 5+ personas
+- [ ] Identificou 3+ exemplos de alucinação de agentes em seus times
+- [ ] Análise de causa raiz: "agentes carecem de contexto" é validada
+- [ ] Job statement reflete este insight
 
-**Tasks:**
-- Prepare interview scenarios
-- Conduct interviews
-- Document hallucination examples
-- Synthesize insights
+**Tarefas:**
+- Preparar cenários de entrevista
+- Conduzir entrevistas
+- Documentar exemplos de alucinação
+- Sintetizar insights
 
 **Sprint:** 0.0  
-**Points:** 2  
-**Owner:** PM
+**Pontos:** 2  
+**Responsável:** PM
 
 ---
 
-## US-0.0.2: As a Stakeholder, I want to know if structured context reduces rework
+## US-0.0.2: Como Stakeholder, quero saber se contexto estruturado reduz retrabalho
 
-**Description:**
-Validate that providing structured semantic context (ontology) actually reduces rework from agent implementations.
+**Descrição:**
+Validar que fornecer contexto semântico estruturado (ontologia) realmente reduz retrabalho de implementações de agentes.
 
-**Acceptance Criteria:**
-- [ ] Interviewed teams that use agents
-- [ ] Identified current rework rate (baseline)
-- [ ] Got hypothetical "if APOS, would rework reduce?" feedback
-- [ ] Estimated potential savings
+**Critérios de Aceitação:**
+- [ ] Entrevistou times que usam agentes
+- [ ] Identificou taxa de retrabalho atual (baseline)
+- [ ] Obteve feedback hipotético "se APOS, retrabalho reduziria?"
+- [ ] Estimou economias potenciais
 
-**Tasks:**
-- Interview CTO/architect
-- Discuss current agent workflow
-- Document rework costs
-- Validate hypothesis
+**Tarefas:**
+- Entrevistar CTO/arquiteto
+- Discutir fluxo de agente atual
+- Documentar custos de retrabalho
+- Validar hipótese
 
 **Sprint:** 0.0  
-**Points:** 1.5  
-**Owner:** PM
+**Pontos:** 1.5  
+**Responsável:** PM
 
 ---
 
-## US-0.0.3: As a Product Manager, I want to know if my current PM tools are sufficient
+## US-0.0.3: Como Product Manager, quero saber se minhas ferramentas de PM atuais são suficientes
 
-**Description:**
-Understand why current tools (Jira, Notion, Slack, spreadsheets) don't solve the alignment problem. What's missing?
+**Descrição:**
+Entender por que ferramentas atuais (Jira, Notion, Slack, planilhas) não resolvem o problema de alinhamento. O que está faltando?
 
-**Acceptance Criteria:**
-- [ ] Interviewed PMs about their PM stack
-- [ ] Identified specific gaps (e.g., "Jira doesn't let me connect tasks to OKRs")
-- [ ] Documented workarounds they use
-- [ ] Validated that "MCP alone" won't solve it
+**Critérios de Aceitação:**
+- [ ] Entrevistou PMs sobre sua stack de PM
+- [ ] Identificou gaps específicos (ex: "Jira não deixa conectar tarefas a OKRs")
+- [ ] Documentou workarounds que usam
+- [ ] Validou que "MCP sozinho" não vai resolver
 
-**Tasks:**
-- Interview PM
-- Ask about current tools
-- Ask about friction points
-- Document workarounds
+**Tarefas:**
+- Entrevistar PM
+- Perguntar sobre ferramentas atuais
+- Perguntar sobre pontos de fricção
+- Documentar workarounds
 
 **Sprint:** 0.0  
-**Points:** 1  
-**Owner:** PM
+**Pontos:** 1  
+**Responsável:** PM
 
 ---
 
-## US-0.0.4: As an Architect, I want to understand the technical feasibility
+## US-0.0.4: Como Arquiteto, quero entender a viabilidade técnica
 
-**Description:**
-Get architect's perspective: is formal ontology + semantic layer technically feasible? What are the hard constraints?
+**Descrição:**
+Obter perspectiva do arquiteto: ontologia formal + camada semântica é tecnicamente viável? Quais são as restrições difíceis?
 
-**Acceptance Criteria:**
-- [ ] Interviewed architect/CTO
-- [ ] Validated that 5 core concepts are sufficient (not too complex)
-- [ ] Confirmed that knowledge graph is feasible
-- [ ] Identified any technical blockers
+**Critérios de Aceitação:**
+- [ ] Entrevistou arquiteto/CTO
+- [ ] Validou que 5 conceitos core são suficientes (não muito complexo)
+- [ ] Confirmou que grafo de conhecimento é viável
+- [ ] Identificou qualquer bloqueador técnico
 
-**Tasks:**
-- Interview architect
-- Present APOS concept
-- Discuss ontology design
-- Document feedback
+**Tarefas:**
+- Entrevistar arquiteto
+- Apresentar conceito APOS
+- Discutir design de ontologia
+- Documentar feedback
 
 **Sprint:** 0.0  
-**Points:** 0.5  
-**Owner:** PM
+**Pontos:** 0.5  
+**Responsável:** PM
 
 ---
 
-## US-0.0.5: Synthesize JTBD research into validated job statement
+## US-0.0.5: Sintetizar pesquisa JTBD em job statement validado
 
-**Description:**
-Consolidate interview findings into a single, validated job statement that reflects the true job APOS solves.
+**Descrição:**
+Consolidar descobertas de entrevista em um único job statement validado que reflita o verdadeiro job que APOS resolve.
 
-**Acceptance Criteria:**
-- [ ] Job statement is written
-- [ ] It reflects genuine insights (not assumptions)
-- [ ] All 3 dimensions (functional/emotional/social) are present
-- [ ] Stakeholders sign-off on job statement
-- [ ] Team agrees job is "real and significant"
+**Critérios de Aceitação:**
+- [ ] Job statement é escrito
+- [ ] Reflete insights genuínos (não suposições)
+- [ ] Todas as 3 dimensões (funcional/emocional/social) estão presentes
+- [ ] Stakeholders assinam job statement
+- [ ] Time concorda que job é "real e significativo"
 
-**Tasks:**
-- Analyze interview data
-- Write draft job statement
-- Review with stakeholders
-- Refine based on feedback
-- Get sign-off
+**Tarefas:**
+- Analisar dados de entrevista
+- Escrever rascunho de job statement
+- Revisar com stakeholders
+- Refinar com base em feedback
+- Obter aprovação
 
 **Sprint:** 0.0  
-**Points:** 1.5  
-**Owner:** PM
+**Pontos:** 1.5  
+**Responsável:** PM
 
 ---
 
-## Totals
+## Totais
 
-| Story | Points | Owner |
-|-------|--------|-------|
+| História | Pontos | Responsável |
+|--------|--------|-------|
 | US-0.0.1 | 2 | PM |
 | US-0.0.2 | 1.5 | PM |
 | US-0.0.3 | 1 | PM |
 | US-0.0.4 | 0.5 | PM |
 | US-0.0.5 | 1.5 | PM |
-| **TOTAL** | **6.5 points** | |
+| **TOTAL** | **6.5 pontos** | |
 
-**Sprint Capacity:** ~4 person-days = ~8 points (with standard velocity)  
-**Planned:** 6.5 points (81% utilization — comfortable)
+**Capacidade do Sprint:** ~4 dias-pessoa = ~8 pontos (com velocidade padrão)  
+**Planejado:** 6.5 pontos (81% utilização — confortável)
 
 ---
 
-**Created:** 2026-07-19  
-**Status:** READY FOR SPRINT
+**Criado:** 2026-07-19  
+**Status:** PRONTO PARA O SPRINT

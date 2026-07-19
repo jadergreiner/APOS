@@ -1,48 +1,48 @@
-# Sprint 0.0: Retrospective Template
+# Sprint 0.0: Template de Retrospectiva
 
-**Sprint:** 0.0 — JTBD Discovery  
-**Date:** Fri Jul 26, 2026 15:00  
-**Duration:** 1 hour  
-**Participants:** PM, Stakeholder (optional)
-
----
-
-## What Went Well ✅
-
-(To be filled after sprint)
+**Sprint:** 0.0 — Descoberta JTBD  
+**Data:** Sex 26 jul, 2026 15:00  
+**Duração:** 1 hora  
+**Participantes:** PM, Stakeholder (opcional)
 
 ---
 
-## What Went Wrong ❌
+## O Que Correu Bem ✅
 
-(To be filled after sprint)
-
----
-
-## What We Learned 💡
-
-(To be filled after sprint)
+(A ser preenchido após o sprint)
 
 ---
 
-## Action Items for Next Sprint
+## O Que Correu Mal ❌
 
-| Action | Owner | Due | Priority |
-|--------|-------|-----|----------|
+(A ser preenchido após o sprint)
+
+---
+
+## O Que Aprendemos 💡
+
+(A ser preenchido após o sprint)
+
+---
+
+## Itens de Ação para Próximo Sprint
+
+| Ação | Responsável | Vencimento | Prioridade |
+|------|-------|-----|----------|
 | | | | |
 
 ---
 
-## Metrics
+## Métricas
 
-| Metric | Target | Actual | Status |
-|--------|--------|--------|--------|
-| Sprint Completion | 100% | TBD | |
-| Story Points Completed | 6.5 | TBD | |
-| Velocity | 6-7 pts | TBD | |
-| Quality | No blockers | TBD | |
+| Métrica | Alvo | Real | Status |
+|---------|------|--------|--------|
+| Conclusão do Sprint | 100% | A Definir | |
+| Pontos de História Completos | 6.5 | A Definir | |
+| Velocidade | 6-7 pts | A Definir | |
+| Qualidade | Sem bloqueadores | A Definir | |
 
 ---
 
-**Created:** 2026-07-19  
-**To be Completed:** 2026-07-26 15:00
+**Criado:** 2026-07-19  
+**A ser Completado:** 2026-07-26 15:00
