@@ -1,4 +1,5 @@
 """CLI entry point for APOS initialization and management."""
+
 import sys
 from pathlib import Path
 
@@ -12,11 +13,13 @@ def main():
 
     if command == "init":
         from apos.bootstrap.gate import BootstrapGate
+
         gate = BootstrapGate(project_root=Path.cwd())
         gate.run()
         return 0
     elif command == "--version":
         from apos import __version__
+
         print(f"APOS {__version__}")
         return 0
     elif command in ("--help", "-h"):
@@ -30,6 +33,7 @@ def main():
 
 def print_help():
     from apos import __version__
+
     print(f"""
 APOS {__version__} — A Precise Ontology System for AI agents
 

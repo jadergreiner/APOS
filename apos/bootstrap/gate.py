@@ -1,4 +1,5 @@
 """BootstrapGate — validates semantic foundations before project execution."""
+
 from pathlib import Path
 from dataclasses import dataclass
 from typing import Optional
@@ -7,6 +8,7 @@ from typing import Optional
 @dataclass
 class BootstrapResult:
     """Result of bootstrap validation."""
+
     passed: bool
     missing_foundations: list[str]
     existing_foundations: list[str]
@@ -84,6 +86,7 @@ class BootstrapGate:
             print("   Initiating Foundation Definition Session...\n")
 
             from apos.bootstrap.session import FoundationDefinitionSession
+
             session = FoundationDefinitionSession(
                 project_root=self.project_root,
                 missing_foundations=result.missing_foundations,

@@ -27,6 +27,7 @@ from apos.release_management.sprint import Sprint, TaskStatus
 
 class DailyMode(str, Enum):
     """Modos de execução de Daily Standup."""
+
     AUTOMATIC = "automatic"  # Opção A: Automático
     COLLABORATIVE = "collaborative"  # Opção B: Colaborativo
 
@@ -117,8 +118,12 @@ class DailyStandupRunner:
                 self.daily.add_update(update)
 
                 print(f"✅ {analysis.participant}")
-                print(f"   {analysis.what_done if analysis.what_done else '(nenhuma evidência de conclusão)'}")
-                print(f"   {analysis.what_today if analysis.what_today else '(nenhuma tarefa em progresso)'}")
+                print(
+                    f"   {analysis.what_done if analysis.what_done else '(nenhuma evidência de conclusão)'}"
+                )
+                print(
+                    f"   {analysis.what_today if analysis.what_today else '(nenhuma tarefa em progresso)'}"
+                )
                 if analysis.blockers:
                     print(f"   🚨 {analysis.blockers}")
                 print()
@@ -188,9 +193,7 @@ class DailyStandupRunner:
             else:
                 what_today = analysis.what_today
 
-            blockers_input = input(
-                f"\n🚨 Algum bloqueador? (Enter se nenhum, ou descreva):\n> "
-            )
+            blockers_input = input(f"\n🚨 Algum bloqueador? (Enter se nenhum, ou descreva):\n> ")
             blockers = blockers_input if blockers_input else analysis.blockers
 
             # 3. ESTRUTURAR E DOCUMENTAR
@@ -268,9 +271,7 @@ class DailyStandupRunner:
                 if self.sprint.get_task(dep_id)
             ]
             blocking_incomplete = [
-                t
-                for t in blocking_tasks
-                if t and t.status != TaskStatus.COMPLETE
+                t for t in blocking_tasks if t and t.status != TaskStatus.COMPLETE
             ]
             if blocking_incomplete:
                 analysis.blockers = (

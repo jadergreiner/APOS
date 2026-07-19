@@ -9,6 +9,7 @@ from pathlib import Path
 
 class TaskStatus(str, Enum):
     """Status de uma tarefa."""
+
     BACKLOG = "backlog"
     PLANNED = "planned"
     IN_PROGRESS = "in_progress"
@@ -19,6 +20,7 @@ class TaskStatus(str, Enum):
 
 class SprintPhase(str, Enum):
     """Fases de um sprint."""
+
     PLANNING = "planning"
     ACTIVE = "active"
     CLOSING = "closing"
@@ -37,6 +39,40 @@ class Task:
     assignee: Optional[str] = None
     depends_on: List[str] = field(default_factory=list)  # Task IDs
     notes: str = ""
+    status_history: List[dict] = field(default_factory=list)  # Histórico de transições
+    rework_count: int = 0  # Quantas vezes retrabalhou (voltou de IN_REVIEW/COMPLETE)
+
+    def cycle_time_days(self) -> Optional[float]:
+        """Calcula o cycle time em dias para a tarefa.
+
+        Cycle time = tempo desde que entrou em IN_PROGRESS até sair para COMPLETE.
+
+        Returns:
+            Dias (float) entre IN_PROGRESS e COMPLETE, ou None se não completou.
+        """
+        if self.status != TaskStatus.COMPLETE:
+            return None
+
+        # Encontrar timestamps de IN_PROGRESS e COMPLETE
+        in_progress_time = None
+        complete_time = None
+
+        for entry in self.status_history:
+            if entry.get("status") == TaskStatus.IN_PROGRESS.value:
+                if in_progress_time is None:  # Primeira vez que entrou em progresso
+                    in_progress_time = entry.get("timestamp")
+            elif entry.get("status") == TaskStatus.COMPLETE.value:
+                complete_time = entry.get("timestamp")
+
+        if in_progress_time is None or complete_time is None:
+            return None
+
+        # Calcular diferença em dias
+        start = datetime.fromisoformat(in_progress_time)
+        end = datetime.fromisoformat(complete_time)
+        delta = end - start
+
+        return delta.total_seconds() / (24 * 3600)  # Converter para dias
 
     def to_dict(self) -> dict:
         """Serializar tarefa."""
@@ -47,6 +83,8 @@ class Task:
             "status": self.status.value,
             "assignee": self.assignee,
             "depends_on": self.depends_on,
+            "cycle_time_days": self.cycle_time_days(),
+            "rework_count": self.rework_count,
         }
 
 
@@ -106,9 +144,26 @@ class Sprint:
         return task.status if task else None
 
     def update_task_status(self, task_id: str, status: TaskStatus) -> bool:
-        """Atualizar status de tarefa."""
+        """Atualizar status de tarefa.
+
+        Registra a transição no histórico de status e incrementa rework_count
+        se a tarefa voltou para IN_PROGRESS de IN_REVIEW ou COMPLETE.
+        """
         task = self.get_task(task_id)
         if task:
+            # Registrar transição no histórico
+            task.status_history.append(
+                {
+                    "status": status.value,
+                    "timestamp": datetime.now().isoformat(),
+                }
+            )
+
+            # Contar retrabalho: se volta para IN_PROGRESS de IN_REVIEW ou COMPLETE
+            if status == TaskStatus.IN_PROGRESS:
+                if task.status in (TaskStatus.IN_REVIEW, TaskStatus.COMPLETE):
+                    task.rework_count += 1
+
             task.status = status
             return True
         return False
@@ -131,6 +186,38 @@ class Sprint:
             return 0.0
         return self.total_tasks_complete() / self.total_tasks()
 
+    def average_cycle_time(self) -> Optional[float]:
+        """Calcula o cycle time médio do sprint.
+
+        Média de cycle_time_days() entre tasks que já completaram.
+        Ignora tasks que ainda não completaram (retornam None).
+
+        Returns:
+            Dias médios, ou None se nenhuma task completou.
+        """
+        completed_cycle_times = [
+            t.cycle_time_days() for t in self.tasks if t.cycle_time_days() is not None
+        ]
+
+        if not completed_cycle_times:
+            return None
+
+        return sum(completed_cycle_times) / len(completed_cycle_times)
+
+    def rework_rate(self) -> float:
+        """Calcula a taxa de retrabalho do sprint.
+
+        Proporção de tasks com rework_count > 0 sobre o total de tasks.
+
+        Returns:
+            Taxa 0.0-1.0, ou 0.0 se não há tasks.
+        """
+        if not self.tasks:
+            return 0.0
+
+        tasks_with_rework = sum(1 for t in self.tasks if t.rework_count > 0)
+        return tasks_with_rework / len(self.tasks)
+
     def to_dict(self) -> dict:
         """Serializar sprint."""
         return {
@@ -144,6 +231,8 @@ class Sprint:
             "num_stories": len(self.user_stories),
             "total_days": self.total_days_estimate(),
             "completion_rate": self.completion_rate(),
+            "average_cycle_time": self.average_cycle_time(),
+            "rework_rate": self.rework_rate(),
             "tasks": [t.to_dict() for t in self.tasks],
         }
 
@@ -151,9 +240,7 @@ class Sprint:
 class SprintManager:
     """Gerencia sprints de uma release."""
 
-    def __init__(
-        self, release_id: str, project_root: Optional[Path] = None
-    ):
+    def __init__(self, release_id: str, project_root: Optional[Path] = None):
         """Inicializar gerenciador de sprints.
 
         Args:
@@ -255,9 +342,7 @@ class SprintManager:
             "num_sprints": len(self.sprints),
             "total_tasks": total_tasks,
             "total_complete": total_complete,
-            "overall_completion_rate": (
-                total_complete / total_tasks if total_tasks > 0 else 0.0
-            ),
+            "overall_completion_rate": (total_complete / total_tasks if total_tasks > 0 else 0.0),
             "sprints": sprints_data,
             "timestamp": datetime.now().isoformat(),
         }

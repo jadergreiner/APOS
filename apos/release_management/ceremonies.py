@@ -61,9 +61,7 @@ class SprintPlanningSession:
     duration_minutes: int = 120
     attendees: List[str] = field(default_factory=list)
     goals: List[str] = field(default_factory=list)
-    planned_tasks: List[dict] = field(
-        default_factory=list
-    )  # {id, title, estimate}
+    planned_tasks: List[dict] = field(default_factory=list)  # {id, title, estimate}
     velocity_target: float = 0.0
     dependencies_identified: List[str] = field(default_factory=list)
     risks_identified: List[str] = field(default_factory=list)
@@ -80,9 +78,7 @@ class SprintPlanningSession:
 
     def add_planned_task(self, task_id: str, title: str, estimate: float) -> None:
         """Adicionar tarefa ao plano."""
-        self.planned_tasks.append(
-            {"id": task_id, "title": title, "estimate": estimate}
-        )
+        self.planned_tasks.append({"id": task_id, "title": title, "estimate": estimate})
 
     def total_estimated_days(self) -> float:
         """Total de dias estimados."""

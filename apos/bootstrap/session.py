@@ -1,4 +1,5 @@
 """Foundation Definition Session — guided setup for semantic foundations."""
+
 from pathlib import Path
 from typing import Optional
 
@@ -49,10 +50,7 @@ Let's begin...\n""")
             self.run_ontology_definition()
 
         # Step 4: Governance Setup
-        if (
-            "GOVERNANCE.md" in self.missing_foundations
-            or self._should_update("GOVERNANCE")
-        ):
+        if "GOVERNANCE.md" in self.missing_foundations or self._should_update("GOVERNANCE"):
             self.run_governance_setup()
 
         print("\n✅ Foundation Definition Session Complete!")
