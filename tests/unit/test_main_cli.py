@@ -50,13 +50,15 @@ class TestDailyCommandArgumentParsing:
     """Testes de parsing de argumentos do comando daily."""
 
     def test_daily_command_requires_sprint_and_tasks_json(self, tmp_path):
-        """Comando daily deve exigir --sprint e --tasks-json."""
-        # Sem argumentos
+        """Comando daily deve exigir --sprint; --tasks-json é opcional mas
+        precisa de uma fonte de tasks (JSON explícito ou TASKS.md)."""
+        # Sem argumentos: --sprint é obrigatório
         result = handle_daily_command([])
         assert result == 1
 
-        # Sem --tasks-json
-        result = handle_daily_command(["--sprint", "sprint-0.0"])
+        # Sem --tasks-json e sem TASKS.md disponível: erro claro
+        with patch("apos.__main__.Path.cwd", return_value=tmp_path):
+            result = handle_daily_command(["--sprint", "sprint-0.0"])
         assert result == 1
 
     def test_daily_command_rejects_invalid_tasks_json_path(self, tmp_path):
@@ -411,3 +413,103 @@ class TestDailyCommandIntegration:
             mock_runner_class.assert_called_once()
             mock_runner.run.assert_called_once()
             mock_runner.save_to_file.assert_called_once()
+
+
+class TestDailyCommandMarkdownReconstruction:
+    """Testes de reconstrução automática de Sprint a partir de TASKS.md."""
+
+    def test_daily_command_reconstructs_from_tasks_md_when_json_omitted(
+        self, tmp_path
+    ):
+        """Sem --tasks-json, deve reconstruir Sprint a partir de TASKS.md."""
+        sprint_dir = tmp_path / "docs" / "releases" / "R0" / "sprint-0.0"
+        sprint_dir.mkdir(parents=True)
+
+        tasks_md_content = """# Sprint Tasks
+
+## Tasks
+
+### Tier 1: Core / Blockers (Must Have)
+
+| ID | Título | Descrição | Duração | Status | Responsável |
+|----|--------|-----------|---------|--------|-------------|
+| T0.0.1 | Bootstrap Gate | Implementar validador | 2d | in_progress | Jader |
+"""
+        (sprint_dir / "TASKS.md").write_text(tasks_md_content, encoding="utf-8")
+
+        with patch(
+            "apos.__main__.Path.cwd", return_value=tmp_path
+        ), patch(
+            "apos.release_management.daily_runner.DailyStandupRunner"
+        ) as mock_runner_class:
+            mock_runner = MagicMock()
+            mock_runner_class.return_value = mock_runner
+            mock_runner.save_to_file.return_value = Path("file.md")
+
+            result = handle_daily_command(
+                [
+                    "--sprint",
+                    "sprint-0.0",
+                    "--mode",
+                    "automatic",
+                ]
+            )
+
+            assert result == 0
+            mock_runner_class.assert_called_once()
+            call_kwargs = mock_runner_class.call_args.kwargs
+            sprint = call_kwargs["sprint"]
+            assert len(sprint.tasks) == 1
+            assert sprint.get_task("T0.0.1").title == "Bootstrap Gate"
+
+    def test_daily_command_prefers_tasks_json_over_markdown_when_both_given(
+        self, sample_tasks_json, tmp_path
+    ):
+        """Se --tasks-json for fornecido, deve usá-lo mesmo que TASKS.md exista."""
+        sprint_dir = tmp_path / "docs" / "releases" / "R0" / "sprint-0.0"
+        sprint_dir.mkdir(parents=True)
+        (sprint_dir / "TASKS.md").write_text(
+            "| ID | Título | Descrição | Duração | Status | Responsável |\n"
+            "|----|--------|-----------|---------|--------|-------------|\n"
+            "| T9.9.9 | Should Not Be Used | X | 1d | planned | X |\n",
+            encoding="utf-8",
+        )
+
+        with patch(
+            "apos.__main__.Path.cwd", return_value=tmp_path
+        ), patch(
+            "apos.release_management.daily_runner.DailyStandupRunner"
+        ) as mock_runner_class:
+            mock_runner = MagicMock()
+            mock_runner_class.return_value = mock_runner
+            mock_runner.save_to_file.return_value = Path("file.md")
+
+            result = handle_daily_command(
+                [
+                    "--sprint",
+                    "sprint-0.0",
+                    "--mode",
+                    "automatic",
+                    "--tasks-json",
+                    str(sample_tasks_json),
+                ]
+            )
+
+            assert result == 0
+            call_kwargs = mock_runner_class.call_args.kwargs
+            sprint = call_kwargs["sprint"]
+            assert sprint.get_task("T9.9.9") is None
+            assert sprint.get_task("T0.0.1") is not None
+
+    def test_daily_command_errors_clearly_when_no_source_available(self, tmp_path):
+        """Sem --tasks-json e sem TASKS.md, deve falhar com mensagem clara."""
+        with patch("apos.__main__.Path.cwd", return_value=tmp_path):
+            result = handle_daily_command(
+                [
+                    "--sprint",
+                    "sprint-0.0",
+                    "--mode",
+                    "automatic",
+                ]
+            )
+        assert result == 1

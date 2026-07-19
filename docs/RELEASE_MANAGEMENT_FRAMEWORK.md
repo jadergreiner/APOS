@@ -419,21 +419,29 @@ rm.initialize_release_directory("R0")  # Estrutura criada automaticamente
 
 ### `python -m apos daily`
 
-Comando para executar Daily Standup de um sprint.
+Comando para executar Daily Standup de um sprint. Por padrão, reconstrói o
+Sprint automaticamente a partir de `docs/releases/{release}/{sprint}/TASKS.md`
+via `Sprint.load_from_markdown()`; `--tasks-json` continua disponível como
+alternativa explícita.
 
 ```bash
-# Com modo explícito
+# Reconstrução automática a partir de TASKS.md (padrão)
+python -m apos daily --sprint sprint-0.0 --date 2026-07-22 --mode automatic
+
+# Com --tasks-json explícito
 python -m apos daily --sprint sprint-0.0 --date 2026-07-22 --mode automatic --tasks-json tasks.json
 
 # Sem modo: pergunta ao usuário
-python -m apos daily --sprint sprint-0.0 --tasks-json tasks.json
+python -m apos daily --sprint sprint-0.0
 ```
 
 Ver documentação completa em [docs/DAILY_STANDUP_MODES.md](DAILY_STANDUP_MODES.md#comando-cli-python--m-apos-daily).
 
 ### Limitação Conhecida
 
-**TODO:** `--tasks-json` é temporário. Quando existir `Sprint.load_from_markdown()`, será possível reconstruir Sprint a partir de `TASKS.md`/`BOARD.md`, tornando `--tasks-json` opcional.
+`Sprint.load_from_markdown()` reconstrói apenas tasks + status atual a partir
+de `TASKS.md` — não reconstrói `status_history`/timestamps de transições nem
+lê `BOARD.md`. Ver detalhes em [DAILY_STANDUP_MODES.md](DAILY_STANDUP_MODES.md#fonte-de-tasks-tasksmd-padrão-ou-json).
 
 ---
 
@@ -453,7 +461,6 @@ Ver documentação completa em [docs/DAILY_STANDUP_MODES.md](DAILY_STANDUP_MODES
 
 4. **CLI Expansion**
    - `python -m apos sprint create sprint-0.0` → cria sprint + estrutura
-   - Reconstrução de Sprint a partir de Markdown (`Sprint.load_from_markdown()`)
 
 ---
 

@@ -1,10 +1,14 @@
 """Sprint management — estrutura para planejar e rastrear sprints."""
 
+import logging
+import re
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
 from typing import List, Optional
 from pathlib import Path
+
+logger = logging.getLogger(__name__)
 
 
 class TaskStatus(str, Enum):
@@ -125,6 +129,121 @@ class Sprint:
     user_stories: List[UserStory] = field(default_factory=list)
     velocity_target: float = 0.0  # Pontos alvo
     velocity_actual: float = 0.0  # Pontos reais
+
+    @classmethod
+    def load_from_markdown(
+        cls,
+        sprint_id: str,
+        release_id: str,
+        tasks_md_path: Path,
+        title: str = "",
+        start_date: str = "",
+        end_date: str = "",
+    ) -> "Sprint":
+        """Reconstruir um Sprint a partir de um arquivo TASKS.md.
+
+        Parseia as tabelas Markdown no formato gerado por
+        ReleaseTemplateGenerator.generate_sprint_tasks_template() (colunas
+        ID | Título | Descrição | Duração | Status | Responsável), sob
+        headers "### Tier N: ...". Ignora linhas de cabeçalho, separadores
+        e placeholders não preenchidos (ID vazio ou "T").
+
+        Não parseia BOARD.md nem reconstrói status_history/timestamps — o
+        objetivo é apenas reconstruir tasks + status atual a partir de
+        TASKS.md.
+
+        Args:
+            sprint_id: ID do sprint (ex: "sprint-0.0")
+            release_id: ID da release (ex: "R0")
+            tasks_md_path: Caminho para o arquivo TASKS.md
+            title: Título do sprint (opcional, default: sprint_id)
+            start_date: Data de início (opcional)
+            end_date: Data de fim (opcional)
+
+        Returns:
+            Sprint reconstruído com as tasks encontradas no arquivo
+
+        Raises:
+            FileNotFoundError: se tasks_md_path não existir
+        """
+        tasks_md_path = Path(tasks_md_path)
+        if not tasks_md_path.exists():
+            raise FileNotFoundError(f"Arquivo TASKS.md não encontrado: {tasks_md_path}")
+
+        content = tasks_md_path.read_text(encoding="utf-8")
+
+        sprint = cls(
+            id=sprint_id,
+            release_id=release_id,
+            title=title or sprint_id,
+            start_date=start_date,
+            end_date=end_date,
+        )
+
+        for line in content.splitlines():
+            stripped = line.strip()
+            if not stripped.startswith("|"):
+                continue
+
+            cells = [c.strip() for c in stripped.strip("|").split("|")]
+
+            if len(cells) < 6:
+                continue
+
+            first_cell = cells[0]
+
+            # Ignorar linha de cabeçalho ("ID | Título | ...") e separador ("----|----|...")
+            if first_cell.lower() == "id" or (first_cell and set(first_cell) <= {"-"}):
+                continue
+
+            task_id = first_cell
+            if not task_id or task_id == "T":
+                continue  # Placeholder não preenchido (template em branco)
+
+            title_cell, description_cell, duration_cell, status_cell, assignee_cell = cells[1:6]
+
+            days_estimate = cls._parse_duration(duration_cell)
+            status = cls._parse_status(status_cell)
+            assignee = assignee_cell if assignee_cell else None
+
+            task = Task(
+                id=task_id,
+                title=title_cell,
+                description=description_cell,
+                days_estimate=days_estimate,
+                status=status,
+                assignee=assignee,
+            )
+            sprint.add_task(task)
+
+        return sprint
+
+    @staticmethod
+    def _parse_duration(duration_str: str) -> float:
+        """Parsear duração de string ("2d", "2", "2.0", "2 dias") para float.
+
+        Se não conseguir extrair um número, registra warning e retorna 0.0
+        em vez de levantar exceção.
+        """
+        match = re.search(r"(\d+(?:\.\d+)?)", duration_str)
+        if match:
+            return float(match.group(1))
+        logger.warning("Não foi possível parsear duração '%s', usando 0.0", duration_str)
+        return 0.0
+
+    @staticmethod
+    def _parse_status(status_str: str) -> TaskStatus:
+        """Parsear status de string para TaskStatus enum (case-insensitive).
+
+        Se o valor não corresponder a nenhum TaskStatus conhecido, registra
+        warning e retorna TaskStatus.PLANNED em vez de levantar exceção.
+        """
+        normalized = status_str.strip().lower()
+        try:
+            return TaskStatus(normalized)
+        except ValueError:
+            logger.warning("Status desconhecido '%s', usando TaskStatus.PLANNED", status_str)
+            return TaskStatus.PLANNED
 
     def add_task(self, task: Task) -> None:
         """Adicionar tarefa ao sprint."""

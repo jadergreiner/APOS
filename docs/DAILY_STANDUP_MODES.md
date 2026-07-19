@@ -469,14 +469,17 @@ pytest tests/unit/test_daily_runner.py -v
 ### Uso
 
 ```bash
-# Com modo explícito
+# Reconstrução automática a partir de TASKS.md (recomendado)
+python -m apos daily --sprint sprint-0.0 --date 2026-07-22 --mode automatic
+
+# Com --tasks-json explícito (alternativa)
 python -m apos daily --sprint sprint-0.0 --date 2026-07-22 --mode automatic --tasks-json tasks.json
 
 # Modo colaborativo
-python -m apos daily --sprint sprint-0.0 --date 2026-07-22 --mode collaborative --tasks-json tasks.json
+python -m apos daily --sprint sprint-0.0 --date 2026-07-22 --mode collaborative
 
 # Sem modo: pergunta interativamente
-python -m apos daily --sprint sprint-0.0 --tasks-json tasks.json
+python -m apos daily --sprint sprint-0.0
 ```
 
 ### Argumentos
@@ -485,9 +488,35 @@ python -m apos daily --sprint sprint-0.0 --tasks-json tasks.json
 - `--date` (opcional): Data da daily (formato `YYYY-MM-DD`, default: hoje)
 - `--mode` (opcional): `automatic` ou `collaborative`. Se não fornecido, pergunta ao usuário
 - `--release` (opcional): ID da release (default: `R0`)
-- `--tasks-json` (obrigatório): Caminho para arquivo JSON com tasks
+- `--tasks-json` (opcional): Caminho para arquivo JSON com tasks. Se omitido,
+  o comando tenta reconstruir o Sprint automaticamente a partir de
+  `docs/releases/{release}/{sprint}/TASKS.md` via `Sprint.load_from_markdown()`
 
-### Formato JSON de Tasks
+### Fonte de Tasks: TASKS.md (padrão) ou JSON
+
+Por padrão, o comando lê `docs/releases/{release}/{sprint}/TASKS.md` — o
+mesmo arquivo gerado por
+`ReleaseTemplateGenerator.generate_sprint_tasks_template()` e preenchido
+manualmente pelo time nas tabelas "Tier 1/2/3". `Sprint.load_from_markdown()`
+parseia essas tabelas (colunas ID | Título | Descrição | Duração | Status |
+Responsável) e reconstrói as Tasks com seu status atual.
+
+**Limitações da reconstrução via Markdown:**
+- Não reconstrói `status_history` nem timestamps de transições — apenas o
+  status atual de cada task
+- Não lê `BOARD.md` — somente `TASKS.md`
+- Linhas de placeholder não preenchidas (ID vazio ou `"T"`, como no template
+  em branco) são ignoradas silenciosamente
+- Durações não parseáveis (ex: "TBD") viram `0.0` com um warning de log
+- Status desconhecidos viram `TaskStatus.PLANNED` com um warning de log
+
+Se nenhum `TASKS.md` existir no caminho esperado e `--tasks-json` não for
+fornecido, o comando falha com uma mensagem explicando as duas opções.
+
+`--tasks-json` continua disponível como alternativa explícita — útil para
+testes, scripts ou quando o `TASKS.md` ainda não foi criado.
+
+### Formato JSON de Tasks (--tasks-json)
 
 ```json
 [
@@ -513,10 +542,6 @@ python -m apos daily --sprint sprint-0.0 --tasks-json tasks.json
 - `complete`
 - `blocked`
 
-### Limitação Atual
-
-**TODO:** Hoje não existe um método para reconstruir um Sprint a partir de `TASKS.md`/`BOARD.md` já gravados em disco. `--tasks-json` é uma solução temporária. Quando essa funcionalidade existir (ex: um método `Sprint.load_from_markdown()` ou similar), este comando deve passar a usá-la como default, tornando `--tasks-json` opcional/legado.
-
 ### Output
 
 ```
@@ -538,10 +563,6 @@ python -m apos daily --sprint sprint-0.0 --tasks-json tasks.json
 3. **Histórico**
    - Guardar histórico de dailies
    - Análise de trends
-
-4. **Reconstrução a partir de Markdown**
-   - Implementar `Sprint.load_from_markdown()` para ler `TASKS.md`/`BOARD.md`
-   - Tornar `--tasks-json` opcional no CLI
 
 ---
 
