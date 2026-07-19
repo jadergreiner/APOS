@@ -123,9 +123,7 @@ def handle_daily_command(args):
                 try:
                     status = TaskStatus(status_value)
                 except ValueError:
-                    print(
-                        f"Erro: status inválido '{status_value}' na task '{task_dict.get('id')}'"
-                    )
+                    print(f"Erro: status inválido '{status_value}' na task '{task_dict.get('id')}'")
                     print(f"Status válidos: {', '.join(s.value for s in TaskStatus)}")
                     return 1
 
@@ -146,12 +144,7 @@ def handle_daily_command(args):
     else:
         # Caminho via reconstrução automática a partir de TASKS.md
         tasks_md_path = (
-            Path.cwd()
-            / "docs"
-            / "releases"
-            / parsed_args.release
-            / parsed_args.sprint
-            / "TASKS.md"
+            Path.cwd() / "docs" / "releases" / parsed_args.release / parsed_args.sprint / "TASKS.md"
         )
 
         if not tasks_md_path.exists():

@@ -418,9 +418,7 @@ class TestDailyCommandIntegration:
 class TestDailyCommandMarkdownReconstruction:
     """Testes de reconstrução automática de Sprint a partir de TASKS.md."""
 
-    def test_daily_command_reconstructs_from_tasks_md_when_json_omitted(
-        self, tmp_path
-    ):
+    def test_daily_command_reconstructs_from_tasks_md_when_json_omitted(self, tmp_path):
         """Sem --tasks-json, deve reconstruir Sprint a partir de TASKS.md."""
         sprint_dir = tmp_path / "docs" / "releases" / "R0" / "sprint-0.0"
         sprint_dir.mkdir(parents=True)
@@ -437,11 +435,10 @@ class TestDailyCommandMarkdownReconstruction:
 """
         (sprint_dir / "TASKS.md").write_text(tasks_md_content, encoding="utf-8")
 
-        with patch(
-            "apos.__main__.Path.cwd", return_value=tmp_path
-        ), patch(
-            "apos.release_management.daily_runner.DailyStandupRunner"
-        ) as mock_runner_class:
+        with (
+            patch("apos.__main__.Path.cwd", return_value=tmp_path),
+            patch("apos.release_management.daily_runner.DailyStandupRunner") as mock_runner_class,
+        ):
             mock_runner = MagicMock()
             mock_runner_class.return_value = mock_runner
             mock_runner.save_to_file.return_value = Path("file.md")
@@ -475,11 +472,10 @@ class TestDailyCommandMarkdownReconstruction:
             encoding="utf-8",
         )
 
-        with patch(
-            "apos.__main__.Path.cwd", return_value=tmp_path
-        ), patch(
-            "apos.release_management.daily_runner.DailyStandupRunner"
-        ) as mock_runner_class:
+        with (
+            patch("apos.__main__.Path.cwd", return_value=tmp_path),
+            patch("apos.release_management.daily_runner.DailyStandupRunner") as mock_runner_class,
+        ):
             mock_runner = MagicMock()
             mock_runner_class.return_value = mock_runner
             mock_runner.save_to_file.return_value = Path("file.md")

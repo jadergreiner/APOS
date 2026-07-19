@@ -1,5 +1,7 @@
 """Testes para Daily Standup Runner."""
 
+import subprocess
+
 import pytest
 from apos.release_management import (
     Sprint,
@@ -263,3 +265,141 @@ class TestEvidenceAnalysis:
 
         assert len(analysis.what_done_evidence) == 2
         assert "commit 0c643c3" in analysis.what_done_evidence
+
+
+def _run_git(args, cwd):
+    """Rodar comando git em um diretório, propagando erro se falhar."""
+    result = subprocess.run(
+        ["git"] + args,
+        cwd=cwd,
+        capture_output=True,
+        text=True,
+        timeout=5,
+    )
+    assert result.returncode == 0, f"git {args} falhou: {result.stderr}"
+    return result
+
+
+def _init_git_repo(path, author_name="Jader", author_email="jader@example.com"):
+    """Inicializar um repositório git real e isolado em `path`."""
+    _run_git(["init"], path)
+    _run_git(["config", "user.email", author_email], path)
+    _run_git(["config", "user.name", author_name], path)
+    return path
+
+
+class TestGitEvidence:
+    """Testes de _get_git_evidence() contra um repositório git real e isolado."""
+
+    def test_get_git_evidence_returns_commits_for_author(self, tmp_path):
+        """Deve retornar commits do autor filtrado via --author."""
+        repo = _init_git_repo(tmp_path, author_name="Jader")
+        _run_git(["commit", "--allow-empty", "-m", "Implementa Bootstrap Gate"], repo)
+        _run_git(["commit", "--allow-empty", "-m", "Ajusta validacao"], repo)
+
+        sprint = Sprint(
+            id="sprint-0.0",
+            release_id="R0",
+            title="Test",
+            start_date="2026-01-01",
+            end_date="2026-01-01",
+        )
+        runner = DailyStandupRunner(
+            sprint=sprint, date="2026-01-01", mode=DailyMode.AUTOMATIC, repo_path=repo
+        )
+        task = Task(
+            id="T0.0.1",
+            title="Bootstrap Gate",
+            description="",
+            days_estimate=1.0,
+            assignee="Jader",
+        )
+
+        evidence = runner._get_git_evidence(task, since_date="2000-01-01", participant="Jader")
+
+        assert len(evidence) == 2
+        assert any("Implementa Bootstrap Gate" in e for e in evidence)
+        assert all(e.startswith("commit ") for e in evidence)
+
+    def test_get_git_evidence_returns_empty_list_when_no_commits(self, tmp_path):
+        """Deve retornar lista vazia quando o autor não tem commits."""
+        repo = _init_git_repo(tmp_path, author_name="Jader")
+        _run_git(["commit", "--allow-empty", "-m", "Commit de outra pessoa"], repo)
+
+        sprint = Sprint(
+            id="sprint-0.0",
+            release_id="R0",
+            title="Test",
+            start_date="2026-01-01",
+            end_date="2026-01-01",
+        )
+        runner = DailyStandupRunner(
+            sprint=sprint, date="2026-01-01", mode=DailyMode.AUTOMATIC, repo_path=repo
+        )
+        task = Task(id="T0.0.1", title="X", description="", days_estimate=1.0)
+
+        evidence = runner._get_git_evidence(
+            task, since_date="2000-01-01", participant="AlguemQueNaoExiste"
+        )
+
+        assert evidence == []
+
+    def test_get_git_evidence_handles_non_git_directory_gracefully(self, tmp_path):
+        """Deve retornar lista vazia (sem levantar exceção) se não for repo git."""
+        non_git_dir = tmp_path / "not_a_repo"
+        non_git_dir.mkdir()
+
+        sprint = Sprint(
+            id="sprint-0.0",
+            release_id="R0",
+            title="Test",
+            start_date="2026-01-01",
+            end_date="2026-01-01",
+        )
+        runner = DailyStandupRunner(
+            sprint=sprint,
+            date="2026-01-01",
+            mode=DailyMode.AUTOMATIC,
+            repo_path=non_git_dir,
+        )
+        task = Task(id="T0.0.1", title="X", description="", days_estimate=1.0)
+
+        evidence = runner._get_git_evidence(task, since_date="2000-01-01", participant=None)
+
+        assert evidence == []
+
+    def test_analyze_task_includes_git_evidence_when_available(self, tmp_path):
+        """_analyze_task deve somar evidências de status com evidências de git."""
+        repo = _init_git_repo(tmp_path, author_name="Jader")
+        _run_git(["commit", "--allow-empty", "-m", "T0.0.1: trabalho concluido"], repo)
+
+        sprint = Sprint(
+            id="sprint-0.0",
+            release_id="R0",
+            title="Test",
+            start_date="2000-01-01",
+            end_date="2000-01-01",
+        )
+        task = Task(
+            id="T0.0.1",
+            title="Bootstrap Gate",
+            description="",
+            days_estimate=1.0,
+            status=TaskStatus.COMPLETE,
+            assignee="Jader",
+        )
+        sprint.add_task(task)
+
+        runner = DailyStandupRunner(
+            sprint=sprint, date="2000-01-01", mode=DailyMode.AUTOMATIC, repo_path=repo
+        )
+        # Sobrescrever since_date usado internamente: _analyze_task usa
+        # self.date, então usamos uma data suficientemente antiga.
+        runner.date = "2000-01-01"
+
+        analysis = runner._analyze_task(task)
+
+        # Evidência baseada em status continua presente
+        assert "T0.0.1 COMPLETE" in analysis.what_done_evidence
+        # Evidência de commit real foi somada
+        assert any("commit" in e and "trabalho concluido" in e for e in analysis.what_done_evidence)

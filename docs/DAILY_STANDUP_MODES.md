@@ -20,13 +20,34 @@ O **Daily Standup** no APOS oferece **2 modos dinâmicos** que podem ser escolhi
 ### O Que É
 
 Sistema infere **automaticamente** o que foi feito olhando para evidências:
-- Git commits
 - Task status (COMPLETE, IN_PROGRESS, BLOCKED, PLANNED)
-- Board updates
+- Commits reais no `git log` (quando task tem COMPLETE ou IN_PROGRESS)
 - Dependências entre tarefas
 - Bloqueadores detectados
 
 **Sem nenhuma interação do usuário.**
+
+### Evidência de Commits Reais (git log)
+
+Para tasks `COMPLETE` ou `IN_PROGRESS`, o sistema roda `git log
+--since=<data da daily> [--author=<assignee>] --oneline --no-merges` no
+repositório (`repo_path`, default: diretório atual) e soma os commits
+encontrados às evidências baseadas em status — não substitui, apenas
+complementa.
+
+**Limitações importantes:**
+- Requer um repositório git válido em `repo_path`. Se não for um repo git,
+  se o `git` não estiver instalado, ou se o comando falhar/expirar
+  (timeout de 5s), a busca retorna lista vazia silenciosamente — a daily
+  **não é bloqueada** por falhas de git
+- O filtro `--author` usa o valor literal de `Task.assignee` (ex: "Jader").
+  Se esse nome não corresponder exatamente ao nome configurado nos commits
+  reais (`git config user.name`), a busca de evidências de commit virá
+  vazia, mesmo que existam commits relevantes daquele autor sob outro nome
+- Não há inferência de qual commit pertence a qual task — todos os commits
+  do autor no período são retornados, sem filtrar por conteúdo da mensagem
+- A confiança (`EvidenceAnalysis.confidence`) não é elevada pela presença
+  de evidência de commit — continua refletindo apenas o status da task
 
 ### Quando Usar
 
