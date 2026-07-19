@@ -464,3 +464,34 @@ Isso não é uma task.
         assert sprint.get_task("T0.0.A").status == TaskStatus.PLANNED
         assert sprint.get_task("T0.0.B").status == TaskStatus.PLANNED
         assert sprint.get_task("T0.0.C").status == TaskStatus.PLANNED
+
+    def test_load_from_markdown_narrative_format_sprint_0_1_real_file(self):
+        """Teste de integração: lê o TASKS.md real de sprint-0.1 (normalizado
+        para o formato narrativo padrão: headers "## " e campos "**Campo:**").
+        """
+        real_tasks_md = REPO_ROOT / "docs" / "releases" / "R0" / "sprint-0.1" / "TASKS.md"
+        assert real_tasks_md.exists(), f"Arquivo real não encontrado: {real_tasks_md}"
+
+        sprint = Sprint.load_from_markdown(
+            sprint_id="sprint-0.1",
+            release_id="R0",
+            tasks_md_path=real_tasks_md,
+        )
+
+        # O arquivo não tem tabela de resumo; os 4 headers de task esperados
+        # são T0.1.1, T0.1.2, T0.1.3, T0.1.4 (ver "## Detalhamento de Tarefas")
+        assert len(sprint.tasks) == 4
+
+        task_ids = {t.id for t in sprint.tasks}
+        assert task_ids == {"T0.1.1", "T0.1.2", "T0.1.3", "T0.1.4"}
+
+        # Todas as tasks estão documentadas como "**Status:** NÃO INICIADO"
+        for task_id in task_ids:
+            assert sprint.get_task(task_id).status == TaskStatus.PLANNED
+
+        # Esforços documentados: T0.1.1=1,5 dias, T0.1.2=1 dia,
+        # T0.1.3=1,5 dias, T0.1.4=1 dia
+        assert sprint.get_task("T0.1.1").days_estimate == 1.5
+        assert sprint.get_task("T0.1.2").days_estimate == 1.0
+        assert sprint.get_task("T0.1.3").days_estimate == 1.5
+        assert sprint.get_task("T0.1.4").days_estimate == 1.0

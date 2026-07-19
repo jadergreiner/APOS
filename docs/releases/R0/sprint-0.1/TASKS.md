@@ -8,14 +8,14 @@
 
 ## Detalhamento de Tarefas
 
-### T0.1.1: Refinar VALUE_PROPOSITION.md
+## T0.1.1: Refinar VALUE_PROPOSITION.md
 
-**História**: US 0.1.1  
-**Esforço**: 1,5 dias  
-**Prioridade**: P0 (bloqueante)  
-**Status**: NÃO INICIADO
+**História:** US 0.1.1  
+**Esforço:** 1,5 dias  
+**Prioridade:** P0 (bloqueante)  
+**Status:** NÃO INICIADO
 
-**Subtarefas**:
+**Subtarefas:**
 - [ ] T0.1.1.1 (0,25d): Revisar rascunho existente de VALUE_PROPOSITION.md
   - Entender posicionamento atual (eficiência de tokens, latência, retrabalho)
   - Nota: "25% menos tokens, 50% latência mais rápida, 85% menos retrabalho"
@@ -43,13 +43,13 @@
   - 3-5 fatores-chave de valor
   - Pontos de comprovação (métricas, pesquisa)
 
-**Definição de Concluído**:
+**Definição de Concluído:**
 - [ ] VALUE_PROPOSITION.md atualizado e revisado
 - [ ] 3 stakeholders confirmam que ressoa
 - [ ] Diferenciação é defensável vs. concorrentes
 - [ ] Métricas são específicas e mensuráveis
 
-**Notas**:
+**Notas:**
 - VALUE_PROPOSITION.md existente é um bom ponto de partida
 - Diferenciador-chave: pontuação de confiança (0.0-1.0)
 - Secundário: ontologia formal vs. esquema implícito
@@ -57,14 +57,14 @@
 
 ---
 
-### T0.1.2: Posicionamento Competitivo
+## T0.1.2: Posicionamento Competitivo
 
-**História**: US 0.1.2  
-**Esforço**: 1 dia  
-**Prioridade**: P1 (desejável)  
-**Status**: NÃO INICIADO
+**História:** US 0.1.2  
+**Esforço:** 1 dia  
+**Prioridade:** P1 (desejável)  
+**Status:** NÃO INICIADO
 
-**Subtarefas**:
+**Subtarefas:**
 - [ ] T0.1.2.1 (0,25d): Revisar COMPETITIVE_LANDSCAPE.md existente
   - Nota: Já foi criado (de sessão anterior)
   - Tem Jira, Camadas Semânticas, Catálogos de Dados
@@ -88,26 +88,26 @@
   - Matriz de 1 página + narrativa
   - História do espaço em branco
 
-**Definição de Concluído**:
+**Definição de Concluído:**
 - [ ] COMPETITIVE_POSITIONING.md criado
 - [ ] 5+ concorrentes analisados
 - [ ] Matriz de posicionamento é visual e clara
 - [ ] Espaço em branco está explicitamente destacado
 
-**Notas**:
+**Notas:**
 - Isto complementa VALUE_PROPOSITION.md
 - Posicionamento = "onde jogamos" vs. VALUE_PROPOSITION = "por que ganhamos"
 
 ---
 
-### T0.1.3: Finalizar OKRs (R0-R4)
+## T0.1.3: Finalizar OKRs (R0-R4)
 
-**História**: US 0.1.3  
-**Esforço**: 1,5 dias  
-**Prioridade**: P0 (bloqueante)  
-**Status**: NÃO INICIADO
+**História:** US 0.1.3  
+**Esforço:** 1,5 dias  
+**Prioridade:** P0 (bloqueante)  
+**Status:** NÃO INICIADO
 
-**Subtarefas**:
+**Subtarefas:**
 - [ ] T0.1.3.1 (0,25d): Revisar rascunho atual de OKR.md
   - Nota: OKR.md foi criado na sessão inicial
   - Estrutura aproximada existe
@@ -142,27 +142,27 @@
   - Cada sprint do R0 mapeia para 1-2 OKRs
   - Temas R1-R4 tornam-se base de planejamento de release
 
-**Definição de Concluído**:
+**Definição de Concluído:**
 - [ ] OKRs R0 são específicos, mensuráveis, limitados no tempo
 - [ ] Cada KR tem métrica de sucesso
 - [ ] Temas R1-R4 fornecem visibilidade de 12 meses
 - [ ] OKRs se alinham com NORTH_STAR ("equipes raciociam de ponta a ponta")
 
-**Notas**:
+**Notas:**
 - R0 trata-se de fundações + validação
 - R1-R4 trata-se de escala + ecossistema
 - OKRs devem inspirar a equipe
 
 ---
 
-### T0.1.4: Documentar Roadmap (R1-R4)
+## T0.1.4: Documentar Roadmap (R1-R4)
 
-**História**: US 0.1.4  
-**Esforço**: 1 dia  
-**Prioridade**: P1 (desejável)  
-**Status**: NÃO INICIADO
+**História:** US 0.1.4  
+**Esforço:** 1 dia  
+**Prioridade:** P1 (desejável)  
+**Status:** NÃO INICIADO
 
-**Subtarefas**:
+**Subtarefas:**
 - [ ] T0.1.4.1 (0,25d): Definir temas de release
   - R0: Fundações (Jul-Sep 2026)
   - R1: KG + Loaders (Sep-Nov 2026)
@@ -188,13 +188,13 @@
   - Dependências-chave
   - Pressupostos de recursos
 
-**Definição de Concluído**:
+**Definição de Concluído:**
 - [ ] ROADMAP_R1_R4.md é criado
 - [ ] Plano de 12 meses está visível
 - [ ] Caminho crítico está identificado
 - [ ] Restrições de recursos são anotadas
 
-**Notas**:
+**Notas:**
 - Roadmap está um nível abaixo dos OKRs
 - OKRs = "por que + o quê"; Roadmap = "quando + como"
 - Restrições de recursos importam (atualmente 1 pessoa)

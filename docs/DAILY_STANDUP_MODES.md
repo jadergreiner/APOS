@@ -561,12 +561,6 @@ case com o padrão de task (ex: `## Resumo`) são ignorados; o efeito é
 parseado a partir de `**Esforço:**` aceitando vírgula como separador
 decimal (ex: "1,5 dia" → `1.5`).
 
-**Nota conhecida:** nem todo `TASKS.md` do repositório usa um dos dois
-formatos suportados — `docs/releases/R0/sprint-0.1/TASKS.md`, por exemplo,
-usa headers `### {ID}: ...` (nível 3, não 2) com campos no formato
-`**Campo**: valor` (dois-pontos fora do negrito), que não são reconhecidos
-por nenhum dos dois parsers atuais. Para esse caso, use `--tasks-json`.
-
 Se nenhum `TASKS.md` existir no caminho esperado e `--tasks-json` não for
 fornecido, o comando falha com uma mensagem explicando as duas opções.
 
