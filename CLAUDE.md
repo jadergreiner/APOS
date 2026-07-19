@@ -29,7 +29,17 @@ APOS não é só ontologia abstrata. Quando você importa APOS, você recebe:
 
 Exemplo: APOS R0 é gerenciado **usando os próprios frameworks de APOS** ([docs/releases/R0/](docs/releases/R0/)).
 
-## Bootstrap Gate — Inicialização Automática
+## Padrões de Kernel (Obrigatório)
+
+### Commit Tracking Convention
+
+- **[docs/COMMIT_TRACKING.md](docs/COMMIT_TRACKING.md)** — Padrão de rastreamento de commits
+  - Todos os artefatos entregues devem referenciar commits
+  - TASKS.md, BOARD.md, STATUS.md incluem commit refs para auditoria
+  - CI/CD valida que tarefas completas têm commits documentados
+  - Facilita retrospectivas baseadas em dados concretos
+
+### Bootstrap Gate — Inicialização Automática
 
 Quando um projeto importa APOS pela primeira vez:
 
@@ -37,6 +47,7 @@ Quando um projeto importa APOS pela primeira vez:
   - Verifica: NORTH_STAR.md, OKRs, PURPOSE, VALUE_PROPOSITION, Ontologia, Semantic Layer, Governance
   - Se falta algo: auto-gera templates + guia sessão de Foundation Definition
   - Se tudo OK: libera projeto para Release Planning
+  - **Validação de Entrega**: Verifica que todas as tarefas têm commits rastreados (COMMIT_TRACKING.md)
 
 **Uso prático:**
 
