@@ -37,4 +37,4 @@ Veja [RETRO.md](RETRO.md) para lições aprendidas.
 
 ---
 
-**Criado:** 2026-07-20T08:14:25.315326
+**Criado:** 2026-07-20T08:19:46.824783
