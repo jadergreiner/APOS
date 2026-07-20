@@ -2,8 +2,8 @@
 
 **Sprint**: 0.1 - Identidade da Plataforma  
 **Responsável**: Jader Greiner  
-**Atualizado**: 2026-07-19  
-**Status**: PLANEJADO (Pronto para Iniciar)
+**Atualizado**: 2026-07-20 (EOD)  
+**Status**: ✅ EM ANDAMENTO (T0.1.1 em progresso)
 
 ---
 
@@ -11,11 +11,11 @@
 
 | Métrica | Alvo | Real | Status |
 |--------|--------|--------|--------|
-| **Total de Pontos de História** | 5 | - | PENDENTE |
-| **Pontos de História Completos** | 5 | 0 | 0% |
-| **Tarefas Concluídas** | 16 | 0 | 0% |
-| **Defeitos Encontrados** | 0 | 0 | OK |
-| **Velocidade** | 5/semana | - | A DEFINIR |
+| **Total de Pontos de História** | 5 | - | PLANEJADO |
+| **Pontos de História Completos** | 5 | 0.5 | 10% |
+| **Tarefas Concluídas** | 16 | 3/16 | 19% |
+| **Defeitos Encontrados** | 0 | 0 | ✅ OK |
+| **Velocidade** | 5/semana | ~1d real / 1.5d est | 67% (On Track) |
 
 ---
 
@@ -23,16 +23,16 @@
 
 ### T0.1.1: Refinar VALUE_PROPOSITION.md
 
-**Esforço**: 1,5d | **Prioridade**: P0 | **Responsável**: Jader
+**Esforço**: 1,5d | **Prioridade**: P0 | **Responsável**: Jader | **Status**: ✅ 60% CONCLUÍDO
 
 | Subtarefa | Status | % Concluído | Notas |
 |---------|--------|------------|-------|
-| T0.1.1.1 (Revisão) | NÃO INICIADO | 0% | |
-| T0.1.1.2 (Pesquisa) | NÃO INICIADO | 0% | |
-| T0.1.1.3 (Diferenciação) | NÃO INICIADO | 0% | |
-| T0.1.1.4 (Validação) | NÃO INICIADO | 0% | |
-| T0.1.1.5 (Documentar) | NÃO INICIADO | 0% | |
-| **SUBTOTAL** | **NÃO INICIADO** | **0%** | |
+| T0.1.1.1 (Revisão) | ✅ COMPLETO | 100% | Rascunho validado (v1.1 sólido) |
+| T0.1.1.2 (Pesquisa) | ✅ COMPLETO | 100% | 6 competidores análisados (Jira, Notion, Semantic Layers, Data Catalogs, Neo4j, MCP) |
+| T0.1.1.3 (Diferenciação) | ✅ COMPLETO | 100% | 5 diferenciadores mapeados (Confidence Score, Ontology, AI-First, Bootstrap, Governance) |
+| T0.1.1.4 (Validação) | 🔄 EM PROGRESSO | 30% | Plano de validação criado; recruiting de personas reais próximo |
+| T0.1.1.5 (Documentar) | 🔄 PLANEJADO | 0% | Final refinement dia 23 (após validação) |
+| **SUBTOTAL** | **EM PROGRESSO** | **60%** | Esforço real: 0.9d (vs 1.5d est) — 40% mais rápido |
 
 ---
 
@@ -83,14 +83,16 @@
 ## Gráfico de Burn Down
 
 ```
-Esforço Planejado: 5 dias-pessoa
-Esforço Real: 0 dias (não iniciado)
+Esforço Planejado: 5.0d
+Esforço Real até agora: 0.9d (18%)
 
-Dia 1:  [====       ] Esperado: 1,5d | Real: 0d
-Dia 2:  [          ] Esperado: 1,5d | Real: 0d
-Dia 3:  [          ] Esperado: 1,0d | Real: 0d
-Dia 4:  [          ] Esperado: 1,0d | Real: 0d
-Dia 5:  [          ] Esperado: 0,0d | Real: 0d
+Dia 1:  [████░░░░░░░░] Planejado: 1.5d | Real: 0.9d ✅ (60% de T0.1.1)
+Dia 2:  [            ] Planejado: 1.5d | Real: TBD (T0.1.2, T0.1.3 paralelo)
+Dia 3:  [            ] Planejado: 1.0d | Real: TBD (T0.1.1 final, T0.1.3 final)
+Dia 4:  [            ] Planejado: 1.0d | Real: TBD (T0.1.4 Roadmap)
+Dia 5:  [            ] Planejado: 0.0d | Real: TBD (Revisão final)
+
+Trajectory: On pace para 4.5-5d real (dentro do buffer)
 ```
 
 ---
