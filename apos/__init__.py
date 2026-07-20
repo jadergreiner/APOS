@@ -36,6 +36,10 @@ from apos.bootstrap import (  # noqa: E402
     SessionManager,
     matches_session_trigger,
 )
+from apos.kernel import (  # noqa: E402
+    CommitTrackingValidator,
+    CommitTrackingResult,
+)
 
 __all__ = [
     "__version__",
@@ -45,4 +49,6 @@ __all__ = [
     "FoundationDefinitionSession",
     "SessionManager",
     "matches_session_trigger",
+    "CommitTrackingValidator",
+    "CommitTrackingResult",
 ]

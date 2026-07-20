@@ -459,10 +459,10 @@ Isso não é uma task.
         assert sprint.get_task("T0.0.1").status == TaskStatus.COMPLETE
         assert sprint.get_task("T0.0.2").status == TaskStatus.COMPLETE
         assert sprint.get_task("T0.0.3").status == TaskStatus.COMPLETE
-        # T0.0.A/B/C estão documentados como "Planejado"
-        assert sprint.get_task("T0.0.A").status == TaskStatus.PLANNED
-        assert sprint.get_task("T0.0.B").status == TaskStatus.PLANNED
-        assert sprint.get_task("T0.0.C").status == TaskStatus.PLANNED
+        # T0.0.A/B/C foram completados em Sprint 0.0
+        assert sprint.get_task("T0.0.A").status == TaskStatus.COMPLETE
+        assert sprint.get_task("T0.0.B").status == TaskStatus.COMPLETE
+        assert sprint.get_task("T0.0.C").status == TaskStatus.COMPLETE
 
     def test_load_from_markdown_narrative_format_sprint_0_1_real_file(self):
         """Teste de integração: lê o TASKS.md real de sprint-0.1 (normalizado

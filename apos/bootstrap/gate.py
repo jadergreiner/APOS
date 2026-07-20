@@ -103,6 +103,11 @@ class BootstrapGate:
                 "issues": val_result.issues,
             }
 
+        # Commit Tracking validation (for active sprints)
+        commit_tracking_details = self.validate_commit_tracking()
+        if commit_tracking_details:
+            validation_details.update(commit_tracking_details)
+
         result.validation_details = validation_details
         return result
 
@@ -113,6 +118,49 @@ class BootstrapGate:
         result = self.validate()
         generator = TemplateGenerator(self.project_root)
         return generator.generate_missing(result.missing_foundations)
+
+    def validate_commit_tracking(self) -> dict:
+        """Validate commit tracking in active sprints (optional).
+
+        Looks for docs/releases/*/sprint-*/ directories and validates
+        that TASKS.md, BOARD.md, STATUS.md have commit references.
+
+        Returns:
+            Dict of sprint validation details, empty if no sprints found.
+        """
+        from apos.kernel import CommitTrackingValidator
+
+        details = {}
+        releases_dir = self.project_root / "docs" / "releases"
+
+        if not releases_dir.exists():
+            return details
+
+        # Find all sprints
+        for release_dir in releases_dir.iterdir():
+            if not release_dir.is_dir():
+                continue
+
+            for sprint_dir in release_dir.iterdir():
+                if not sprint_dir.is_dir() or not sprint_dir.name.startswith(
+                    "sprint-"
+                ):
+                    continue
+
+                # Validate sprint
+                validator = CommitTrackingValidator(str(sprint_dir))
+                result = validator.validate()
+
+                sprint_key = f"commit_tracking_{release_dir.name}_{sprint_dir.name}"
+                details[sprint_key] = {
+                    "valid": result.passes(),
+                    "score": result.score,
+                    "status": result.status,
+                    "issues": result.issues,
+                    "tracked_commits": sorted(result.tracked_commits),
+                }
+
+        return details
 
     def run(self) -> bool:
         """
