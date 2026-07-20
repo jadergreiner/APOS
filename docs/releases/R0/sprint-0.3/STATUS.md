@@ -33,7 +33,7 @@ Objetivo: ✅ PRONTO — Iniciar T0.3.1-4 paralelo na segunda 9am
 
 | Dia | Estimado | Completo | % | Status |
 |-----|----------|----------|---|--------|
-| D1 (22 jul) | 1.5d | 0.5d | 33% | 🟠 IN PROGRESS (T0.3.1 Spec + T0.3.2 API paralelo) |
+| D1 (22 jul) | 1.5d | 1.5d | 100% | ✅ COMPLETO (T0.3.1 Spec + T0.3.2 API paralelo) |
 | D2 (23 jul) | 1.5d | — | 0% | 📋 Planejado (T0.3.3 Plugin + T0.3.4 Score paralelo) |
 | D3 (24 jul) | 2d | — | 0% | 📋 Planejado (T0.3.5 piloto comeca) |
 | D4-5 (25-26 jul) | 1.5d | — | 0% | 📋 Planejado (T0.3.5 feedback cycles + fixes) |

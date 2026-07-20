@@ -49,10 +49,7 @@ Backlog        A Fazer       Em Progresso    Em Revisao    Completo
 
 ## 🔄 Em Progresso
 
-**Total:** 2 items (paralelizacao Dia 1)
-
-- [ ] **T0.3.1** — Especificacao Tecnica (SPEC.md) — 1.5d — 🟠 IN PROGRESS (Jader)
-- [ ] **T0.3.2** — Design de API REST (API_DESIGN.md) — 1.5d — 🟠 IN PROGRESS (Jader)
+(Nenhum — T0.3.1-2 concluidas no Dia 1!)
 
 ---
 
@@ -64,7 +61,16 @@ Backlog        A Fazer       Em Progresso    Em Revisao    Completo
 
 ## ✅ Completo
 
-(Nenhum — sprint ainda nao comecou)
+**Total:** 2 items (Dia 1 concluido!)
+
+### Tier 1: Core (Completo)
+
+- [x] **T0.3.1** — Especificacao Tecnica (SPEC.md) — 1.5d — ✅ COMPLETO
+- [x] **T0.3.2** — Design de API REST (API_DESIGN.md) — 1.5d — ✅ COMPLETO
+
+**Deliverables:**
+- SPEC.md: 100% (10 secoes, schemas JSON, fluxo dados, edge cases)
+- API_DESIGN.md: 100% (6 endpoints, examples, rate limiting, webhook)
 
 ---
 
