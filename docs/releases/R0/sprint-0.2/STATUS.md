@@ -1,32 +1,39 @@
-# sprint-0.2 — Relatório de Status
+# R0 - sprint-0.2 — JTBD Deep Dive (Relatório de Status)
 
-**Última Atualização:** 2026-07-20T08:19:46.824843
+**Sprint:** 0.2 - JTBD Deep Dive
+**Período:** 2026-07-22 até 2026-07-26
+**Responsável:** Jader Greiner
+**Última Atualização:** 2026-07-20
+**Status:** 📋 **PLANEJADO**
 
 ---
 
 ## 📊 Status Geral
 
-**Fase Atual:** Planning
+**Fase Atual:** Planning → Kick-off
 
 ```
-Progresso: 0 / N dias-pessoa (0%)
+Progresso: 0 / 6.5 dias-pessoa (0%)
 ├─ Completo: —
 ├─ Em Progresso: —
-├─ Planejado: N tarefas
+├─ Planejado: 7 tarefas (T0.2.1 - T0.2.7)
 └─ Em Risco: —
 ```
 
+**Objetivo**: Validar que APOS resolve job real através de JTBD Discovery estruturado
+
 ---
 
-## 📈 Burndown
+## 📈 Burn Down
 
-| Dia | Planejado | Completo | Status |
-|-----|-----------|----------|--------|
-| D1 | — | — | — |
-| D2 | — | — | — |
-| D3 | — | — | — |
-| D4 | — | — | — |
-| D5 | — | — | — |
+| Dia | Estimado | Completo | % | Status |
+|-----|----------|----------|---|--------|
+| D1 (22 jul) | 1.5d | — | 0% | 📋 Planejado |
+| D2 (23 jul) | 2.5d | — | 0% | 📋 Planejado |
+| D3 (24 jul) | 1.5d | — | 0% | 📋 Planejado |
+| D4 (25 jul) | 0.5d | — | 0% | 📋 Planejado |
+| D5 (26 jul) | 0.5d | — | 0% | 📋 Planejado |
+| **TOTAL** | **6.5d** | **—** | **0%** | **📋 PLANEJADO** |
 
 ---
 

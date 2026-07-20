@@ -1,11 +1,21 @@
-# R0 - sprint-0.2: sprint-0.2
+# R0 - sprint-0.2: JTBD Deep Dive
 
 **Status:** Planning
-**Período:** 2026-07-20 até 2026-07-20
+**Período:** 2026-07-22 até 2026-07-26
+**Responsável:** Jader Greiner
+**Tema:** Validação de Necessidade de Mercado
 
 ## Contexto
 
-Este sprint faz parte de [R0](../) e deve entregar:
+Sprint 0.2 valida que APOS resolve um job real de mercado através de JTBD (Jobs to Be Done) Discovery estruturado. Complementa a identidade de plataforma de Sprint 0.1.
+
+**Fase do R0**: Validação de Mercado (Market Validation Phase)
+
+## Entregáveis Principais
+
+1. **JTBD_INTERVIEWS.md** — 5+ entrevistas documentadas com findings
+2. **FORCES_ANALYSIS.md** — Análise de Forças de Progresso
+3. **JOB_STATEMENT.md** — Declaração estruturada do job que APOS resolve
 
 ## Tarefas Planejadas
 
