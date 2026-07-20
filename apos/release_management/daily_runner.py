@@ -320,8 +320,9 @@ class DailyStandupRunner:
             se a busca falhar.
         """
         cmd = ["git", "log", f"--since={since_date}", "--oneline", "--no-merges"]
-        if participant and participant != "Unassigned":
-            cmd.append(f"--author={participant}")
+        clean_participant = participant.strip() if participant else ""
+        if clean_participant and clean_participant != "Unassigned":
+            cmd.append(f"--author={clean_participant}")
 
         try:
             result = subprocess.run(

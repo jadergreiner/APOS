@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python *)",
+      "PowerShell($env:PYTHONIOENCODING = \"utf-8\"; python -m apos init)",
+      "Bash(git checkout *)",
+      "Bash(git pull *)",
+      "Bash(git merge *)",
+      "Bash(black --check apos/ tests/)",
+      "Bash(black apos/ tests/)",
+      "Bash(flake8 apos/ tests/)",
+      "Bash(flake8 apos/__main__.py tests/unit/test_main_cli.py)",
+      "PowerShell(cd \"C:\\\\repo\\\\APOS\"; $env:PYTHONIOENCODING = 'utf-8'; python -m apos daily --sprint sprint-0.0 --date 2026-07-19 --mode automatic --tasks-json sprint-0-0-tasks.json)",
+      "Bash(flake8 apos/release_management/daily_runner.py tests/unit/test_daily_runner.py)",
+      "Bash(flake8 apos/release_management/daily_runner.py)",
+      "PowerShell(cd \"C:\\\\repo\\\\APOS\"; $env:PYTHONIOENCODING = 'utf-8'; python -m apos daily --sprint sprint-0.0 --date 2026-07-19 --mode automatic 2>&1)",
+      "PowerShell(cd \"C:\\\\repo\\\\APOS\"; $env:PYTHONIOENCODING = 'utf-8'; python -m apos daily --sprint sprint-0.0 --date 2026-07-19 --mode automatic --tasks-json sprint-0-0-tasks.json 2>&1)",
+      "Bash(flake8 apos/release_management/sprint.py tests/unit/test_sprint_markdown_loader.py)",
+      "Bash(flake8 tests/unit/test_sprint_markdown_loader.py)"
+    ]
+  }
+}
