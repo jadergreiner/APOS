@@ -29,14 +29,57 @@ APOS não é só ontologia abstrata. Quando você importa APOS, você recebe:
 
 Exemplo: APOS R0 é gerenciado **usando os próprios frameworks de APOS** ([docs/releases/R0/](docs/releases/R0/)).
 
-## Bootstrap Gate — Inicialização Automática
+## Padrões de Kernel (Implementados + Obrigatórios)
 
-Quando um projeto importa APOS pela primeira vez:
+**Quando projeto importa APOS, recebe automaticamente estes padrões implementados no package:**
+
+### ✅ Semantic Validation Rule (FULL KERNEL)
+
+Quando implementar validadores (ontologia, governança, estratégia), **enforce critérios REAIS de qualidade**, nunca decorativo:
+
+❌ **ANTI-PADRÃO (Decorativo):**
+
+```python
+def validate_strategy(file_path):
+    if file_exists(file_path) and not is_empty(file_path):
+        return PASS  # Apenas verifica existência + tamanho
+    return FAIL
+```
+
+✅ **PADRÃO (Semântica Real):**
+
+```python
+def validate_strategy(file_path):
+    content = read_file(file_path)
+    # Enforça NORTH_STAR format: "Teams [verb] [outcome]"
+    # Enforça 5+ Key Results com métricas numéricas
+    # Enforça PURPOSE conectado a NORTH_STAR
+    # Enforça 3+ stakeholder validations
+    if all_criteria_pass(content):
+        return PASS
+    return FAIL  # Com detalhes de quais critérios falharam
+```
+
+**Status:** ✅ Implementado em `apos/bootstrap/validators/` (24 testes, 85%+ cobertura)  
+**Export:** `from apos.bootstrap.validators import StrategyValidator, OntologyValidator, GovernanceValidator`
+
+---
+
+### ✅ Bootstrap Gate Pattern (FULL KERNEL)
+
+Quando projeto importa APOS pela primeira vez:
 
 - **[BOOTSTRAP_GATE.md](BOOTSTRAP_GATE.md)** — Sistema automático que valida fundações semânticas
   - Verifica: NORTH_STAR.md, OKRs, PURPOSE, VALUE_PROPOSITION, Ontologia, Semantic Layer, Governance
   - Se falta algo: auto-gera templates + guia sessão de Foundation Definition
   - Se tudo OK: libera projeto para Release Planning
+  - **Validação de Entrega**: Verifica que todas as tarefas têm commits rastreados
+
+**3 Componentes-chave:**
+
+1. **Detecção automática** — Identifica quais das 10 fundações estão presentes/ausentes
+2. **Geração de templates** — Auto-cria NORTH_STAR.md, OKR.md, ONTOLOGY.md, etc. com instruções
+3. **Sessão guiada** — Conduz projeto através de JTBD Discovery → Strategy Definition → Ontology Design → Governance Setup
 
 **Uso prático:**
 
@@ -56,7 +99,65 @@ GAPS encontrados. Iniciando Foundation Definition Session...
 (Conduzindo through JTBD → Strategy → Ontology)
 ```
 
-**Conceito-chave:** Bootstrap Gate **garante que todo projeto que usa APOS tem fundações formais** antes de começar a executar.
+**Status:** ✅ Implementado em `apos/bootstrap/gate.py` + `apos/bootstrap/session.py` (35 testes, 81% cobertura)  
+**Export:** `from apos import BootstrapGate, SessionManager`  
+**Padrão reutilizável:** Use em todas releases (R0-R4) + sub-sistemas.
+
+---
+
+### 🔴 Commit Tracking CI Validation (IN PROGRESS → Sprint 0.1)
+
+**O que é:** Validação automática que artefatos de sprint (TASKS.md, BOARD.md, STATUS.md) têm refs de commit.
+
+**Por quê Kernel:** Audit trail precisa ser garantido, não aspiracional.
+
+**Status atual:**
+- ✅ Especificação: [docs/COMMIT_TRACKING.md](docs/COMMIT_TRACKING.md)
+- ✅ Padrão documentado: Sprint 0.0 exemplo completo
+- 🔴 Implementação: `apos/kernel/commit_tracking.py` (TODO — Sprint 0.1)
+- 🔴 CI/CD validation: `.github/workflows/` (TODO — Sprint 0.1)
+- 🔴 Export: `from apos import CommitTrackingValidator` (TODO)
+
+**Será Kernel quando:**
+- ✅ CommitTrackingValidator implementado + testado
+- ✅ BootstrapGate integrado com validator
+- ✅ CI/CD workflow validando PRs
+- ✅ Documentação: "Projeto que importa APOS recebe validação automática de commit tracking"
+
+**Spec detalhada:** [docs/KERNEL_COMMIT_TRACKING_SPEC.md](docs/KERNEL_COMMIT_TRACKING_SPEC.md)
+
+---
+
+## Padrões de Processo (Recomendado, Não Enforçado)
+
+**Padrões de workflow recomendados, não implementados em código:**
+
+### Paralelização Padrão em Sprint Planning
+
+**Aprendizado Sprint 0.0:** Planning assumiu sequencial (Tier 1 Core → Tier 2 JTBD), mas descoberta durante execução: **paralelização era viável e entregou +250% velocidade**.
+
+**Regra de Planning:**
+
+1. **Sempre questione dependências** — não assuma sequencial
+2. **Default a paralelo, não serial** — mude para serial apenas se bloqueador real existir
+3. **Documente razão de sequencial** — se T2 depende de T1 result, deixe explícito
+4. **Ajuste velocity base** — Sprint 0.0 +250% sugere previous estimativas muito conservadoras
+
+**Exemplo Sprint 0.0:**
+
+```text
+PLANEJADO (Sequencial):
+  Tier 1 (Core): 4 dias
+  Tier 2 (JTBD): 4 dias (bloqueador de Tier 1)
+  Total: 8 dias
+
+REAL (Paralelo):
+  Tier 1 (Core) + Tier 2 (JTBD) simultâneos
+  Habilitador: T0.0.2 (Bootstrap Gate) virou enabler para T0.0.3
+  Total: 3 dias (~250% faster)
+```
+
+**Aplicação:** R0-R4 sprint planning — sempre revise parallelizability em planning, não discovery.
 
 ## Releases & Planejamento
 
@@ -587,29 +688,42 @@ git status                        # Revise o que você está fazendo commit
 
 ## Contexto de Roadmap
 
-**Phase 1 - Scaffolding** ✅ (atual)
+**Phase 1 - Scaffolding** ✅ (atual — Sprint 0.0 completo)
 
-- Estrutura de repositório em lugar
-- Type hints e docstrings definidos
-- Framework de teste configurado
+- ✅ Estrutura de repositório em lugar
+- ✅ Type hints e docstrings definidos
+- ✅ Framework de teste configurado (145 testes, 83% cobertura)
+- ✅ Bootstrap Gate pattern com validators semânticos
+- ✅ Release Management framework implementado
+- ✅ JTBD Discovery kit validado com 7 personas
 
-**Phase 2 - Core Implementation** (próximo)
+**Phase 2 - Core Implementation** (próximo — Sprint 0.1+)
 
 - Implemente `ontology.py`, `graph.py`, `semantic.py` do código Meu PDI existente
 - Escreva testes unitários (objetivo 80%+ cobertura)
 - Documente API
+- Implement relação Task→Feature→Release para rastreamento básico
 
 **Phase 3 - Governance** (semana 3-4)
 
 - Implemente portais de governança e framework de auditoria
 - Testes de integração com dados reais
 
-**Phase 4 - Polish** (semana 4)
+**Phase 4 - Semantic Layer Avançada** (Sprint 1.0+)
+
+- **Strategic Gap (Sprint 0.0 Learning):** Rastreamento Task→Release→OKR→Métrica é invisível hoje
+  - **Problema:** PMs re-explicam contexto estratégico quase diariamente; zero ferramentas conectam task/feature/release/OKR/métrica visualmente
+  - **Solução APOS:** Semantic Layer com entity tracing + auto-visualization de dependências
+  - **Impacto estimado:** 80% redução em overhead de "context re-explanation"
+  - **Implementação:** Ontologia de OKR + relações tipadas + query engine de dependências + dashboard de rastreamento
+
+**Phase 5 - Polish** (semana 4+)
 
 - Implementações de loader (YAML, JSON)
 - Integrações de exemplo
+- Integração de agent context injection automática
 - Documentação completa
-- Release v0.1.0-beta
+- Release v0.1.0-beta → v0.2.0
 
 ## Quando Pedir Ajuda
 

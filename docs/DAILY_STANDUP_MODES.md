@@ -20,13 +20,34 @@ O **Daily Standup** no APOS oferece **2 modos dinâmicos** que podem ser escolhi
 ### O Que É
 
 Sistema infere **automaticamente** o que foi feito olhando para evidências:
-- Git commits
 - Task status (COMPLETE, IN_PROGRESS, BLOCKED, PLANNED)
-- Board updates
+- Commits reais no `git log` (quando task tem COMPLETE ou IN_PROGRESS)
 - Dependências entre tarefas
 - Bloqueadores detectados
 
 **Sem nenhuma interação do usuário.**
+
+### Evidência de Commits Reais (git log)
+
+Para tasks `COMPLETE` ou `IN_PROGRESS`, o sistema roda `git log
+--since=<data da daily> [--author=<assignee>] --oneline --no-merges` no
+repositório (`repo_path`, default: diretório atual) e soma os commits
+encontrados às evidências baseadas em status — não substitui, apenas
+complementa.
+
+**Limitações importantes:**
+- Requer um repositório git válido em `repo_path`. Se não for um repo git,
+  se o `git` não estiver instalado, ou se o comando falhar/expirar
+  (timeout de 5s), a busca retorna lista vazia silenciosamente — a daily
+  **não é bloqueada** por falhas de git
+- O filtro `--author` usa o valor literal de `Task.assignee` (ex: "Jader").
+  Se esse nome não corresponder exatamente ao nome configurado nos commits
+  reais (`git config user.name`), a busca de evidências de commit virá
+  vazia, mesmo que existam commits relevantes daquele autor sob outro nome
+- Não há inferência de qual commit pertence a qual task — todos os commits
+  do autor no período são retornados, sem filtrar por conteúdo da mensagem
+- A confiança (`EvidenceAnalysis.confidence`) não é elevada pela presença
+  de evidência de commit — continua refletindo apenas o status da task
 
 ### Quando Usar
 
@@ -464,21 +485,133 @@ pytest tests/unit/test_daily_runner.py -v
 
 ---
 
+## Comando CLI: `python -m apos daily`
+
+### Uso
+
+```bash
+# Reconstrução automática a partir de TASKS.md (recomendado)
+python -m apos daily --sprint sprint-0.0 --date 2026-07-22 --mode automatic
+
+# Com --tasks-json explícito (alternativa)
+python -m apos daily --sprint sprint-0.0 --date 2026-07-22 --mode automatic --tasks-json tasks.json
+
+# Modo colaborativo
+python -m apos daily --sprint sprint-0.0 --date 2026-07-22 --mode collaborative
+
+# Sem modo: pergunta interativamente
+python -m apos daily --sprint sprint-0.0
+```
+
+### Argumentos
+
+- `--sprint` (obrigatório): ID do sprint (ex: `sprint-0.0`)
+- `--date` (opcional): Data da daily (formato `YYYY-MM-DD`, default: hoje)
+- `--mode` (opcional): `automatic` ou `collaborative`. Se não fornecido, pergunta ao usuário
+- `--release` (opcional): ID da release (default: `R0`)
+- `--tasks-json` (opcional): Caminho para arquivo JSON com tasks. Se omitido,
+  o comando tenta reconstruir o Sprint automaticamente a partir de
+  `docs/releases/{release}/{sprint}/TASKS.md` via `Sprint.load_from_markdown()`
+
+### Fonte de Tasks: TASKS.md (padrão) ou JSON
+
+Por padrão, o comando lê `docs/releases/{release}/{sprint}/TASKS.md`.
+`Sprint.load_from_markdown()` detecta automaticamente qual dos dois formatos
+suportados o arquivo usa — não é preciso informar qual é:
+
+- **Tabular**: tabelas Markdown `| ID | Título | Descrição | Duração |
+  Status | Responsável |`, no formato gerado por
+  `ReleaseTemplateGenerator.generate_sprint_tasks_template()` (tabelas
+  "Tier 1/2/3")
+- **Narrativo**: headers `## {ID}: {Título}` com campos em negrito
+  `**Objetivo:**`, `**Esforço:**`, `**Status:**`, `**Responsável:**` — o
+  formato usado nos `TASKS.md` reais de sprints do projeto (ex:
+  `docs/releases/R0/sprint-0.0/TASKS.md`)
+
+A detecção procura primeiro por uma tabela com cabeçalho `| ID | ...`; se
+não encontrar, procura headers `## {ID}: ...` cujo ID case com o padrão
+`T\d+\.\d+\.\w+` (ex: `T0.0.1`, `T0.0.A`). Se nenhum dos dois padrões for
+encontrado, o comando falha com um erro explicando os formatos aceitos.
+
+**Mapeamento de status no formato narrativo** (`NARRATIVE_STATUS_MAP` em
+`apos/release_management/sprint.py`, case-insensitive, ignora texto entre
+parênteses como "COMPLETO (Em R0/APOS...)"):
+
+| Texto no TASKS.md | TaskStatus |
+|---|---|
+| Não Iniciado, Planejado, Definido | `PLANNED` |
+| Em Andamento, Ativo | `IN_PROGRESS` |
+| Em Revisão | `IN_REVIEW` |
+| Completo, Concluído | `COMPLETE` |
+| Bloqueado | `BLOCKED` |
+
+**Limitações da reconstrução via Markdown (ambos os formatos):**
+- Não reconstrói `status_history` nem timestamps de transições — apenas o
+  status atual de cada task
+- Não lê `BOARD.md` — somente `TASKS.md`
+- Status desconhecidos viram `TaskStatus.PLANNED` com um warning de log
+- Durações/esforços não parseáveis viram `0.0` com um warning de log
+
+**Específico do formato tabular:** linhas de placeholder não preenchidas
+(ID vazio ou `"T"`, como no template em branco) são ignoradas
+silenciosamente.
+
+**Específico do formato narrativo:** headers `## {ID}: ...` cujo ID não
+case com o padrão de task (ex: `## Resumo`) são ignorados; o efeito é
+parseado a partir de `**Esforço:**` aceitando vírgula como separador
+decimal (ex: "1,5 dia" → `1.5`).
+
+Se nenhum `TASKS.md` existir no caminho esperado e `--tasks-json` não for
+fornecido, o comando falha com uma mensagem explicando as duas opções.
+
+`--tasks-json` continua disponível como alternativa explícita — útil para
+testes, scripts ou quando o `TASKS.md` ainda não foi criado.
+
+### Formato JSON de Tasks (--tasks-json)
+
+```json
+[
+  {
+    "id": "T0.0.1",
+    "title": "Bootstrap Gate",
+    "description": "Implementar Bootstrap Gate",
+    "days_estimate": 2.0,
+    "status": "in_progress",
+    "assignee": "Jader",
+    "depends_on": [],
+    "notes": ""
+  }
+]
+```
+
+### Status Válidos (TaskStatus enum)
+
+- `backlog`
+- `planned`
+- `in_progress`
+- `in_review`
+- `complete`
+- `blocked`
+
+### Output
+
+```
+✅ Daily salva em: docs/releases/R0/sprint-0.0/DAILY_STANDUP_2026-07-22.md
+```
+
+---
+
 ## Próximos Passos
 
-1. **Integração com CLI**
-   - `python -m apos daily <date> --mode=automatic`
-   - `python -m apos daily <date> --mode=collaborative`
-
-2. **Webhooks e Notificações**
+1. **Webhooks e Notificações**
    - Post daily summary to Slack
    - Email relatório de bloqueadores
 
-3. **Dashboards**
+2. **Dashboards**
    - Visualizar velocity histórica
    - Trends de blockers ao longo das sprints
 
-4. **Histórico**
+3. **Histórico**
    - Guardar histórico de dailies
    - Análise de trends
 

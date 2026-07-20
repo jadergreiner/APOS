@@ -184,9 +184,7 @@ A Fazer        Em Progresso    Em Revisão      Completo
 
 ## A Fazer (Backlog)
 
-| ID | Título | Pontos | Responsável |
-|----|--------|--------|-------------|
-| | | | |
+- [ ] T: Descrição (—pts) — *entrou: DD/MM*
 
 **Total:** — pontos
 
@@ -194,9 +192,7 @@ A Fazer        Em Progresso    Em Revisão      Completo
 
 ## Em Progresso
 
-| ID | Título | Pontos | Responsável | % Completo |
-|----|--------|--------|-------------|-----------|
-| | | | | |
+- [ ] T: Descrição (—pts) — *entrou: DD/MM*
 
 **Total:** — pontos
 
@@ -204,9 +200,7 @@ A Fazer        Em Progresso    Em Revisão      Completo
 
 ## Em Revisão
 
-| ID | Título | Pontos | Responsável |
-|----|--------|--------|-------------|
-| | | | |
+- [ ] T: Descrição (—pts) — *entrou: DD/MM | revisão desde: DD/MM*
 
 **Total:** — pontos
 
@@ -214,9 +208,7 @@ A Fazer        Em Progresso    Em Revisão      Completo
 
 ## Completo ✅
 
-| ID | Título | Pontos | Completado em |
-|----|--------|--------|---------------|
-| | | | |
+- [ ] T: Descrição (—pts) — *entrou: DD/MM | completo: DD/MM (CT: — dias)*
 
 **Total:** — pontos
 
@@ -304,14 +296,34 @@ Veja [RISK_MITIGATION.md](RISK_MITIGATION.md) para detalhes.
 
 ---
 
+## ⏱️ Métricas de Fluxo (Cycle Time)
+
+| Task/US | Entrou em Progresso | Saiu para Completo | Cycle Time (dias) | Responsável |
+|---------|---------------------|-------------------|-------------------|-------------|
+| | | | | |
+
+**Cycle Time Médio do Sprint:** — dias
+**Tasks acima da média (investigar gargalo):** —
+
+---
+
+## 🔄 Retrabalho / Qualidade
+
+| Task/US | Voltou para revisão? | Motivo | Nº de vezes |
+|---------|----------------------|--------|-------------|
+| | | | |
+
+**Taxa de Retrabalho do Sprint:** — % (meta North Star: redução de 70%+ ao longo do tempo)
+**Bugs abertos durante o sprint:** —
+
+---
+
 **Status Atualizado:** Diariamente (07:00)
 **Próxima Atualização:** Tomorrow
 """
 
     @staticmethod
-    def generate_daily_standup_template(
-        sprint_id: str, format_type: str = "text"
-    ) -> str:
+    def generate_daily_standup_template(sprint_id: str, format_type: str = "text") -> str:
         """Gerar template de Daily Standup.
 
         Args:
@@ -489,12 +501,13 @@ PRÓXIMA DAILY: Tomorrow 07:00
 
 ## Métricas
 
-| Métrica | Valor |
-|---------|-------|
-| Velocidade Alcançada | — pts |
-| Taxa de Conclusão | — % |
-| Qualidade | — |
-| Moral da Equipe | — |
+| Métrica | Alvo | Valor | Status |
+|---------|------|-------|--------|
+| Velocidade Alcançada | — | — pts | |
+| Taxa de Conclusão | 100% | — % | |
+| Cycle Time Médio | ≤ 2 dias | — dias | |
+| Taxa de Retrabalho | ≤ 15% | — % | |
+| Moral da Equipe | — | — | |
 
 ---
 

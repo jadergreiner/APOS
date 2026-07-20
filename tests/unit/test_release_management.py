@@ -273,6 +273,233 @@ class TestSprint:
         assert result is True
         assert sprint.get_task("T0.0.1").status == TaskStatus.IN_PROGRESS
 
+    def test_task_cycle_time_days_when_complete(self):
+        """Testar cálculo de cycle time para tarefa completa."""
+        from datetime import datetime, timedelta
+
+        sprint = Sprint(
+            id="sprint-0.0",
+            release_id="R0",
+            title="Scaffold",
+            start_date="2026-07-22",
+            end_date="2026-07-26",
+        )
+
+        task = Task(
+            id="T0.0.1",
+            title="Task",
+            description="Desc",
+            days_estimate=2.0,
+        )
+
+        sprint.add_task(task)
+
+        # Simular transições
+        now = datetime.now()
+        task.status_history = [
+            {
+                "status": TaskStatus.IN_PROGRESS.value,
+                "timestamp": now.isoformat(),
+            },
+            {
+                "status": TaskStatus.COMPLETE.value,
+                "timestamp": (now + timedelta(days=2)).isoformat(),
+            },
+        ]
+        task.status = TaskStatus.COMPLETE
+
+        cycle_time = task.cycle_time_days()
+        assert cycle_time is not None
+        assert 1.9 < cycle_time < 2.1  # Aproximadamente 2 dias
+
+    def test_task_cycle_time_days_when_not_complete_returns_none(self):
+        """Testar que cycle_time_days retorna None para tarefa não completa."""
+        sprint = Sprint(
+            id="sprint-0.0",
+            release_id="R0",
+            title="Scaffold",
+            start_date="2026-07-22",
+            end_date="2026-07-26",
+        )
+
+        task = Task(
+            id="T0.0.1",
+            title="Task",
+            description="Desc",
+            days_estimate=2.0,
+            status=TaskStatus.IN_PROGRESS,
+        )
+
+        sprint.add_task(task)
+
+        assert task.cycle_time_days() is None
+
+    def test_task_rework_count_increments_on_status_regression(self):
+        """Testar que rework_count incrementa quando tarefa volta para IN_PROGRESS."""
+        sprint = Sprint(
+            id="sprint-0.0",
+            release_id="R0",
+            title="Scaffold",
+            start_date="2026-07-22",
+            end_date="2026-07-26",
+        )
+
+        task = Task(
+            id="T0.0.1",
+            title="Task",
+            description="Desc",
+            days_estimate=2.0,
+        )
+
+        sprint.add_task(task)
+
+        # Workflow: PLANNED → IN_PROGRESS → IN_REVIEW → IN_PROGRESS (retrabalho!)
+        sprint.update_task_status("T0.0.1", TaskStatus.IN_PROGRESS)
+        assert task.rework_count == 0
+
+        sprint.update_task_status("T0.0.1", TaskStatus.IN_REVIEW)
+        assert task.rework_count == 0
+
+        sprint.update_task_status("T0.0.1", TaskStatus.IN_PROGRESS)
+        assert task.rework_count == 1  # ← Incrementou!
+
+        # Mais uma vez: IN_REVIEW → IN_PROGRESS
+        sprint.update_task_status("T0.0.1", TaskStatus.IN_REVIEW)
+        sprint.update_task_status("T0.0.1", TaskStatus.IN_PROGRESS)
+        assert task.rework_count == 2
+
+    def test_sprint_average_cycle_time(self):
+        """Testar cálculo de cycle time médio da sprint."""
+        from datetime import datetime, timedelta
+
+        sprint = Sprint(
+            id="sprint-0.0",
+            release_id="R0",
+            title="Scaffold",
+            start_date="2026-07-22",
+            end_date="2026-07-26",
+        )
+
+        now = datetime.now()
+
+        # Task 1: 2 dias de cycle time
+        task1 = Task(
+            id="T0.0.1",
+            title="Task 1",
+            description="Desc",
+            days_estimate=2.0,
+            status=TaskStatus.COMPLETE,
+            status_history=[
+                {
+                    "status": TaskStatus.IN_PROGRESS.value,
+                    "timestamp": now.isoformat(),
+                },
+                {
+                    "status": TaskStatus.COMPLETE.value,
+                    "timestamp": (now + timedelta(days=2)).isoformat(),
+                },
+            ],
+        )
+
+        # Task 2: 4 dias de cycle time
+        task2 = Task(
+            id="T0.0.2",
+            title="Task 2",
+            description="Desc",
+            days_estimate=2.0,
+            status=TaskStatus.COMPLETE,
+            status_history=[
+                {
+                    "status": TaskStatus.IN_PROGRESS.value,
+                    "timestamp": now.isoformat(),
+                },
+                {
+                    "status": TaskStatus.COMPLETE.value,
+                    "timestamp": (now + timedelta(days=4)).isoformat(),
+                },
+            ],
+        )
+
+        sprint.add_task(task1)
+        sprint.add_task(task2)
+
+        avg = sprint.average_cycle_time()
+        assert avg is not None
+        assert 2.9 < avg < 3.1  # Média de 3 dias
+
+    def test_sprint_rework_rate(self):
+        """Testar cálculo de taxa de retrabalho da sprint."""
+        sprint = Sprint(
+            id="sprint-0.0",
+            release_id="R0",
+            title="Scaffold",
+            start_date="2026-07-22",
+            end_date="2026-07-26",
+        )
+
+        # 3 tasks: 1 com retrabalho, 2 sem
+        task1 = Task(
+            id="T0.0.1",
+            title="Task 1",
+            description="Desc",
+            days_estimate=2.0,
+            rework_count=2,  # Retrabalhado 2 vezes
+        )
+        task2 = Task(
+            id="T0.0.2",
+            title="Task 2",
+            description="Desc",
+            days_estimate=2.0,
+            rework_count=0,  # Sem retrabalho
+        )
+        task3 = Task(
+            id="T0.0.3",
+            title="Task 3",
+            description="Desc",
+            days_estimate=2.0,
+            rework_count=0,  # Sem retrabalho
+        )
+
+        sprint.add_task(task1)
+        sprint.add_task(task2)
+        sprint.add_task(task3)
+
+        rate = sprint.rework_rate()
+        assert rate == pytest.approx(1.0 / 3.0, abs=0.01)  # 1 de 3 tarefas
+
+    def test_status_history_is_recorded_on_update_task_status(self):
+        """Testar que status_history é preenchido ao atualizar status."""
+        sprint = Sprint(
+            id="sprint-0.0",
+            release_id="R0",
+            title="Scaffold",
+            start_date="2026-07-22",
+            end_date="2026-07-26",
+        )
+
+        task = Task(
+            id="T0.0.1",
+            title="Task",
+            description="Desc",
+            days_estimate=2.0,
+        )
+
+        sprint.add_task(task)
+
+        # Inicialmente vazia
+        assert len(task.status_history) == 0
+
+        # Primeira transição
+        sprint.update_task_status("T0.0.1", TaskStatus.IN_PROGRESS)
+        assert len(task.status_history) == 1
+        assert task.status_history[0]["status"] == TaskStatus.IN_PROGRESS.value
+        assert "timestamp" in task.status_history[0]
+
+        # Segunda transição
+        sprint.update_task_status("T0.0.1", TaskStatus.IN_REVIEW)
+        assert len(task.status_history) == 2
+        assert task.status_history[1]["status"] == TaskStatus.IN_REVIEW.value
+
 
 class TestDailyStandup:
     """Testes para Daily Standup."""
