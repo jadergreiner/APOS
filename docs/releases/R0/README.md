@@ -2,7 +2,7 @@
 
 **Versão:** 0.1.0-beta  
 **Data de Início:** 2026-07-19  
-**Status:** Em Planejamento (Sprint 0.0 inicia 2026-07-22)
+**Status:** IN PROGRESS (Sprint 0.0 ✅ Complete, Sprint 0.1 Next 22 jul)
 
 ---
 
@@ -19,28 +19,49 @@ Leia primeiro a estratégia do projeto:
 
 ---
 
-## O Problema (JTBD Discovery)
+## O Problema (JTBD Discovery) — Sprint 0.0 ✅ COMPLETO
 
-### Segmento
-- Equipes pequenas (4-8 pessoas)
-- Distribuídas remotamente
-- Apagando incêndio (prioridades mudam constantemente)
-- Não sabem por onde começar com estrutura
+**Pesquisa Realizada:** 7 personas entrevistadas (Jader Greiner PM + 6 roleplay via Hermes)  
+**Consenso:** 100% em problema-raiz. Zero pivots necessários.  
+**Documento:** [JOB_STATEMENT.md](sprint-0.0/JOB_STATEMENT.md)
 
-### O Job Real
-> Quando recebo uma task, quero ver a cadeia completa (Task → Feature → Release → OKR → Métrica), para que eu saiba por quê estou fazendo isso e qual é o risco real de mudar prioridade.
+### Segmento Validado
 
-### Custo Atual
-- Agentes implementam fora de domínio → retrabalho, bugs, regressão
-- Prioridades mudam sem entender impacto
-- Team não sabe se está progredindo
-- Burnout (corre atrás de problema de ontem)
+- Equipes pequenas (4-8 pessoas) ✅
+- Distribuídas remotamente ✅
+- Apagando incêndio (prioridades mudam constantemente) ✅
+- Usando agentes de IA para implementação ✅
 
-### Alternativas Hoje
-- Adivinhar baseado em padrões anteriores
-- Pedir ao PM pra cada dúvida (PM é bottleneck)
-- Aceitar retrabalho como inevitável
-- Fazer nada (non-consumption)
+### O Job Real (Validado)
+
+> **Quando** [PM/Agente definem trabalho sem visibilidade do contexto estratégico]  
+> **Eu quero** [camada semântica viva que valida contexto antes da implementação]  
+> **Para que eu possa** [evitar alucinações/regressões e parar de perder produtividade em validação]
+
+**Contexto crítico:** Contexto DESATUALIZADO é causa de 90% dos "erros de agentes" — não alucinação clássica.
+
+### Custo Atual (Validado contra 7 personas)
+
+- Agentes implementam fora de domínio → retrabalho cíclico (ex: mesmo erro de login em cada deploy AWS)
+- Prioridades mudam sem entender impacto + dependências invisíveis
+- Team não sabe se está progredindo → Task→OKR→Métrica rastreamento é invisível
+- PM re-explica contexto estratégico quase diariamente → bottleneck constante
+
+### Alternativas Hoje (Documentado)
+
+- Adivinhar baseado em padrões anteriores ("puro feeling" — Jader PM)
+- Pedir ao PM pra cada dúvida (PM é bottleneck, "me sinto desprotegido")
+- Aceitar retrabalho como inevitável ("corre atrás de problema de ontem")
+- Fazer nada — continue com ciclos de debug manual
+
+### 6 Requisitos de Produto Emergentes
+
+1. **Validação de Contexto** — semáforo de confiança por campo (granular, não booleano)
+2. **Rastreabilidade** — decisão + rota usada pelo agente visível
+3. **Auto-Atualização** — contexto não fica desatualizado entre releases
+4. **Versionamento de Contexto** — histórico e rollback se necessário
+5. **Dependências Explícitas** — saber que Feature Y depende de Migration Z
+6. **Integração Sem Fricção** — não ser "mais um CONTEXT.md com branding"
 
 ---
 
