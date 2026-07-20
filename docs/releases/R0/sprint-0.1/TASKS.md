@@ -203,18 +203,26 @@
 
 ## Prioridade & Sequenciamento
 
-**Sequência**:
-1. **T0.1.1** (Proposta de Valor) + **T0.1.2** (Posicionamento) → paralelo (Dias 1-2)
-2. **T0.1.3** (OKRs) → (Dias 2-3)
-3. **T0.1.4** (Roadmap) → (Dia 4)
-4. **Revisão** → (Dia 5)
+**Sequência (Revisado com Learnings S0.0)**:
+1. **Dia 1-2:** T0.1.1 (VALUE_PROP esboço) + T0.1.2 (COMPETITIVE análise) **paralelo** ← MVP gates
+   - T0.1.1.1-2: Esboço rápido (0.5d)
+   - T0.1.2.1-3: Análise (0.75d)
+2. **Dia 1-2 (paralelo):** T0.1.3 (OKR rascunho) **começa com esboço** ← MVP gate
+   - Usa VALUE_PROP esboço + NORTH_STAR para estrutura inicial
+   - Refinamento acontece depois (dia 3)
+3. **Dia 3:** T0.1.1 (VALUE_PROP refinement + validação stakeholders) + T0.1.3 (OKR refinement)
+4. **Dia 4:** T0.1.4 (ROADMAP estrutura)
+5. **Dia 5:** Revisão final + ajustes
+
+**Estimativa Revisada:** 4-4.5 dias real (vs. 5d planejado) | Buffer: 0.5-1d
 
 **Bloqueadores**:
-- Nenhum (todas as entradas do Sprint 0.0 estão disponíveis)
+- ✅ Nenhum (todas as entradas do Sprint 0.0 estão disponíveis)
 
-**Dependências**:
-- T0.1.1 alimenta T0.1.3 (métricas de validação OKR)
-- T0.1.3 alimenta T0.1.4 (estrutura do roadmap)
+**Dependências (Validadas com MVP Gates)**:
+- T0.1.1 esboço → habilita T0.1.3 rascunho (não bloqueia completo)
+- T0.1.3 rascunho → alimenta T0.1.4 estrutura
+- T0.1.1 refinement → finaliza T0.1.3 (validação de métricas)
 
 ---
 

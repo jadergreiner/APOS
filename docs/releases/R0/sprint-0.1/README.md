@@ -200,6 +200,44 @@ Dia 5: Revisão, validação, finalização
 
 ---
 
+## Learnings de Sprint 0.0 Aplicados
+
+### Aplicação de RCA (20 jul)
+
+1. **Dependências Validadas com MVP Gates**
+   - Tarefas bloqueadas podem começar com RASCUNHO enquanto predecessor refina
+   - Exemplo: T0.1.3 (OKRs) inicia com esboço usando VALUE_PROP esboço (T0.1.1 dia 1-2)
+   - Resultado: Paralelização habilitada, economia ~0.5d
+
+2. **Personas: Mix Real + Roleplay**
+   - S0.0 usou 100% roleplay (6/7 via Hermes) → risco de bias
+   - S0.1 validação: 2-3 personas REAIS externas (PM, Eng Lead, Agent Architect)
+   - Roleplay segue válido para análise (COMPETITIVE_LANDSCAPE), não validação de job
+
+3. **Templates Pré-Criados no Kick-off**
+   - S0.0 gap: JTBD_INTERVIEW_KIT criado MID-SPRINT
+   - S0.1: Todos templates existem (VALUE_PROP, COMPETITIVE, OKR, ROADMAP)
+   - Novo: ROADMAP_R1_R4.md template criado ANTES do kick-off
+
+4. **Velocity Baseline Ajustado**
+   - S0.0: +250% (8d planejado → 3d real)
+   - S0.1: Não é sustentável; ajustado para 1.5x multiplier
+   - Esperado: 5d planejado → 3.5-4d real
+   - Buffer: 0.5-1d adicional vs. planejado
+
+**Cronograma Revisado:**
+```
+Dia 1-2: T0.1.1 VALUE_PROP esboço (0.5d) + T0.1.2 COMPETITIVE (0.75d)
+         T0.1.3 OKR rascunho inicia (paralelo, MVP gate)
+Dia 3:   T0.1.1 VALUE_PROP refinement + validação (3 personas reais)
+         T0.1.3 OKR refinement (final)
+Dia 4:   T0.1.4 ROADMAP estrutura
+Dia 5:   Revisão + ajustes
+Total:   4-4.5d real (vs. 5d planejado)
+```
+
+---
+
 ## Próximo Sprint (0.2)
 
 **Sprint 0.2: Engenharia de Ontologia**
@@ -211,5 +249,5 @@ Dia 5: Revisão, validação, finalização
 ---
 
 **Criado**: 19-07-2026  
-**Última Atualização**: 19-07-2026  
-**Status**: PLANEJAMENTO
+**Última Atualização**: 20-07-2026 (RCA S0.0 learnings aplicados)  
+**Status**: PRONTO PARA KICK-OFF (22 jul, 09:00)
