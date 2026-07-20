@@ -125,14 +125,14 @@ Consolidar descobertas de entrevista em um único job statement validado que ref
 
 ## Totais — ✅ COMPLETO
 
-| História | Pontos | Status | Responsável | Entrega |
-| --- | --- | --- | --- | --- |
-| US-0.0.1 | 2 | ✅ COMPLETO | PM | JTBD-INTERVIEWS-RAW-NOTES.md |
-| US-0.0.2 | 1.5 | ✅ COMPLETO | PM | FORCES_ANALYSIS.md |
-| US-0.0.3 | 1 | ✅ COMPLETO | PM | Descobertas sobre gaps de ferramenta |
-| US-0.0.4 | 0.5 | ✅ COMPLETO | PM | Validação técnica |
-| US-0.0.5 | 1.5 | ✅ COMPLETO | PM | JOB_STATEMENT.md |
-| **TOTAL** | **6.5 pontos** | **✅ 100%** | | |
+| História | Pontos | Status | Responsável | Entrega | Commit(s) |
+| --- | --- | --- | --- | --- | --- |
+| US-0.0.1 | 2 | ✅ COMPLETO | PM | JTBD-INTERVIEWS-RAW-NOTES.md | e38dc9c |
+| US-0.0.2 | 1.5 | ✅ COMPLETO | PM | FORCES_ANALYSIS.md | e38dc9c |
+| US-0.0.3 | 1 | ✅ COMPLETO | PM | Descobertas sobre gaps de ferramenta | e38dc9c |
+| US-0.0.4 | 0.5 | ✅ COMPLETO | PM | Validação técnica | e38dc9c |
+| US-0.0.5 | 1.5 | ✅ COMPLETO | PM | JOB_STATEMENT.md | ce01074 |
+| **TOTAL** | **6.5 pontos** | **✅ 100%** | | | |
 
 **Capacidade Planejada:** ~4 dias-pessoa = ~8 pontos (com velocidade padrão)
 **Entregue:** 6.5 pontos em 1 dia ✅ (+250% velocidade)
@@ -144,3 +144,10 @@ Consolidar descobertas de entrevista em um único job statement validado que ref
 **Última Atualização:** 2026-07-19 (Sprint 0.0 completa)
 **Status:** ✅ **SPRINT 0.0 100% COMPLETO**
 **Próximo:** Sprint 0.1 (Release Planning, 22 jul)
+
+---
+
+## Commits Rastreados
+
+- e38dc9c — docs: JTBD interview kit + first interview raw notes (US-0.0.1-4)
+- ce01074 — docs: establish Commit Tracking as APOS kernel pattern (US-0.0.5)

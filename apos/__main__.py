@@ -22,6 +22,8 @@ def main():
         return 0
     elif command == "daily":
         return handle_daily_command(sys.argv[2:])
+    elif command == "validate-sprint":
+        return handle_validate_sprint_command(sys.argv[2:])
     elif command == "--version":
         from apos import __version__
 
@@ -216,6 +218,87 @@ def handle_daily_command(args):
         return 1
 
 
+def handle_validate_sprint_command(args):
+    """Handle 'validate-sprint' command for commit tracking validation.
+
+    python -m apos validate-sprint --sprint-root docs/releases/R0/sprint-0.0/
+    python -m apos validate-sprint --sprint-root docs/releases/R0/sprint-0.0/ --strict
+    """
+    parser = argparse.ArgumentParser(
+        prog="python -m apos validate-sprint",
+        description="Validar rastreamento de commits em um sprint",
+    )
+    parser.add_argument(
+        "--sprint-root",
+        required=True,
+        help="Diretório raiz do sprint (ex: docs/releases/R0/sprint-0.0/)",
+    )
+    parser.add_argument(
+        "--strict",
+        action="store_true",
+        help="Modo restrito: FAIL se score < 1.0 (deve ter 100% de rastreamento)",
+    )
+
+    try:
+        parsed_args = parser.parse_args(args)
+    except SystemExit:
+        return 1
+
+    from apos.kernel import CommitTrackingValidator
+
+    sprint_root = Path(parsed_args.sprint_root)
+    if not sprint_root.exists():
+        print(f"Erro: diretório '{sprint_root}' não existe")
+        return 1
+
+    validator = CommitTrackingValidator(str(sprint_root))
+    result = validator.validate()
+
+    # Print results
+    print("\nValidando Rastreamento de Commits")
+    print("=" * 60)
+
+    # Print per-artifact validation
+    for artifact, valid in result.validation_details.items():
+        status = "✅" if valid else "❌"
+        print(f"{status} {artifact}")
+
+    # Print summary
+    print("\n" + "=" * 60)
+    print(f"Score: {result.score:.2f} ({result.status})")
+    print(f"Commits rastreados: {len(result.tracked_commits)}")
+
+    if result.issues:
+        print("\nProblemas encontrados:")
+        for issue in result.issues:
+            print(f"  • {issue}")
+
+    if result.untracked_tasks:
+        print("\nTarefas sem rastreamento:")
+        for task in result.untracked_tasks:
+            print(f"  • {task}")
+
+    print()
+
+    # Determine exit code
+    if parsed_args.strict:
+        # Strict mode: require perfect score
+        if result.score >= 1.0:
+            print("✅ Commit tracking 100% completo (strict mode)")
+            return 0
+        else:
+            print(f"❌ Commit tracking incompleto (strict mode): {result.score:.0%}")
+            return 1
+    else:
+        # Normal mode: pass if score >= 0.80
+        if result.passes():
+            print("✅ Commit tracking válido")
+            return 0
+        else:
+            print(f"❌ Commit tracking insuficiente: {result.score:.0%} (requerido: 80%)")
+            return 1
+
+
 def print_help():
     from apos import __version__
 
@@ -231,6 +314,9 @@ Commands:
                       Use: python -m apos daily --sprint SPRINT_ID [--tasks-json FILE] [--mode MODE] [--date DATE] [--release RELEASE]
                       --tasks-json is optional: if omitted, tasks are reconstructed
                       from docs/releases/{{release}}/{{sprint}}/TASKS.md
+    validate-sprint   Validate commit tracking in sprint artifacts
+                      Use: python -m apos validate-sprint --sprint-root SPRINT_DIR [--strict]
+                      Checks: TASKS.md, BOARD.md, STATUS.md, USER_STORIES.md, RETRO.md
     --version         Show version
     --help            Show this help message
 """.strip())
