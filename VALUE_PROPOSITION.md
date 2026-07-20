@@ -1,8 +1,8 @@
 # APOS Value Proposition
 
-**Version**: 1.1 (JTBD-validated)  
-**Date**: 2026-07-19  
-**Status**: ✅ JTBD VALIDATED (7/7 personas align)
+**Version**: 1.2 (Competitive-refined)  
+**Date**: 2026-07-20  
+**Status**: ✅ COMPETITIVE-ANALYZED (5 key differentiators mapped)
 
 ---
 
@@ -10,12 +10,12 @@
 
 APOS is a **semantic context layer for AI agents** that eliminates hallucination and misalignment by providing:
 
-1. **Formal domain models** (ontologies) — AI agents know what can exist
-2. **Confidence scoring** (0.0-1.0) — AI agents know what they don't know
-3. **Self-validating governance** — Context quality is continuously measured
-4. **Bootstrap automation** — Any project can implement APOS in minutes
+1. **Formal domain models** (ontologies) — AI agents know exactly what can exist
+2. **Trust Score** (0.0-1.0) — Know precisely how much to trust each piece of context
+3. **Governance Gates** — Context quality is measured and enforced automatically
+4. **5-Minute Setup** — Any project can implement APOS in under 5 minutes
 
-**Result**: Teams ship faster, with fewer bugs, and higher agent confidence. No rework. No misalignment.
+**Result**: Teams ship faster, with fewer bugs, and agents become trusted partners instead of black boxes. No rework. No misalignment. No guessing if context is stale.
 
 ---
 
@@ -43,19 +43,25 @@ With APOS:
 
 ### The Core Gap APOS Fills
 
-**Every other tool assumes trust**:
-- Jira/Notion: "Use it correctly, trust works"
-- Semantic Layers: "Trust our metadata"
-- MCP/LLM APIs: "Call us, we'll figure it out"
+**Every other tool assumes trust is automatic**:
+- Jira/Notion: "Keep your data updated, trust will follow"
+- Semantic Layers: "Trust our metadata lineage"
+- Data Catalogs: "Trust our tags and descriptions"
+- Neo4j: "Trust the relationships you put in"
+- MCP/LLM APIs: "Call us, trust what we return"
 
-**APOS doesn't assume trust**:
+**APOS doesn't assume**:
 ```
-APOS says: "Here's exactly how confident I am in this context: 0.75"
+APOS measures: "Your context is 75% complete, 85% consistent, 60% current"
+→ Overall Trust Score: 0.72
 
-AI Agent decides: "0.75 is good enough for planning, but I need human review for final implementation"
+AI Agent decides: 
+- 0.72: "Good enough for planning, needs human review for implementation"
+- 0.45: "Too risky — ask PM to fill gaps before I proceed"
+- 0.92: "High confidence — I can execute this autonomously"
 ```
 
-This **confidence score is unique to APOS**. No other tool provides it.
+**This Trust Score is unique to APOS**. No other tool measures context quality before agents act.
 
 ### Validated by 7 Personas (JTBD Discovery, Jul 2026)
 
@@ -128,6 +134,20 @@ After 7 structured JTBD interviews across PM, AI Operator, CTO, Stakeholder, Ear
 
 ---
 
+## What APOS is NOT
+
+This is important for clarity:
+
+- **NOT a replacement for Jira** — APOS is orthogonal. Use Jira for team workflows, APOS for context quality of what Jira says.
+- **NOT a data governance platform** — We focus on business domain (strategy, features, tasks), not data lineage.
+- **NOT a graph database** — We use graphs as transport, not the endpoint. Neo4j handles storage; APOS handles semantics.
+- **NOT an LLM API or MCP server** — We consume APIs to load context, but we don't provide them (though we integrate with both).
+- **NOT a project management tool** — We layer on top of Jira/Notion/Linear to validate their context, not replace them.
+
+**APOS is a context quality assurance layer** that works WITH your existing tools.
+
+---
+
 ## Competitive Differentiation
 
 ### What's Out There?
@@ -143,30 +163,35 @@ After 7 structured JTBD interviews across PM, AI Operator, CTO, Stakeholder, Ear
 
 ### APOS's Whitespace
 
+**The Market Gap**:
+Every tool on the market is either:
+- **Broad but shallow**: Jira/Notion (flexible, but no formal rigor; no scoring)
+- **Deep but data-only**: Semantic Layers (formal, but data lineage only)
+- **Narrow and low-AI**: Data Catalogs (metadata, not reasoning)
+- **Infrastructure, no semantics**: Neo4j (powerful graph engine, but you define meaning)
+- **API-layer, no knowledge**: MCP (tool calling, not context validation)
+
+**APOS fills the gap**: Formal domain modeling + Trust Score (0.0-1.0) + AI-first + Governance
+
 ```
 ┌─────────────────────────────────────────┐
-│       Functionality Breadth              │
-│       (narrow ← → wide)                  │
-├─────────────────────────────────────────┤
-│ Y                                       │
-│ |    Neo4j (wide, mid-AI)  ✓            │
-│ |    Jira (wide, low-AI)   ✓            │
-│ A                                       │
-│ I  APOS (narrow, HIGH-AI)  ← WHITESPACE │
-│ |    Semantic Layers (narrow, mid-AI) ✓ │
-│ R  Data Catalogs (narrow, low-AI) ✓     │
-│ e                                       │
-│ a    MCP APIs (mid, high-API) ✓         │
-│ d                                       │
-│ i                                       │
-│ n                                       │
-│ e                                       │
-│ s                                       │
-│ s                                       │
+│    AI-Readiness (low ← → high)          │
+│                                          │
+│ Semantic Layers (narrow, mid)           │
+│ Data Catalogs (narrow, low)             │
+│                                          │
+│ ⭐ APOS (narrow, HIGH) ← WHITESPACE     │
+│    • Formal business domain models      │
+│    • Trust Score (0.0-1.0) — UNIQUE     │
+│    • AI-first + Governance              │
+│                                          │
+│ Neo4j (wide, mid)                       │
+│ Jira (wide, low)                        │
+│ Notion (wide, low)                      │
+│ MCP APIs (mid, high-API but no KG)     │
 └─────────────────────────────────────────┘
 
-APOS = Narrow, focused domain scope + AI-first design
-       = Whitespace: "Formal, confidence-scored context for AI agents"
+APOS Positioning: "The only system that scores how much to trust your context"
 ```
 
 ---
@@ -364,6 +389,6 @@ if gate.evaluate(knowledge_graph).passes():
 ---
 
 **Created**: 2026-07-19  
-**Last Refined**: 2026-07-19 (v1.1 — JTBD-validated)  
-**Status**: ✅ VALIDATED (7/7 personas align)  
-**Next Review**: Post-beta customer validation
+**Last Refined**: 2026-07-20 (v1.2 — Competitive refinement + Trust Score emphasis)  
+**Status**: ✅ REFINED (competitive analysis + whitespace mapped)  
+**Next Review**: Post-stakeholder validation (Sprint 0.1, Day 3)
