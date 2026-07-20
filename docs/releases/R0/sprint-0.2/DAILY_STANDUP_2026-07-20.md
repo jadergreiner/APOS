@@ -1,95 +1,72 @@
 # Daily Standup — sprint-0.2
 
 **Data:** 2026-07-20
-**Time:** 07:00
+**Modo:** Automatic
+**Participantes:** 1
+**Updates:** 7
 
 ---
 
-## Formatos Disponíveis
+## Jader
 
-Escolha um dos formatos abaixo:
+**🎯 Hoje:** Iniciando Agendar 5+ entrevistas JTBD
 
-### 1. Formato Texto (Simples)
-
-**Participante:** [Seu Nome]
-- ✅ Ontem: [O que você fez]
-- 🎯 Hoje: [O que você vai fazer]
-- 🚨 Blockers: [Bloqueadores, se houver]
-
-### 2. Formato Structured (Detalhado)
-
-**Participante:** [Seu Nome]
-
-**O Que Fez Ontem:**
-- [ ] Task 1
-- [ ] Task 2
-
-**O Que Vai Fazer Hoje:**
-- [ ] Task A
-- [ ] Task B
-
-**Blockers / Impedimentos:**
-- Blocker 1 (Severidade: 🔴/🟡/🟢)
-
-**Notas:**
-- Detalhe adicional
-
-### 3. Formato Kanban (Visual)
-
-**Participante:** [Seu Nome]
-
-```
-A Fazer      Em Progresso     Completo
-[Task]  →    [Task]      →    [Task]
-```
-
-### 4. Formato Estruturado (Para Líderes)
-
-**Data:** 2026-07-20
-
-**Status Geral:** 🟢/🟡/🔴
-
-**Progresso Geral:**
-- Tarefas completas: N/N
-- Taxa de conclusão: %
-- Velocidade: pts/dia
-
-**Top 3 Blockers:**
-1. [Blocker]
-2. [Blocker]
-3. [Blocker]
-
-**Próximos Passos:**
-- [ ] Ação 1
-- [ ] Ação 2
+*Notas:* Confiança: 70%
+Evidências: 1
 
 ---
 
-## Participantes
+## Jader
 
-### [Participante 1]
+**🎯 Hoje:** Iniciando Conduzir entrevistas JTBD
 
-**Formato escolhido:** [texto/structured/kanban/estruturado]
-
-[Conteúdo aqui]
-
----
-
-### [Participante 2]
-
-[Conteúdo aqui]
+*Notas:* Confiança: 70%
+Evidências: 1
 
 ---
 
-## Sumário da Daily
+## Jader
 
-- 🟢 Status: [On track / At risk / Blocked]
-- ✅ Completado: [Quantas tarefas]
-- 🚨 Blockers: [Quantos / quais]
-- 🎯 Próximos: [Próximos passos]
+**🎯 Hoje:** Iniciando Documentar JTBD_INTERVIEWS.md
+
+*Notas:* Confiança: 70%
+Evidências: 1
 
 ---
 
-**Facilitador:** [Nome]
-**Duração:** [Minutos]
-**Próxima Daily:** Tomorrow 07:00
+## Jader
+
+**🎯 Hoje:** Iniciando Análise de Forças (Jobs Framework)
+
+*Notas:* Confiança: 70%
+Evidências: 1
+
+---
+
+## Jader
+
+**🎯 Hoje:** Iniciando Validar consistência com VALUE_PROPOSITION
+
+*Notas:* Confiança: 70%
+Evidências: 1
+
+---
+
+## Jader
+
+**🎯 Hoje:** Iniciando Documentar JOB_STATEMENT.md
+
+*Notas:* Confiança: 70%
+Evidências: 1
+
+---
+
+## Jader
+
+**🎯 Hoje:** Iniciando Preparar materiais de Beta
+
+*Notas:* Confiança: 70%
+Evidências: 1
+
+---
+
