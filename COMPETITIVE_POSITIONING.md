@@ -1,7 +1,8 @@
 # APOS Competitive Positioning
 
-**Date**: 2026-07-19  
-**Status**: Sprint 0.1 Deliverable  
+**Date**: 2026-07-20 (Refined)  
+**Version**: 1.1 (Competitive research updated)  
+**Status**: ✅ REFINED (T0.1.2 competitive positioning complete)  
 **Audience**: Stakeholders, investors, go-to-market team
 
 ---
@@ -43,6 +44,8 @@ PROBLEM: Nothing unifies this stack for AI agents
 | **Collibra** | Data Governance | Compliance + lineage | Regulated industries | ✗ No | ✗ Policy-based |
 | **Claude/GPT-4** | LLM APIs | Language understanding | Capability calling | ✅ Yes | ✗ No |
 | **MCP** (Model Context Protocol) | LLM integration | Tool calling | Developer tools | ✅ Yes | ✗ Low-level |
+| **LangChain** | Orchestration | Agent building | Rapid prototyping | ~ Partial | ✗ No |
+| **CrewAI** | Multi-Agent Framework | Coordinated agents | Enterprise workflows | ~ Partial | ✗ No |
 
 ---
 
@@ -180,34 +183,64 @@ PROBLEM: Nothing unifies this stack for AI agents
 
 ---
 
-## Market Positioning Matrix
+### 7. APOS vs. LLM Orchestration (LangChain, CrewAI)
+
+**Orchestration Tools**: Multi-step agent workflows  
+**APOS**: Context quality assurance
+
+**Comparison**:
+
+| Aspect | LangChain/CrewAI | APOS | Winner |
+|--------|---|---|---|
+| **Agent Building** | ✅ Easy | ✗ Not designed for | LangChain |
+| **Multi-Agent Coordination** | ✅ Yes | ✗ Single-agent focus | CrewAI |
+| **Context Quality** | ✗ Assumed good | ✅ Measured (0.0-1.0) | APOS |
+| **Semantic Validation** | ✗ No | ✅ Yes | APOS |
+| **Hallucination Prevention** | ✗ Not addressed | ✅ Enforced gates | APOS |
+
+**Positioning**: "LangChain orchestrates agents. APOS ensures they have trustworthy context."
+
+**Strategy**: APOS integrates with LangChain/CrewAI agents. Agents use APOS context + scoring to decide confidence level.
+
+---
+
+## Market Positioning Matrix (Updated)
 
 ```
-┌──────────────────────────────────────────────┐
-│    Functionality Breadth                     │
-│    (Narrow ← → Wide)                         │
-└──────────────────────────────────────────────┘
-        Narrow          Mid          Wide
-  
-High-AI  APOS ★
-         (Formal context
-          + confidence)
-         
-Mid-AI   Semantic Layer    MCP      Neo4j
-         (Metrics only)    (Tools)  (Graph ops)
-         
-Low-AI   Catalogs      Notion       Jira
-         (Metadata)    (Flexible)   (Team)
+                        AI-Readiness (low ← → high)
+                        ↓
+
+Amplitude     ┌─────────────────────────────────────┐
+(narrow ←→    │                                      │
+ wide)        │  Semantic Layers (narrow, mid)       │
+              │  Data Catalogs (narrow, low)         │
+              │                                      │
+              │  ⭐ APOS (narrow, HIGH-AI)           │ ← WHITESPACE
+              │  • Formal business ontology          │
+              │  • Confidence Score 0.0-1.0          │
+              │  • Multi-layer governance            │
+              │                                      │
+              │  Neo4j (wide, mid-AI)                │
+              │  LangChain/CrewAI (mid, high-API)    │
+              │  Jira / Notion (wide, low-AI)        │
+              │  MCP APIs (mid, high-API)            │
+              │                                      │
+              └─────────────────────────────────────┘
 ```
 
-**APOS's Whitespace**: Narrow + formal + AI-first with confidence scoring
+**APOS's Whitespace**: 
+- **Narrow scope** (business domain, not data or infrastructure)
+- **High AI-readiness** (native confidence scoring + governance)
+- **Formal semantics** (enforceable, not aspirational)
 
 **Why This Matters**: 
-- Jira/Notion are wide but not semantic
-- Neo4j is semantic but not business-focused
-- Semantic layers focus on data, not business logic
-- MCP calls tools, doesn't validate context
-- **No one else delivers formal ontology + confidence scoring + governance for business logic**
+- Jira/Notion: Wide but not semantic (flexible ≠ trustworthy)
+- Semantic Layers: Deep but data-only (metrics ≠ strategy)
+- Neo4j: Flexible but low-semantic (users define meaning)
+- LangChain/CrewAI: Orchestrate agents, don't validate context
+- Data Catalogs: Technical metadata, not business reasoning
+- MCP: Calls tools, doesn't score context quality
+- **No one else delivers formal business ontology + confidence scoring + governance native to AI agents**
 
 ---
 
@@ -341,6 +374,6 @@ Low-AI   Catalogs      Notion       Jira
 ---
 
 **Prepared**: 2026-07-19  
-**Refined**: 2026-07-19  
-**Status**: Ready for Stakeholder Review  
-**Next**: Validation interviews (Sprint 0.1)
+**Refined**: 2026-07-20 (T0.1.2 competitive research)  
+**Status**: ✅ COMPLETE — Ready for stakeholder validation  
+**Next**: VALUE_PROPOSITION final refinement + OKRs finalization (Sprint 0.1, Days 3+)
