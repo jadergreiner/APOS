@@ -499,16 +499,25 @@ See [docs/releases/R0/](docs/releases/R0/) and [docs/RELEASE_MANAGEMENT_FRAMEWOR
 
 ## Roadmap
 
-### Current Status: R0 (Sprint 0.0 ✅ + Sprint 0.1 ✅)
+### Current Status: R0 (Sprint 0.0 ✅ + Sprint 0.1 ✅ + Sprint 0.2 ✅)
 
 | Sprint | Theme | Status |
 |--------|-------|--------|
-| **0.0** | Knowledge Consolidation + Core Implementation | ✅ MERGED TO develop |
-| **0.1** | Platform Identity (Value Prop, OKR, Roadmap) | ✅ COMPLETE (+500%) |
-| **0.2** | Ontology | 📅 NEXT |
-| **0.3** | Semantic Layer | 📅 PLANNED |
+| **0.0** | Bootstrap + Core Scaffolding | ✅ MERGED to develop |
+| **0.1** | Platform Identity (Value Prop, OKR, Roadmap) | ✅ COMPLETE (+500% velocity) |
+| **0.2** | JTBD Deep Dive (5 interviews, market validation) | ✅ COMPLETE (7/7 tasks, Decisao: VERDE) |
+| **0.3** | Semantic Layer | 📅 NEXT |
 
-### Phase 2: Core Implementation (Sprint 0.2+)
+### JTBD Discovery Results (Sprint 0.2)
+
+5 personas entrevistadas (PM Leader, EM, AI Architect, Product Ops, Early Adopter):
+- **Push:** 30-40% retrabalho por contexto desatualizado, 60-80h/mes em roll-up manual
+- **Pull:** Trust score 0.0-1.0, automacao Task→OKR→Metrica, plugin Jira
+- **Decisao:** VERDE ✅ — prosseguir para Beta Prep (Sprint 0.3)
+- **Early adopters:** 4/5 interessados em piloto
+- **Job:** Priorizar com base em dados em vez de achismo
+
+### Phase 2: Core Implementation (Sprint 0.3+)
 - [ ] Migrate `ontology.py` from Meu PDI
 - [ ] Migrate `graph.py` from Meu PDI
 - [ ] Migrate `semantic.py` + scoring logic
