@@ -465,7 +465,7 @@ class Sprint:
             Dias médios, ou None se nenhuma task completou.
         """
         completed_cycle_times = [
-            t.cycle_time_days() for t in self.tasks if t.cycle_time_days() is not None
+            ct for t in self.tasks if (ct := t.cycle_time_days()) is not None
         ]
 
         if not completed_cycle_times:
