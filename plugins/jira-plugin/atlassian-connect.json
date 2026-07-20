@@ -1,0 +1,78 @@
+{
+  "key": "com.apos.jira",
+  "name": "APOS - Task→OKR Linker",
+  "description": "Detect orphaned features, link tasks to OKRs, calculate trust score",
+  "vendor": {
+    "name": "APOS",
+    "url": "https://apos.io"
+  },
+  "baseUrl": "${baseUrl}",
+  "version": "0.3.0-beta",
+  "apiVersion": 1,
+  "authentication": {
+    "type": "oauth2"
+  },
+  "modules": {
+    "jiraSidebar": {
+      "key": "apos-sidebar",
+      "name": "APOS Orphan Detector",
+      "url": "/sidebar",
+      "icon": {
+        "width": 24,
+        "height": 24,
+        "url": "/images/icon.svg"
+      },
+      "weight": 100,
+      "conditions": [
+        {
+          "condition": "user_is_logged_in"
+        }
+      ]
+    },
+    "webPanel": {
+      "key": "apos-panel",
+      "name": "APOS Context Panel",
+      "url": "/panel",
+      "location": "atl.jira.view.issue.right.sidebar",
+      "weight": 100
+    },
+    "jiraContextMenu": {
+      "key": "apos-context-menu",
+      "name": "Link to OKR",
+      "url": "/context-menu",
+      "target": "jira.issue.view"
+    }
+  },
+  "webhooks": [
+    {
+      "name": "Issue Created",
+      "url": "/webhooks/issue-created",
+      "events": ["jira:issue_created"],
+      "excludeBody": false
+    },
+    {
+      "name": "Issue Updated",
+      "url": "/webhooks/issue-updated",
+      "events": ["jira:issue_updated"],
+      "excludeBody": false
+    },
+    {
+      "name": "Issue Deleted",
+      "url": "/webhooks/issue-deleted",
+      "events": ["jira:issue_deleted"],
+      "excludeBody": false
+    }
+  ],
+  "permissions": [
+    "read:jira-work",
+    "write:jira-work",
+    "read:jira-user"
+  ],
+  "apiMigrations": {
+    "gdprCompliant": true
+  },
+  "scopes": [
+    "read",
+    "write"
+  ]
+}
