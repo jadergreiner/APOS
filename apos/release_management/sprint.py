@@ -103,8 +103,15 @@ class Task:
             return None
 
         # Calcular diferença em dias
-        start = datetime.fromisoformat(in_progress_time)
-        end = datetime.fromisoformat(complete_time)
+        try:
+            start = datetime.fromisoformat(in_progress_time)
+            end = datetime.fromisoformat(complete_time)
+        except (ValueError, TypeError):
+            return None
+
+        if end < start:
+            return 0.0
+
         delta = end - start
 
         return delta.total_seconds() / (24 * 3600)  # Converter para dias
