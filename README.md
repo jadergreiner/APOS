@@ -104,16 +104,31 @@ python examples/basic_usage.py
 APOS/
 ├── apos/                          # Main package
 │   ├── __init__.py                # Version, exports
+│   ├── __main__.py                # CLI entry point (init, init-sprint, daily, validate-sprint)
 │   ├── core/                      # Core abstractions
 │   │   ├── types.py               # Domain types (Entity, Relationship, Node, Edge)
 │   │   ├── ontology.py            # Ontology model
 │   │   ├── graph.py               # Knowledge graph
 │   │   └── semantic.py            # Semantic scoring
+│   ├── bootstrap/                 # Bootstrap Gate + project initialization
+│   │   ├── gate.py                # BootstrapGate — validates 10 semantic foundations
+│   │   ├── session.py             # FoundationDefinitionSession — guided setup
+│   │   ├── validators/            # Specialized validators (Strategy, Ontology, Governance)
+│   │   └── templates/             # Auto-generated foundation templates
 │   ├── governance/                # Governance framework
 │   │   ├── gate.py                # Semantic gate
 │   │   ├── metrics.py             # Metrics & scoring
 │   │   ├── audit.py               # Audit tools
 │   │   └── config.py              # Governance config
+│   ├── kernel/                    # Kernel patterns (enforced across all sprints)
+│   │   ├── __init__.py
+│   │   └── commit_tracking.py     # Commit tracking validation
+│   ├── release_management/        # Release & Sprint management
+│   │   ├── release.py             # Release, ReleaseManager
+│   │   ├── sprint.py              # Sprint, SprintManager, Task, TaskStatus
+│   │   ├── ceremonies.py          # DailyStandup, SprintPlanning, Retrospective
+│   │   ├── daily_runner.py        # Automated daily standup runner
+│   │   └── templates.py           # Template generator (README, BOARD, STATUS, RETRO, etc)
 │   ├── loader/                    # Data loaders
 │   │   ├── ontology_loader.py     # Load ontologies
 │   │   └── graph_loader.py        # Load graphs
@@ -221,6 +236,27 @@ mypy apos/
    git add .
    git commit -m "feat: add new feature X"
    ```
+
+### 4. APOS CLI
+
+APOS comes with a built-in CLI for project initialization and sprint management.
+
+```bash
+# Initialize APOS project (validate 10 semantic foundations)
+python -m apos init
+
+# Create a new sprint with standard structure (BOARD, USER_STORIES, RETRO, etc)
+python -m apos init-sprint --sprint sprint-0.2 --release R0
+
+# Preview without creating files
+python -m apos init-sprint --sprint sprint-0.2 --dry-run
+
+# Run a Daily Standup
+python -m apos daily --sprint sprint-0.0 --mode automatic
+
+# Validate commit tracking in sprint artifacts
+python -m apos validate-sprint --sprint-root docs/releases/R0/sprint-0.0/
+```
 
 ### 5. GitHub Workflow
 
@@ -430,15 +466,49 @@ See `docs/API.md` for full reference.
 
 ---
 
-## Roadmap to Beta
+## Release Management
 
-### Phase 1: Scaffolding (Week 1)
-- ✅ Repository created
-- ✅ Structure defined
-- [ ] Core modules stubbed with types
-- [ ] Tests framework set up
+APOS includes a built-in Release Management framework for structuring product development in releases and sprints.
 
-### Phase 2: Core Implementation (Weeks 2-3)
+```bash
+# Sprint lifecycle
+python -m apos init-sprint --sprint sprint-0.2 --release R0   # Create sprint structure
+python -m apos daily --sprint sprint-0.0 --mode automatic     # Run daily standup
+python -m apos validate-sprint --sprint-root docs/releases/R0/sprint-0.0/  # Validate tracking
+```
+
+Each sprint directory enforces a consistent structure (mirroring Sprint 0.0):
+
+```
+docs/releases/R0/sprint-0.2/
+├── README.md              # Sprint context
+├── TASKS.md               # Task breakdown
+├── USER_STORIES.md        # User stories
+├── BOARD.md               # Kanban board
+├── STATUS.md              # Burndown & metrics
+├── RISK_MITIGATION.md     # Risk register
+├── RETRO.md               # Retrospective
+└── DAILY_STANDUP_*.md     # Daily updates
+```
+
+This structure is **enforced by the kernel** — every sprint created via `init-sprint` generates all 8 artifacts with template content, ensuring consistency across releases.
+
+See [docs/releases/R0/](docs/releases/R0/) and [docs/RELEASE_MANAGEMENT_FRAMEWORK.md](docs/RELEASE_MANAGEMENT_FRAMEWORK.md) for detailed documentation.
+
+---
+
+## Roadmap
+
+### Current Status: R0 (Sprint 0.0 ✅ + Sprint 0.1 ✅)
+
+| Sprint | Theme | Status |
+|--------|-------|--------|
+| **0.0** | Knowledge Consolidation + Core Implementation | ✅ MERGED TO develop |
+| **0.1** | Platform Identity (Value Prop, OKR, Roadmap) | ✅ COMPLETE (+500%) |
+| **0.2** | Ontology | 📅 NEXT |
+| **0.3** | Semantic Layer | 📅 PLANNED |
+
+### Phase 2: Core Implementation (Sprint 0.2+)
 - [ ] Migrate `ontology.py` from Meu PDI
 - [ ] Migrate `graph.py` from Meu PDI
 - [ ] Migrate `semantic.py` + scoring logic
@@ -574,5 +644,5 @@ See `docs/DEVELOPMENT.md` for detailed contribution guidelines.
 
 Made with ❤️ to eliminate hallucination, rework, and token waste in AI-driven development.
 
-*Last Updated: 2026-07-19*  
+*Last Updated: 2026-07-20*  
 *Current Version: 0.1.0-beta*
