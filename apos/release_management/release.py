@@ -9,6 +9,7 @@ from pathlib import Path
 
 class ReleasePhase(str, Enum):
     """Fases de uma release."""
+
     PLANNING = "planning"
     ACTIVE = "active"
     SHIPPED = "shipped"
@@ -18,6 +19,7 @@ class ReleasePhase(str, Enum):
 @dataclass
 class ReleaseObjective:
     """Um objetivo em uma release."""
+
     id: str
     title: str
     description: str

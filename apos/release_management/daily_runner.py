@@ -12,6 +12,8 @@ Modo B: Colaborativo
 - Sistema estrutura e documenta
 """
 
+import logging
+import subprocess
 from dataclasses import dataclass
 from typing import Optional, List
 from enum import Enum
@@ -24,9 +26,12 @@ from apos.release_management.ceremonies import (
 )
 from apos.release_management.sprint import Sprint, TaskStatus
 
+logger = logging.getLogger(__name__)
+
 
 class DailyMode(str, Enum):
     """Modos de execução de Daily Standup."""
+
     AUTOMATIC = "automatic"  # Opção A: Automático
     COLLABORATIVE = "collaborative"  # Opção B: Colaborativo
 
@@ -70,6 +75,7 @@ class DailyStandupRunner:
         sprint: Sprint,
         date: str,  # ISO format
         mode: DailyMode = DailyMode.COLLABORATIVE,
+        repo_path: Optional[Path] = None,
     ):
         """Inicializar runner de Daily.
 
@@ -77,10 +83,13 @@ class DailyStandupRunner:
             sprint: Sprint em execução
             date: Data da daily (ISO format)
             mode: Modo de execução (automatic ou collaborative)
+            repo_path: Caminho do repositório git usado para buscar evidências
+                de commits (default: Path.cwd())
         """
         self.sprint = sprint
         self.date = date
         self.mode = mode
+        self.repo_path = repo_path or Path.cwd()
         self.daily = DailyStandup(sprint_id=sprint.id, date=date)
 
     def run(self) -> DailyStandup:
@@ -117,8 +126,12 @@ class DailyStandupRunner:
                 self.daily.add_update(update)
 
                 print(f"✅ {analysis.participant}")
-                print(f"   {analysis.what_done if analysis.what_done else '(nenhuma evidência de conclusão)'}")
-                print(f"   {analysis.what_today if analysis.what_today else '(nenhuma tarefa em progresso)'}")
+                print(
+                    f"   {analysis.what_done if analysis.what_done else '(nenhuma evidência de conclusão)'}"
+                )
+                print(
+                    f"   {analysis.what_today if analysis.what_today else '(nenhuma tarefa em progresso)'}"
+                )
                 if analysis.blockers:
                     print(f"   🚨 {analysis.blockers}")
                 print()
@@ -188,9 +201,7 @@ class DailyStandupRunner:
             else:
                 what_today = analysis.what_today
 
-            blockers_input = input(
-                f"\n🚨 Algum bloqueador? (Enter se nenhum, ou descreva):\n> "
-            )
+            blockers_input = input(f"\n🚨 Algum bloqueador? (Enter se nenhum, ou descreva):\n> ")
             blockers = blockers_input if blockers_input else analysis.blockers
 
             # 3. ESTRUTURAR E DOCUMENTAR
@@ -241,11 +252,17 @@ class DailyStandupRunner:
         if task.status == TaskStatus.COMPLETE:
             analysis.what_done = f"Completou {task.title}"
             analysis.what_done_evidence = [f"{task.id} COMPLETE"]
+            analysis.what_done_evidence.extend(
+                self._get_git_evidence(task, self.date, analysis.participant)
+            )
             analysis.confidence = 1.0
 
         elif task.status == TaskStatus.IN_PROGRESS:
             analysis.what_today = f"Continuando {task.title}"
             analysis.what_today_evidence = [f"{task.id} IN_PROGRESS"]
+            analysis.what_today_evidence.extend(
+                self._get_git_evidence(task, self.date, analysis.participant)
+            )
             analysis.confidence = 0.9
 
         elif task.status == TaskStatus.BLOCKED:
@@ -268,9 +285,7 @@ class DailyStandupRunner:
                 if self.sprint.get_task(dep_id)
             ]
             blocking_incomplete = [
-                t
-                for t in blocking_tasks
-                if t and t.status != TaskStatus.COMPLETE
+                t for t in blocking_tasks if t and t.status != TaskStatus.COMPLETE
             ]
             if blocking_incomplete:
                 analysis.blockers = (
@@ -281,6 +296,63 @@ class DailyStandupRunner:
                 )
 
         return analysis
+
+    def _get_git_evidence(
+        self, task, since_date: str, participant: Optional[str] = None
+    ) -> List[str]:
+        """Buscar evidências reais de commits no git log.
+
+        Roda `git log --since=<since_date> [--author=<participant>] --oneline
+        --no-merges` no repositório configurado em self.repo_path. Falhas
+        (diretório não é repo git, git ausente, timeout) não propagam
+        exceção — retornam lista vazia e registram warning, para não
+        quebrar a execução da daily.
+
+        Args:
+            task: Tarefa sendo analisada (reservado para filtros futuros)
+            since_date: Data a partir da qual buscar commits (ISO format)
+            participant: Nome do autor para filtrar (--author). Se None ou
+                "Unassigned", não filtra por autor.
+
+        Returns:
+            Lista de strings "commit {hash}: {mensagem}" para cada commit
+            encontrado, ou lista vazia se nenhum commit for encontrado ou
+            se a busca falhar.
+        """
+        cmd = ["git", "log", f"--since={since_date}", "--oneline", "--no-merges"]
+        clean_participant = participant.strip() if participant else ""
+        if clean_participant and clean_participant != "Unassigned":
+            cmd.append(f"--author={clean_participant}")
+
+        try:
+            result = subprocess.run(
+                cmd,
+                cwd=self.repo_path,
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
+        except (subprocess.TimeoutExpired, OSError) as e:
+            logger.warning("Falha ao buscar evidências git: %s", e)
+            return []
+
+        if result.returncode != 0:
+            logger.warning(
+                "git log retornou código %s: %s",
+                result.returncode,
+                result.stderr.strip(),
+            )
+            return []
+
+        evidence = []
+        for line in result.stdout.splitlines():
+            line = line.strip()
+            if not line:
+                continue
+            commit_hash, _, message = line.partition(" ")
+            evidence.append(f"commit {commit_hash}: {message}")
+
+        return evidence
 
     def export_markdown(self) -> str:
         """Exportar Daily em formato Markdown.

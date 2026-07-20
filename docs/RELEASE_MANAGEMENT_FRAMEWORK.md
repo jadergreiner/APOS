@@ -415,6 +415,36 @@ rm.initialize_release_directory("R0")  # Estrutura criada automaticamente
 
 ---
 
+## CLI Commands
+
+### `python -m apos daily`
+
+Comando para executar Daily Standup de um sprint. Por padrão, reconstrói o
+Sprint automaticamente a partir de `docs/releases/{release}/{sprint}/TASKS.md`
+via `Sprint.load_from_markdown()`; `--tasks-json` continua disponível como
+alternativa explícita.
+
+```bash
+# Reconstrução automática a partir de TASKS.md (padrão)
+python -m apos daily --sprint sprint-0.0 --date 2026-07-22 --mode automatic
+
+# Com --tasks-json explícito
+python -m apos daily --sprint sprint-0.0 --date 2026-07-22 --mode automatic --tasks-json tasks.json
+
+# Sem modo: pergunta ao usuário
+python -m apos daily --sprint sprint-0.0
+```
+
+Ver documentação completa em [docs/DAILY_STANDUP_MODES.md](DAILY_STANDUP_MODES.md#comando-cli-python--m-apos-daily).
+
+### Limitação Conhecida
+
+`Sprint.load_from_markdown()` reconstrói apenas tasks + status atual a partir
+de `TASKS.md` — não reconstrói `status_history`/timestamps de transições nem
+lê `BOARD.md`. Ver detalhes em [DAILY_STANDUP_MODES.md](DAILY_STANDUP_MODES.md#fonte-de-tasks-tasksmd-padrão-ou-json).
+
+---
+
 ## Próximos Passos
 
 1. **Integração com Bootstrap Gate**
@@ -429,9 +459,8 @@ rm.initialize_release_directory("R0")  # Estrutura criada automaticamente
    - Dashboard de velocidade (burndown, completion_rate)
    - Exportar relatórios JSON para ferramentas externas
 
-4. **CLI Integration**
+4. **CLI Expansion**
    - `python -m apos sprint create sprint-0.0` → cria sprint + estrutura
-   - `python -m apos daily 2026-07-22` → gera Daily Standup
 
 ---
 

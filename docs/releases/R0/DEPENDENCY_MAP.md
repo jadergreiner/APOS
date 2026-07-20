@@ -259,6 +259,42 @@ Sprint 0.0
 
 ---
 
+## Aplicação de Learnings Sprint 0.0 (RCA 20-07)
+
+### Parallelization Rules (Sprint 0.1+)
+
+**Learning:** Sprint 0.0 planejamento assumiu sequencial (Tier 1 → Tier 2), mas execução descobriu que paralelização era viável (+250% velocity). Planning foi muito conservador.
+
+**Regra 1: Questionar Bloqueadores Agressivamente**
+- Para cada dependência "B depende de A", perguntar: "O que é EXATAMENTE a saída de A que B precisa?"
+- Se resposta é "conceito/direção", A pode começar em paralelo com rascunho
+- Se resposta é "dados concretos", então bloqueador real existe
+
+**Regra 2: MVP Gates entre Tarefas Bloqueadas**
+- Tarefas bloqueadas podem começar com RASCUNHO enquanto bloqueador ainda executa
+- Bloqueador entrega MVP (esboço, direção) → bloqueado começa com rascunho → bloqueador refina
+- Exemplo S0.1: T0.1.1 (VALUE_PROP esboço) → T0.1.3 (OKR rascunho) paralelo
+
+**Regra 3: Validar Paralelização no Kick-off**
+- Reserve 15 min no kick-off para "dependency challenge" — questionar cada bloqueador
+- Prototipo rápido: executar primeira tarefa de bloqueador, criar MVP output, validar que bloqueado pode começar
+
+**Resultado S0.1 Aplicado:**
+- T0.1.1 (1.5d) + T0.1.2 (1d) **paralelo** (sem mudança)
+- T0.1.3 (1.5d) **inicia com rascunho** enquanto T0.1.1 refina → economia ~0.5d
+- Estimativa: 5d planejado → 4-4.5d real (1.1x, vs. 2.2x S0.0)
+
+---
+
+## Histórico de Atualizações
+
+| Data | O Quê | Razão |
+|------|-------|-------|
+| 19-07 | Draft inicial | Planning S0.0-0.3 |
+| 20-07 | MVP Gates + Parallelization Rules | RCA S0.0 learnings |
+
+---
+
 **Criado em:** 2026-07-19  
-**Versão:** 1.0 (Draft)  
-**Próximo Update:** Após Sprint 0.0 (validar dependências reais)
+**Versão:** 2.0 (com learnings S0.0)  
+**Próximo Update:** Após Sprint 0.1 (validar paralelização real)

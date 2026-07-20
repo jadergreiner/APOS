@@ -1,17 +1,20 @@
 """BootstrapGate — validates semantic foundations before project execution."""
+
 from pathlib import Path
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Optional
 
 
 @dataclass
 class BootstrapResult:
     """Result of bootstrap validation."""
+
     passed: bool
     missing_foundations: list[str]
     existing_foundations: list[str]
     session_needed: bool
     summary: str
+    validation_details: dict = field(default_factory=dict)
 
 
 class BootstrapGate:
@@ -63,6 +66,102 @@ class BootstrapGate:
             summary=summary,
         )
 
+    def validate_with_details(self) -> BootstrapResult:
+        """Validate foundations with detailed validation of each file."""
+        from apos.bootstrap.validators import (
+            StrategyValidator,
+            OntologyValidator,
+            GovernanceValidator,
+        )
+
+        result = self.validate()
+        validation_details = {}
+
+        # Strategy validation
+        strategy_val = StrategyValidator(self.project_root)
+        for val_result in strategy_val.validate_all():
+            validation_details[val_result.file] = {
+                "valid": val_result.valid,
+                "issues": val_result.issues,
+            }
+
+        # Ontology validation
+        ontology_val = OntologyValidator(self.project_root)
+        for val_result in ontology_val.validate_all():
+            validation_details[val_result.file] = {
+                "valid": val_result.valid,
+                "issues": val_result.issues,
+                "entity_count": val_result.entity_count,
+                "relationship_count": val_result.relationship_count,
+            }
+
+        # Governance validation
+        governance_val = GovernanceValidator(self.project_root)
+        for val_result in governance_val.validate_all():
+            validation_details[val_result.file] = {
+                "valid": val_result.valid,
+                "issues": val_result.issues,
+            }
+
+        # Commit Tracking validation (for active sprints)
+        commit_tracking_details = self.validate_commit_tracking()
+        if commit_tracking_details:
+            validation_details.update(commit_tracking_details)
+
+        result.validation_details = validation_details
+        return result
+
+    def generate_missing_templates(self) -> dict[str, bool]:
+        """Auto-generate template files for missing foundations."""
+        from apos.bootstrap.templates import TemplateGenerator
+
+        result = self.validate()
+        generator = TemplateGenerator(self.project_root)
+        return generator.generate_missing(result.missing_foundations)
+
+    def validate_commit_tracking(self) -> dict:
+        """Validate commit tracking in active sprints (optional).
+
+        Looks for docs/releases/*/sprint-*/ directories and validates
+        that TASKS.md, BOARD.md, STATUS.md have commit references.
+
+        Returns:
+            Dict of sprint validation details, empty if no sprints found.
+        """
+        from apos.kernel import CommitTrackingValidator
+
+        details = {}
+        releases_dir = self.project_root / "docs" / "releases"
+
+        if not releases_dir.exists():
+            return details
+
+        # Find all sprints
+        for release_dir in releases_dir.iterdir():
+            if not release_dir.is_dir():
+                continue
+
+            for sprint_dir in release_dir.iterdir():
+                if not sprint_dir.is_dir() or not sprint_dir.name.startswith(
+                    "sprint-"
+                ):
+                    continue
+
+                # Validate sprint
+                validator = CommitTrackingValidator(str(sprint_dir))
+                result = validator.validate()
+
+                sprint_key = f"commit_tracking_{release_dir.name}_{sprint_dir.name}"
+                details[sprint_key] = {
+                    "valid": result.passes(),
+                    "score": result.score,
+                    "status": result.status,
+                    "issues": result.issues,
+                    "tracked_commits": sorted(result.tracked_commits),
+                }
+
+        return details
+
     def run(self) -> bool:
         """
         Main entry point for `python -m apos init`.
@@ -81,9 +180,17 @@ class BootstrapGate:
 
         if result.session_needed:
             print("⚠️  Missing foundations detected.")
-            print("   Initiating Foundation Definition Session...\n")
+            print("   Generating template files...\n")
+
+            templates_generated = self.generate_missing_templates()
+            for filename, success in templates_generated.items():
+                status = "✓" if success else "✗"
+                print(f"   {status} {filename}")
+
+            print("\n   Initiating Foundation Definition Session...\n")
 
             from apos.bootstrap.session import FoundationDefinitionSession
+
             session = FoundationDefinitionSession(
                 project_root=self.project_root,
                 missing_foundations=result.missing_foundations,

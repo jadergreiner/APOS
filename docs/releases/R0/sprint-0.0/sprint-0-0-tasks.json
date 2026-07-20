@@ -1,0 +1,62 @@
+[
+  {
+    "id": "T0.0.1",
+    "title": "Release Management Framework",
+    "description": "Implementar Release Management Framework no APOS Core",
+    "days_estimate": 1.0,
+    "status": "complete",
+    "assignee": "Jader",
+    "depends_on": [],
+    "notes": "Repositório pronto, templates funcionando"
+  },
+  {
+    "id": "T0.0.2",
+    "title": "Bootstrap Gate Implementation",
+    "description": "Implementar validação de fundações semânticas",
+    "days_estimate": 2.0,
+    "status": "planned",
+    "assignee": "Jader",
+    "depends_on": [],
+    "notes": "Arquitetura definida, pronto para implementação"
+  },
+  {
+    "id": "T0.0.3",
+    "title": "Auto-ID APOS + CLI",
+    "description": "Implementar auto-identificação e `python -m apos init`",
+    "days_estimate": 1.0,
+    "status": "planned",
+    "assignee": "Jader",
+    "depends_on": ["T0.0.2"],
+    "notes": ""
+  },
+  {
+    "id": "T0.0.A",
+    "title": "Entrevistas JTBD",
+    "description": "Conduzir 5+ entrevistas com personas",
+    "days_estimate": 2.0,
+    "status": "planned",
+    "assignee": "Jader",
+    "depends_on": [],
+    "notes": "Kit de entrevista em preparação"
+  },
+  {
+    "id": "T0.0.B",
+    "title": "Análise de Forças",
+    "description": "Executar análise Push/Pull/Ansiedade/Hábito",
+    "days_estimate": 1.0,
+    "status": "planned",
+    "assignee": "Jader",
+    "depends_on": ["T0.0.A"],
+    "notes": "Aguardando entrevistas"
+  },
+  {
+    "id": "T0.0.C",
+    "title": "Job Statement Final",
+    "description": "Validar e documentar Job Statement final",
+    "days_estimate": 1.0,
+    "status": "planned",
+    "assignee": "Jader",
+    "depends_on": ["T0.0.B"],
+    "notes": "Será assinado pelos stakeholders"
+  }
+]
