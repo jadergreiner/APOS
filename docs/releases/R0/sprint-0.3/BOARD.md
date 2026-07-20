@@ -49,7 +49,10 @@ Backlog        A Fazer       Em Progresso    Em Revisao    Completo
 
 ## 🔄 Em Progresso
 
-(Nenhum — aguardando kick-off 2026-07-22)
+**Total:** 2 items (paralelizacao Dia 1)
+
+- [ ] **T0.3.1** — Especificacao Tecnica (SPEC.md) — 1.5d — 🟠 IN PROGRESS (Jader)
+- [ ] **T0.3.2** — Design de API REST (API_DESIGN.md) — 1.5d — 🟠 IN PROGRESS (Jader)
 
 ---
 
