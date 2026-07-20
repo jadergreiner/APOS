@@ -1,7 +1,7 @@
 # R0 - sprint-0.2: JTBD Deep Dive
 
 **Status:** ✅ **PREPARATION COMPLETE** — Ready for Execution  
-**Período:** 2026-07-22 até 2026-07-26  
+**Período:** 2026-07-20 até 2026-07-24  
 **Responsável:** Jader Greiner  
 **Tema:** Validação de Necessidade de Mercado (Market Validation Phase)
 
@@ -40,7 +40,7 @@ Veja [TASKS.md](TASKS.md) para lista detalhada.
 
 ## Próximo Passo
 
-**Segunda, 22 julho, 9am:** Abra [JADER_ACTION_PLAN.md](JADER_ACTION_PLAN.md) e execute outreach (Day 1).
+**Segunda, 20 julho, 9am:** Abra [JADER_ACTION_PLAN.md](JADER_ACTION_PLAN.md) e execute outreach (Day 1).
 
 ## User Stories
 

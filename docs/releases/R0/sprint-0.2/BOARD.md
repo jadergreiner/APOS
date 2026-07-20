@@ -1,7 +1,7 @@
 # Sprint Board — Kanban
 
 **Sprint:** 0.2 — JTBD Deep Dive
-**Periodo:** 2026-07-22 ate 2026-07-26
+**Periodo:** 2026-07-20 ate 2026-07-24
 **Status:** 🟢 PREPARATION COMPLETE — Ready for Live Execution
 **Ultima Atualizacao:** 2026-07-20
 

@@ -2,7 +2,7 @@
 
 **Objetivo:** Agendar 5 entrevistas JTBD para validação de VALUE_PROPOSITION.md
 **Método:** Email/Slack personalizado + Follow-up
-**Timeline:** Enviar 20-22 jul, agendar para 22-25 jul
+**Timeline:** Enviar 20-22 jul, agendar para 20-24 jul
 
 ---
 
@@ -204,13 +204,13 @@ Jader Greiner
 
 ## Checklist de Outreach
 
-- [ ] **22 jul (Seg):** Enviar emails para 5 personas (manhã)
-- [ ] **22 jul (Seg):** Follow-up com 1-2 personas que não responderam (tarde)
-- [ ] **23 jul (Ter):** Agendar primeiras 3 entrevistas (confirmações devem chegar 22-23)
-- [ ] **24 jul (Qua):** Follow-up final com personas que ainda não responderam
-- [ ] **25 jul (Qui):** Confirmar agendamentos, enviar contexto (VALUE_PROPOSITION.md, script)
+- [ ] **20 jul (Seg):** Enviar emails para 5 personas (manhã)
+- [ ] **20 jul (Seg):** Follow-up com 1-2 personas que não responderam (tarde)
+- [ ] **21 jul (Ter):** Agendar primeiras 3 entrevistas (confirmações devem chegar 22-23)
+- [ ] **22 jul (Qua):** Follow-up final com personas que ainda não responderam
+- [ ] **23 jul (Qui):** Confirmar agendamentos, enviar contexto (VALUE_PROPOSITION.md, script)
 
-**Meta:** 5/5 entrevistas agendadas para semana de 22-26 jul
+**Meta:** 5/5 entrevistas agendadas para semana de 20-24 jul
 
 ---
 
@@ -295,7 +295,7 @@ Topa?
 
 ✅ **T0.2.1 Completo Quando:**
 
-1. Todos 5 emails enviados (22 jul)
+1. Todos 5 emails enviados (20 jul)
 2. Mínimo 3 confirmações recebidas (até 23 jul)
 3. Todos 5 agendamentos confirmados (até 24 jul)
 4. Contexto (VALUE_PROPOSITION.md + script) enviado para cada persona (até 25 jul)

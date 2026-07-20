@@ -484,9 +484,9 @@ Isso não é uma task.
         task_ids = {t.id for t in sprint.tasks}
         assert task_ids == {"T0.1.1", "T0.1.2", "T0.1.3", "T0.1.4"}
 
-        # Todas as tasks estão documentadas como "**Status:** NÃO INICIADO"
+        # Todas as tasks estão documentadas como "**Status:** ✅ COMPLETO"
         for task_id in task_ids:
-            assert sprint.get_task(task_id).status == TaskStatus.PLANNED
+            assert sprint.get_task(task_id).status == TaskStatus.COMPLETE
 
         # Esforços documentados: T0.1.1=1,5 dias, T0.1.2=1 dia,
         # T0.1.3=1,5 dias, T0.1.4=1 dia

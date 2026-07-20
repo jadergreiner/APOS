@@ -1,7 +1,7 @@
 # R0 - sprint-0.2 — JTBD Deep Dive (Relatório de Status)
 
 **Sprint:** 0.2 - JTBD Deep Dive
-**Período:** 2026-07-22 até 2026-07-26
+**Período:** 2026-07-20 até 2026-07-24
 **Responsável:** Jader Greiner
 **Última Atualização:** 2026-07-20  
 **Status:** ✅ **PREPARATION COMPLETE** — Ready for Live Execution
@@ -10,7 +10,7 @@
 
 ## 📊 Status Geral
 
-**Fase Atual:** Kick-off Monday (Execução 22-26 jul)
+**Fase Atual:** Kick-off (Execução 20-24 jul)
 
 ```
 Preparação: 100% Completa ✅
@@ -30,7 +30,7 @@ Early Adopters: 2/2 confirmed (Sarah + Jader) ✅ READY
 
 **Objetivo**: Conduzir 5 entrevistas JTBD → Consolidar learnings → Verde/Amarelo/Vermelho decision
 
-**Próxima Ação:** Jader abre JADER_ACTION_PLAN.md segunda 22 jul, 9am
+**Próxima Ação:** Jader abre JADER_ACTION_PLAN.md hoje, 9am
 
 ---
 
@@ -38,11 +38,11 @@ Early Adopters: 2/2 confirmed (Sarah + Jader) ✅ READY
 
 | Dia | Estimado | Completo | % | Status |
 |-----|----------|----------|---|--------|
-| D1 (22 jul) | 1.5d | — | 0% | 📋 Planejado |
-| D2 (23 jul) | 2.5d | — | 0% | 📋 Planejado |
-| D3 (24 jul) | 1.5d | — | 0% | 📋 Planejado |
-| D4 (25 jul) | 0.5d | — | 0% | 📋 Planejado |
-| D5 (26 jul) | 0.5d | — | 0% | 📋 Planejado |
+| D1 (20 jul) | 1.5d | — | 0% | 📋 Planejado |
+| D2 (21 jul) | 2.5d | — | 0% | 📋 Planejado |
+| D3 (22 jul) | 1.5d | — | 0% | 📋 Planejado |
+| D4 (23 jul) | 0.5d | — | 0% | 📋 Planejado |
+| D5 (24 jul) | 0.5d | — | 0% | 📋 Planejado |
 | **TOTAL** | **6.5d** | **—** | **0%** | **📋 PLANEJADO** |
 
 ---
@@ -107,4 +107,4 @@ Veja [RISK_MITIGATION.md](RISK_MITIGATION.md) para detalhes.
 ---
 
 **Status Atualizado:** Diariamente (07:00)
-**Proxima Atualizacao:** 2026-07-22 (Dia 1 — Outreach)
+**Proxima Atualizacao:** 2026-07-20 (Dia 1 — Outreach)

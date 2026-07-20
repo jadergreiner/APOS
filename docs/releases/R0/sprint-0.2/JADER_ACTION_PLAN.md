@@ -1,7 +1,7 @@
 # 📋 Sprint 0.2: Seu Plano de Ação Executivo
 
 **Sprint:** 0.2 - JTBD Deep Dive
-**Período:** 22-26 julho 2026 (5 dias)
+**Período:** 20-24 julho 2026 (5 dias)
 **Seu Papel:** Entrevistador de JTBD + Consolidador de Insights
 **Meta:** Validar ou iterar VALUE_PROPOSITION através de 5+ entrevistas estruturadas
 
@@ -18,7 +18,7 @@ Se NÃO (< 3/5) → Iterar VALUE_PROPOSITION + Repetir entrevistas
 
 ## 📅 Cronograma de 5 Dias
 
-### **Dia 1 (seg, 22 jul) — Outreach**
+### **Dia 1 (seg, 20 jul) — Outreach**
 
 **O que fazer:**
 
@@ -50,7 +50,7 @@ Se NÃO (< 3/5) → Iterar VALUE_PROPOSITION + Repetir entrevistas
 
 ---
 
-### **Dia 2 (ter, 23 jul) — Agendamento + Follow-up**
+### **Dia 2 (ter, 21 jul) — Agendamento + Follow-up**
 
 **O que fazer:**
 
@@ -80,7 +80,7 @@ Se NÃO (< 3/5) → Iterar VALUE_PROPOSITION + Repetir entrevistas
 
 ---
 
-### **Dia 3 (qua, 24 jul) — Primeiras Entrevistas**
+### **Dia 3 (qua, 22 jul) — Primeiras Entrevistas**
 
 **O que fazer:**
 
@@ -114,7 +114,7 @@ Se NÃO (< 3/5) → Iterar VALUE_PROPOSITION + Repetir entrevistas
 
 ---
 
-### **Dia 4 (qui, 25 jul) — Entrevistas Continuas**
+### **Dia 4 (qui, 23 jul) — Entrevistas Continuas**
 
 **O que fazer:**
 
@@ -207,25 +207,25 @@ Se NÃO (< 3/5) → Iterar VALUE_PROPOSITION + Repetir entrevistas
 
 ## ✅ Checklist Diário
 
-### **Dia 1 (Seg)**
+### **Dia 1 (Seg, 20 jul)**
 - [ ] 30min: Revisar OUTREACH_TEMPLATES.md
 - [ ] 20min: Enviar 5 emails
 - [ ] 10min: Check responses
 - [ ] 15min: Estudar INTERVIEW_PREP_GUIDE.md
 
-### **Dia 2 (Ter)**
+### **Dia 2 (Ter, 21 jul)**
 - [ ] 20min: Review responses
 - [ ] 30min: Agendar entrevistas confirmadas
 - [ ] 20min: Follow-ups
 - [ ] 20min: Final prep review
 
-### **Dia 3 (Qua)**
+### **Dia 3 (Qua, 22 jul)**
 - [ ] 30min: Final tech prep
 - [ ] 2h: Conduzir 2 entrevistas
 - [ ] 2h: Documentação + follow-up
 - [ ] 30min: Pattern review
 
-### **Dia 4 (Qui)**
+### **Dia 4 (Qui, 23 jul)**
 - [ ] 1h: Conduzir 2 mais entrevistas
 - [ ] 2h: Documentação + análise
 - [ ] 30min: Prep para Day 5

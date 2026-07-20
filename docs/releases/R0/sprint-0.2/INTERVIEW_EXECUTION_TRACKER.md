@@ -1,7 +1,7 @@
 # Sprint 0.2: Interview Execution Tracker
 
 **Sprint:** 0.2 - JTBD Deep Dive  
-**Timeline:** 22-26 julho 2026  
+**Timeline:** 20-24 julho 2026  
 **Status:** ✅ Planning Complete — Ready for Live Execution  
 
 ---
@@ -12,9 +12,9 @@
 |----|---------|--------|------|---------|-------|-------|
 | 1 | PM Leader (Sarah) | ✅ Mock | 2026-07-20 | 45 min | 4/5 | Demo completa |
 | 2 | PM Leader (Jader) | ✅ Interactive | 2026-07-20 | 25 min | 5/5 | Você mesmo — validado |
-| 3 | EM / Tech Lead | 📋 Scheduled | 22-26 jul | 45 min | — | Próxima: Real |
-| 4 | AI Architect | 📋 Scheduled | 22-26 jul | 45 min | — | Próxima: Real |
-| 5 | Product Ops Lead | 📋 Scheduled | 22-26 jul | 45 min | — | Próxima: Real |
+| 3 | EM / Tech Lead | 📋 Scheduled | 20-24 jul | 45 min | — | Próxima: Real |
+| 4 | AI Architect | 📋 Scheduled | 20-24 jul | 45 min | — | Próxima: Real |
+| 5 | Product Ops Lead | 📋 Scheduled | 20-24 jul | 45 min | — | Próxima: Real |
 
 **Total Meta:** 5/5 entrevistas  
 **Completadas:** 2/5 (mock + interactive)  
@@ -150,7 +150,7 @@ and defend priorities to leadership with data.
 **Persona:** Engineering Manager or Tech Lead  
 **Pain Expected:** Features delivered without OKR backing = technical debt  
 **Unique Angle:** Delivery perspective vs. PM planning  
-**Date:** 22-23 julho  
+**Date:** 20-22 julho  
 
 **Prep:**
 - Review JADER_ACTION_PLAN.md (Day 1)
@@ -310,7 +310,7 @@ and defend priorities to leadership with data.
 ✅ 3+ early adopters interessados  
 ✅ Verde decision → Sprint 0.3 kickoff  
 
-**Timeline:** 22-26 julho 2026 (5 dias)
+**Timeline:** 20-24 julho 2026 (5 dias)
 
 **Você está 40% do caminho (2/5 entrevistas).**
 

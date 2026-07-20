@@ -1,7 +1,7 @@
 # JTBD Interviews — Documentação de Descobertas
 
 **Sprint:** 0.2 - JTBD Deep Dive
-**Período:** 22-26 julho 2026
+**Período:** 20-24 julho 2026
 **Entrevistador:** Jader Greiner
 **Framework:** Jobs to Be Done (Push/Pull/Habit/Anxiety Forces)
 

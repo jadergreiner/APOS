@@ -2,7 +2,7 @@
 
 **Sprint:** 0.2 - JTBD Deep Dive
 **Objetivo:** Validar que APOS resolve jobs reais através de 5+ entrevistas JTBD
-**Data de Execução:** 2026-07-22 até 2026-07-26
+**Data de Execução:** 2026-07-20 até 2026-07-24
 
 ---
 
@@ -186,10 +186,10 @@ Cada entrevista explora **Forças de Progresso** que movem adotantes em direçã
 | Data | Persona | Entrevistador | Duração | Status |
 |------|---------|---------------|---------|--------|
 | 22 jul | Líder de PM | Jader | 45 min | 📋 Agendar |
-| 23 jul | Gerente de Engenharia | Jader | 45 min | 📋 Agendar |
-| 23 jul | Arquiteto IA | Jader | 45 min | 📋 Agendar |
+| 21 jul | Gerente de Engenharia | Jader | 45 min | 📋 Agendar |
+| 22 jul | Arquiteto IA | Jader | 45 min | 📋 Agendar |
 | 24 jul | Líder de Ops de Produto | Jader | 45 min | 📋 Agendar |
-| 25 jul | Early Adopter | Jader | 60 min | 📋 Agendar |
+| 24 jul | Early Adopter | Jader | 60 min | 📋 Agendar |
 
 **Total de Entrevistas:** 5  
 **Tempo Total:** ~4.25 horas
