@@ -2,7 +2,7 @@
 
 **Versão:** 0.1.0-beta  
 **Data de Início:** 2026-07-19  
-**Status:** IN PROGRESS (Sprint 0.0 ✅ Complete, Sprint 0.1 Next 22 jul)
+**Status:** IN PROGRESS (Sprint 0.0 ✅ MERGED TO develop via 25f3474, Sprint 0.1 Next 22 jul)
 
 ---
 
