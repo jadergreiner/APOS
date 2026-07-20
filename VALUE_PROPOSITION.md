@@ -1,8 +1,8 @@
 # APOS Value Proposition
 
-**Version**: 1.0 (Refined)  
+**Version**: 1.1 (JTBD-validated)  
 **Date**: 2026-07-19  
-**Status**: Validation Ready
+**Status**: ✅ JTBD VALIDATED (7/7 personas align)
 
 ---
 
@@ -29,14 +29,16 @@ Today's Reality:
 ├─ Implementations miss constraints (no ontology validation)
 ├─ Priorities change → rework cascades (no impact modeling)
 ├─ Teams go "dark" (context lives in Slack, Notion, heads)
-└─ Agents can't reason about strategy (no formal models)
+├─ Agents can't reason about strategy (no formal models)
+└─ **You only discover context was wrong AFTER the deploy** (7/7 personas)
 
 With APOS:
 ├─ Agents inherit domain constraints (ontology + bootstrap)
 ├─ Implementations validate against schema (semantic gates)
 ├─ Changes ripple automatically (impact calculation)
 ├─ Context is formal + queryable (single source of truth)
-└─ Agents reason about strategy end-to-end (OKR→Release→Feature→Task)
+├─ Agents reason about strategy end-to-end (OKR→Release→Feature→Task)
+└─ **You know context confidence BEFORE the agent acts** (7/7 personas)
 ```
 
 ### The Core Gap APOS Fills
@@ -55,6 +57,16 @@ AI Agent decides: "0.75 is good enough for planning, but I need human review for
 
 This **confidence score is unique to APOS**. No other tool provides it.
 
+### Validated by 7 Personas (JTBD Discovery, Jul 2026)
+
+After 7 structured JTBD interviews across PM, AI Operator, CTO, Stakeholder, Early Adopter, Eng. Dados Jr, and Dev Pleno, the job statement converged:
+
+> **When** [I depend on AI agents (or teams) to implement without visibility into the context they use],
+> **I want** [a system that shows the confidence level of each piece of information *before* they act],
+> **so I can** [delegate with confidence and eliminate the rework cycle caused by outdated context].
+
+**Key insight from interviews**: "Falso positivo de confiança é pior que ausência de contexto" — a false positive confidence score breaks trust permanently. This is the #1 architectural requirement, cited by 6/7 personas.
+
 ---
 
 ## Target Customer
@@ -70,6 +82,9 @@ This **confidence score is unique to APOS**. No other tool provides it.
 - Lack of alignment → rework -85%
 - Manual validation every change → slow cycles
 - Context fragmented across tools → inconsistency
+- **"You only discover context was wrong after the deploy"** (unanimous across 7 personas)
+- **"I don't know what the AI 'saw' to generate that code"** (Dev/Operator personas)
+- **"30-40% of engineering effort is invisible waste — no P&L line for misalignment"** (Stakeholder)
 
 **Segment Size**: ~10,000 teams globally (by 2026)
 
@@ -238,6 +253,14 @@ PM: "Review this release plan and tell me if it's aligned"
 - ✅ Ontology formally defines Release, Sprint, OKR, BacklogItem
 - ✅ Semantic scoring ensures context quality before agents execute
 - ✅ Governance framework catching schema violations automatically
+- ✅ Release Management Framework with 22/22 tests passing
+
+**From JTBD Discovery (7 personas, Jul 2026)**:
+- ✅ Job statement validated by 7 diverse personas: PM, AI Operator, CTO, Stakeholder (negócios), Early Adopter, Eng. Dados Jr., Dev Pleno
+- ✅ **Unanimous finding**: "Confiança granular (0.0-1.0) é o que ninguém oferece hoje"
+- ✅ **#1 requirement**: Falso positivo é inaceitável (6/7 personas)
+- ✅ 6 product requirements extracted: confidence granularity, anti-false-positive, auto-update via events, in-flow UX, auto-discovery, cost-of-misalignment visibility in $
+- ✅ "APOS não resolve falta de contexto. Resolve impossibilidade de saber se o contexto é confiável antes de agir."
 
 **From Industry Context**:
 - ✅ OpenAI calling for "better context" for agents (GPT-4 era)
@@ -333,14 +356,14 @@ if gate.evaluate(knowledge_graph).passes():
 
 ## Next Steps
 
-1. **Validation**: Get 5+ target customers to review this proposition
-2. **Proof of Concept**: Show APOS dogfooding itself (Bootstrap + OKRs)
-3. **Beta Program**: Launch with 10 early adopters (Q4 2026)
-4. **General Availability**: R1 public launch (Q1 2027)
+1. ~~Validation~~ ✅ **DONE** — 7 JTBD interviews validated value prop (see Sprint 0.0)
+2. **Proof of Concept** — Show APOS dogfooding itself (Bootstrap + Release Management + JTBD)
+3. **Beta Program** — Launch with 10 early adopters (R1)
+4. **General Availability** — R1 public launch
 
 ---
 
 **Created**: 2026-07-19  
-**Last Refined**: 2026-07-19  
-**Status**: Ready for Stakeholder Validation  
-**Next Review**: Post-validation interviews (Sprint 0.1)
+**Last Refined**: 2026-07-19 (v1.1 — JTBD-validated)  
+**Status**: ✅ VALIDATED (7/7 personas align)  
+**Next Review**: Post-beta customer validation
