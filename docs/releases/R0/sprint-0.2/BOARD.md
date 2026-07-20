@@ -2,8 +2,8 @@
 
 **Sprint:** 0.2 — JTBD Deep Dive
 **Periodo:** 2026-07-20 ate 2026-07-24
-**Status:** 🟢 DIA 1 CONCLUIDO — 6/7 tarefas completas
-**Ultima Atualizacao:** 2026-07-20 (enriquecido)
+**Status:** ✅ SPRINT 0.2 CONCLUIDO — 7/7 tarefas
+**Ultima Atualizacao:** 2026-07-20 (7/7 completo)
 
 ---
 
@@ -11,26 +11,23 @@
 
 ```
 Backlog        A Fazer       Em Progresso    Em Revisao    Completo
-   (1)            (0)            (0)            (0)          (6)
+   (0)            (0)            (0)            (0)          (7)
 
    ---            v              v              v           Done
-  T0.2.7                                                        T0.2.1
-                                                                T0.2.2
-                                                                T0.2.3
-                                                                T0.2.4
-                                                                T0.2.5
-                                                                T0.2.6
+                                                              T0.2.1
+                                                              T0.2.2
+                                                              T0.2.3
+                                                              T0.2.4
+                                                              T0.2.5
+                                                              T0.2.6
+                                                              T0.2.7
 ```
 
 ---
 
 ## 📋 Backlog (Nao Iniciado)
 
-**Total:** 1 item
-
-### Tier 3: Nice-to-Have
-
-- [ ] **T0.2.7** — Preparar materiais de Beta (0.5d)
+**Total:** 0 items — todas as tarefas concluidas
 
 ---
 
@@ -69,6 +66,10 @@ Backlog        A Fazer       Em Progresso    Em Revisao    Completo
 
 - [x] **T0.2.5** — Validar consistencia com VALUE_PROPOSITION (0.5d) — 5/5 validaram
 - [x] **T0.2.6** — Documentar JOB_STATEMENT.md (0.5d) — 6KB, job formal definido
+
+### Tier 3: Nice-to-Have (Completo)
+
+- [x] **T0.2.7** — Preparar materiais de Beta (0.5d) — BETA_PROGRAM.md com onboarding flow
 
 ---
 
