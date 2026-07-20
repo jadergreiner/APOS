@@ -24,16 +24,17 @@
 - OKR.md v1.1 (309 linhas) — 3 objetivos × 3 KRs, alinhados ao NORTH_STAR
 - ROADMAP_R1_R4.md v1.0 (449 linhas) — 18 meses, 4 releases, 16 sprints
 
-### 3. Stakeholder validation plan criado proativamente
+### 3. CRLF → LF normalizado no kernel de templates
 
-- Plano de validação com 3 personas (PM, Eng Manager, AI Architect)
-- Pesquisa de VALUE_PROPOSITION documentada separadamente
-- Pronto para validação externa sem depender do sprint
+- Todos os templates do `ReleaseTemplateGenerator` agora geram arquivos LF
+- Sprint-0.2 gerado via `init-sprint` já nasce com encoding correto
+- Previne artifact HTML `<p>` no final de documentos renderizados
 
-### 4. Estrutura de diretórios padronizada
+### 4. `init-sprint` implementado e funcional
 
-- Sprint 0.1 agora espelha Sprint 0.0: README, TASKS, USER_STORIES, BOARD, STATUS, RETRO, RISK_MITIGATION
-- Consistência facilita automação e rastreamento entre releases
+- `python -m apos init-sprint --sprint sprint-0.2 --release R0`
+- Gera 8 artefatos com conteúdo real via `ReleaseTemplateGenerator`
+- Estrutura consistente garantida pelo kernel
 
 ---
 
@@ -43,34 +44,37 @@
 
 - Faltavam BOARD.md, USER_STORIES.md, RETRO.md, RISK_MITIGATION.md
 - Foram criados retroativamente ao fechar o sprint
-- Lição: usar `python -m apos init-sprint` ou template generator no kick-off
+- Lição: usar `python -m apos init-sprint` no kick-off (já implementado)
 
 ### 2. TASKS.md desatualizado em relação ao real
 
-- TASKS.md ainda marcava tarefas como "NÃO INICIADO"
+- TASKS.md ainda marcava tarefas como "NÃO INICIADO" até o fechamento
 - STATUS.md foi atualizado corretamente, mas TASKS.md ficou para trás
 - Processo: atualizar TASKS.md em tempo real, não só no fechamento
 
-### 3. Sem daily standups durante execução
+### 3. STATUS.md com footer inconsistente
 
-- Apenas 1 daily criada (DAILY_STANDUP_2026-07-20.md)
-- Sprint foi concluído em 1 dia, então daily não fez falta
-- Para sprints mais longos (Sprint 0.2+): usar `python -m apos daily`
+- Header marcava "COMPLETO" mas footer ainda dizia "PLANEJADO"
+- Renderizador de markdown injetou `<p>` artifact no final
+- Raiz: atualizações parciais deixaram o footer para trás
+- Normalização CRLF→LF corrigiu a renderização
 
 ---
 
 ## Ideias de Melhoria 💡
 
-1. **Template de sprint starter**: script que gera BOARD.md + USER_STORIES.md + RISK_MITIGATION.md + RETRO.md vazios no `init-sprint`
-2. **Auto-update de TASKS.md**: ao fechar task no STATUS.md, propagar para TASKS.md
-3. **Checklist de abertura de sprint**: garantir que estrutura 0.0 seja replicada em todo sprint novo
+1. **Auto-check de consistência**: validação que header e footer de STATUS.md estão sincronizados
+2. **Git hook de markdown**: normalizar CRLF→LF automaticamente no commit
+3. **Template versioning**: cada sprint template referenciar a versão do template que o gerou
 
 ---
 
 ## Ações
 
-| ID | Ação | Responsável | Prioridade |
-|----|------|-------------|------------|
-| A-01 | Criar script `init-sprint` que gera estrutura padrão | Jader | MÉDIA |
-| A-02 | Atualizar TASKS.md do Sprint 0.1 para refletir 100% completo | Jader | BAIXA (cosmético) |
-| A-03 | Aplicar template generator no kick-off do Sprint 0.2 | Jader | ALTA |
+| ID | Ação | Responsável | Status |
+|----|------|-------------|--------|
+| A-01 | Criar script `init-sprint` que gera estrutura padrão | Jader | ✅ CONCLUÍDO |
+| A-02 | Atualizar TASKS.md do Sprint 0.1 para refletir 100% completo | Jader | ✅ CONCLUÍDO |
+| A-03 | Aplicar template generator no kick-off do Sprint 0.2 | Jader | 🔄 Pendente |
+| A-04 | Adicionar normalização CRLF→LF no `init-sprint` | Jader | ✅ CONCLUÍDO |
+| A-05 | Validar consistência header/footer no STATUS.md template | Jader | 🔄 Pendente |
