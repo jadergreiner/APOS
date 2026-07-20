@@ -416,6 +416,10 @@ class Sprint:
         """
         task = self.get_task(task_id)
         if task:
+            # Evitar transição redundante — mesmo status, nada a registrar
+            if task.status == status:
+                return True
+
             # Registrar transição no histórico
             task.status_history.append(
                 {
