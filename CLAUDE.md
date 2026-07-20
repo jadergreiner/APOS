@@ -29,55 +29,11 @@ APOS não é só ontologia abstrata. Quando você importa APOS, você recebe:
 
 Exemplo: APOS R0 é gerenciado **usando os próprios frameworks de APOS** ([docs/releases/R0/](docs/releases/R0/)).
 
-## Padrões de Kernel (Obrigatório)
+## Padrões de Kernel (Implementados + Obrigatórios)
 
-### Commit Tracking Convention
+**Quando projeto importa APOS, recebe automaticamente estes padrões implementados no package:**
 
-- **[docs/COMMIT_TRACKING.md](docs/COMMIT_TRACKING.md)** — Padrão de rastreamento de commits
-  - Todos os artefatos entregues devem referenciar commits
-  - TASKS.md, BOARD.md, STATUS.md incluem commit refs para auditoria
-  - CI/CD valida que tarefas completas têm commits documentados
-  - Facilita retrospectivas baseadas em dados concretos
-
-### Bootstrap Gate — Inicialização Automática
-
-Quando um projeto importa APOS pela primeira vez:
-
-- **[BOOTSTRAP_GATE.md](BOOTSTRAP_GATE.md)** — Sistema automático que valida fundações semânticas
-  - Verifica: NORTH_STAR.md, OKRs, PURPOSE, VALUE_PROPOSITION, Ontologia, Semantic Layer, Governance
-  - Se falta algo: auto-gera templates + guia sessão de Foundation Definition
-  - Se tudo OK: libera projeto para Release Planning
-  - **Validação de Entrega**: Verifica que todas as tarefas têm commits rastreados (COMMIT_TRACKING.md)
-
-**3 Componentes-chave:**
-
-1. **Detecção automática** — Identifica quais das 10 fundações estão presentes/ausentes
-2. **Geração de templates** — Auto-cria NORTH_STAR.md, OKR.md, ONTOLOGY.md, etc. com instruções
-3. **Sessão guiada** — Conduz projeto através de JTBD Discovery → Strategy Definition → Ontology Design → Governance Setup
-
-**Uso prático:**
-
-```bash
-$ python -m apos init
-
-APOS Project Initialization
-===========================
-
-Detectando fundações...
-✅ NORTH_STAR.md
-✅ OKR.md
-❌ ONTOLOGY.md (missing)
-❌ GOVERNANCE.md (missing)
-
-GAPS encontrados. Iniciando Foundation Definition Session...
-(Conduzindo through JTBD → Strategy → Ontology)
-```
-
-**Conceito-chave:** Bootstrap Gate **garante que todo projeto que usa APOS tem fundações formais** antes de começar a executar. Implementação validada em Sprint 0.0 (Jader Greiner, PM Meu PDI) — ver [docs/releases/R0/sprint-0.0/RETRO.md](docs/releases/R0/sprint-0.0/RETRO.md).
-
-**Padrão reutilizável:** Use Bootstrap Gate em todas releases (R0-R4) e sub-sistemas, não só inicialização de projeto.
-
-### Semantic Validation Rule
+### ✅ Semantic Validation Rule (FULL KERNEL)
 
 Quando implementar validadores (ontologia, governança, estratégia), **enforce critérios REAIS de qualidade**, nunca decorativo:
 
@@ -104,16 +60,81 @@ def validate_strategy(file_path):
     return FAIL  # Com detalhes de quais critérios falharam
 ```
 
-**Por quê:** 
-- Portais de governança são mecanismo de enforcement — sem semântica real, são inúteis
-- Validadores medíocres = confiança perdida
-- Sprint 0.0 aprendizado: Primeiro ciclo tinha validadores decorativos, causou revisão crítica (RETRO.md: "validators eram decorativos — só checavam existência")
+**Status:** ✅ Implementado em `apos/bootstrap/validators/` (24 testes, 85%+ cobertura)  
+**Export:** `from apos.bootstrap.validators import StrategyValidator, OntologyValidator, GovernanceValidator`
 
-**Aplicação:** Todos validadores em `apos/bootstrap/validators/`, `apos/governance/`, e estruturas futuras.
+---
+
+### ✅ Bootstrap Gate Pattern (FULL KERNEL)
+
+Quando projeto importa APOS pela primeira vez:
+
+- **[BOOTSTRAP_GATE.md](BOOTSTRAP_GATE.md)** — Sistema automático que valida fundações semânticas
+  - Verifica: NORTH_STAR.md, OKRs, PURPOSE, VALUE_PROPOSITION, Ontologia, Semantic Layer, Governance
+  - Se falta algo: auto-gera templates + guia sessão de Foundation Definition
+  - Se tudo OK: libera projeto para Release Planning
+  - **Validação de Entrega**: Verifica que todas as tarefas têm commits rastreados
+
+**3 Componentes-chave:**
+
+1. **Detecção automática** — Identifica quais das 10 fundações estão presentes/ausentes
+2. **Geração de templates** — Auto-cria NORTH_STAR.md, OKR.md, ONTOLOGY.md, etc. com instruções
+3. **Sessão guiada** — Conduz projeto através de JTBD Discovery → Strategy Definition → Ontology Design → Governance Setup
+
+**Uso prático:**
+
+```bash
+$ python -m apos init
+
+APOS Project Initialization
+===========================
+
+Detectando fundações...
+✅ NORTH_STAR.md
+✅ OKR.md
+❌ ONTOLOGY.md (missing)
+❌ GOVERNANCE.md (missing)
+
+GAPS encontrados. Iniciando Foundation Definition Session...
+(Conduzindo through JTBD → Strategy → Ontology)
+```
+
+**Status:** ✅ Implementado em `apos/bootstrap/gate.py` + `apos/bootstrap/session.py` (35 testes, 81% cobertura)  
+**Export:** `from apos import BootstrapGate, SessionManager`  
+**Padrão reutilizável:** Use em todas releases (R0-R4) + sub-sistemas.
+
+---
+
+### 🔴 Commit Tracking CI Validation (IN PROGRESS → Sprint 0.1)
+
+**O que é:** Validação automática que artefatos de sprint (TASKS.md, BOARD.md, STATUS.md) têm refs de commit.
+
+**Por quê Kernel:** Audit trail precisa ser garantido, não aspiracional.
+
+**Status atual:**
+- ✅ Especificação: [docs/COMMIT_TRACKING.md](docs/COMMIT_TRACKING.md)
+- ✅ Padrão documentado: Sprint 0.0 exemplo completo
+- 🔴 Implementação: `apos/kernel/commit_tracking.py` (TODO — Sprint 0.1)
+- 🔴 CI/CD validation: `.github/workflows/` (TODO — Sprint 0.1)
+- 🔴 Export: `from apos import CommitTrackingValidator` (TODO)
+
+**Será Kernel quando:**
+- ✅ CommitTrackingValidator implementado + testado
+- ✅ BootstrapGate integrado com validator
+- ✅ CI/CD workflow validando PRs
+- ✅ Documentação: "Projeto que importa APOS recebe validação automática de commit tracking"
+
+**Spec detalhada:** [docs/KERNEL_COMMIT_TRACKING_SPEC.md](docs/KERNEL_COMMIT_TRACKING_SPEC.md)
+
+---
+
+## Padrões de Processo (Recomendado, Não Enforçado)
+
+**Padrões de workflow recomendados, não implementados em código:**
 
 ### Paralelização Padrão em Sprint Planning
 
-**Aprendizado Sprint 0.0:** Planning assumiu sequencial (Tier 1 Core → Tier 2 JTBD), mas descoberta during execution: **paralelização era viável e entregou +250% velocidade**.
+**Aprendizado Sprint 0.0:** Planning assumiu sequencial (Tier 1 Core → Tier 2 JTBD), mas descoberta durante execução: **paralelização era viável e entregou +250% velocidade**.
 
 **Regra de Planning:**
 
@@ -132,7 +153,7 @@ PLANEJADO (Sequencial):
 
 REAL (Paralelo):
   Tier 1 (Core) + Tier 2 (JTBD) simultâneos
-  Habilitador: T0.0.2 (Bootstrap Gate) virou enabler para T0.0.3 (SessionManager)
+  Habilitador: T0.0.2 (Bootstrap Gate) virou enabler para T0.0.3
   Total: 3 dias (~250% faster)
 ```
 
