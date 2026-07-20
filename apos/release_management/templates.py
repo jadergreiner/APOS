@@ -529,3 +529,73 @@ PRÓXIMA DAILY: Tomorrow 07:00
 **Duração:** [Minutos]
 **Participantes:** [Nomes]
 """
+
+    @staticmethod
+    def generate_user_stories_template() -> str:
+        """Gerar template de USER_STORIES.md."""
+        return """# Sprint Stories — User Stories
+
+**Status:** Planning
+
+---
+
+## US-X.Y.Z: [Título da História]
+
+**Descrição:**
+Como [persona], quero [funcionalidade] para que [benefício].
+
+**Critérios de Aceitação:**
+- [ ] Critério 1
+- [ ] Critério 2
+- [ ] Critério 3
+
+**Sprint:** [sprint_id]
+**Pontos:** N
+**Responsável:** [Nome]
+**Status:** 📅 PLANNED
+
+---
+
+**Total de Histórias:** N
+**Pontos Totais:** N
+**Completas:** 0
+"""
+
+    @staticmethod
+    def generate_risk_mitigation_template() -> str:
+        """Gerar template de RISK_MITIGATION.md."""
+        return f"""# Sprint — Mitigação de Riscos
+
+**Sprint:** [sprint_id]
+
+---
+
+## Registro de Riscos
+
+### Risco 1: [Título do Risco]
+
+**Probabilidade:** BAIXA / MÉDIA / ALTA
+**Impacto:** BAIXO / MÉDIO / ALTO
+**Severidade:** BAIXA / MÉDIA / ALTA
+
+**Descrição:**
+[Descrição do risco]
+
+**Mitigação:**
+[Ação de mitigação]
+
+**Status:** 🟢 Aceito / 🟡 Monitorando / 🔴 Materializado
+
+---
+
+## Resumo
+
+| Risco | Probabilidade | Impacto | Status |
+|-------|--------------|---------|--------|
+| | | | |
+
+**Última Atualização:** {datetime.now().isoformat()}
+"""
+
+
+# --- Public API ---
