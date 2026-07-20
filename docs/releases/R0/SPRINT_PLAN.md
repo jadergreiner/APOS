@@ -21,7 +21,7 @@ R0 estabelece todas as **fundações do APOS** através do Skill Council (11 ski
 | Sprint | Tema | Skill Lead | Deliverables | Status |
 |--------|------|-----------|--------------|--------|
 | **0.0** | Knowledge Consolidation | JTBD Framework | JTBD-INTERVIEWS-RAW-NOTES.md, JOB_STATEMENT.md, FORCES_ANALYSIS.md | ✅ MERGED TO develop (25f3474) |
-| **0.1** | Platform Identity | Anthropic PM | NORTH_STAR_FINAL.md, OKR.md | 📅 PLANNED |
+| **0.1** | Platform Identity | Anthropic PM | VALUE_PROPOSITION.md, COMPETITIVE_POSITIONING.md, OKR.md, ROADMAP_R1_R4.md | ✅ COMPLETO (1 dia, +500%) |
 | **0.2** | Ontology | Ontology Engineering | ONTOLOGY.md, Entity Model | 📅 PLANNED |
 | **0.3** | Semantic Layer | Semantic Layer Design | SEMANTIC_LAYER.md, Rules | 📅 PLANNED |
 | **0.4** | Knowledge Graph | Knowledge Graph Design | KNOWLEDGE_GRAPH.md, Model | 📅 PLANNED |
