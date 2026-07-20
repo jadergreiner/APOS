@@ -75,6 +75,6 @@
 |----|------|-------------|--------|
 | A-01 | Criar script `init-sprint` que gera estrutura padrão | Jader | ✅ CONCLUÍDO |
 | A-02 | Atualizar TASKS.md do Sprint 0.1 para refletir 100% completo | Jader | ✅ CONCLUÍDO |
-| A-03 | Aplicar template generator no kick-off do Sprint 0.2 | Jader | 🔄 Pendente |
+| A-03 | Aplicar template generator no kick-off do Sprint 0.2 | Jader | ✅ CONCLUÍDO |
 | A-04 | Adicionar normalização CRLF→LF no `init-sprint` | Jader | ✅ CONCLUÍDO |
-| A-05 | Validar consistência header/footer no STATUS.md template | Jader | 🔄 Pendente |
+| A-05 | Validar consistencia header/footer no STATUS.md template | Jader | ✅ CONCLUÍDO |

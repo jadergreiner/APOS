@@ -107,4 +107,4 @@ Veja [RISK_MITIGATION.md](RISK_MITIGATION.md) para detalhes.
 ---
 
 **Status Atualizado:** Diariamente (07:00)
-**Próxima Atualização:** Tomorrow
+**Proxima Atualizacao:** 2026-07-22 (Dia 1 — Outreach)
