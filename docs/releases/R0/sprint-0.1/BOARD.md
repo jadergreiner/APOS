@@ -85,3 +85,12 @@ Backlog        A Fazer       Em Progresso    Em Revisão    Completo
 | **Tarefas** | 4/4 concluídas ✅ |
 | **Subtarefas** | 16/16 concluídas ✅ |
 | **Arquivos criados** | 4 documentos principais + 3 auxiliares |
+
+---
+
+## Audit Trail
+
+| Commit | Descrição |
+|--------|-----------|
+| `d14f7c8` | feat: Sprint 0.1 merge — Platform Identity complete |
+| `38ff1ef` | docs: update R0 README status after Sprint 0.1 merge |

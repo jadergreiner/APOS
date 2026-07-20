@@ -254,6 +254,15 @@ Esforço Real: 1d (+500% velocity)
 
 ---
 
+## Commit Tracking
+
+| Commit | Descrição |
+|--------|-----------|
+| `d14f7c8` | feat: Sprint 0.1 merge — Platform Identity complete (VALUE_PROPOSITION, COMPETITIVE_POSITIONING, OKR, ROADMAP, Sprint 0.2 prep, init-sprint CLI) |
+| `38ff1ef` | docs: update R0 README status after Sprint 0.1 merge |
+
+---
+
 **Atualizado**: 2026-07-20
 **Status do Sprint**: ✅ **COMPLETO** — Todos os 4 entregáveis finalizados
 **Próxima Atualização**: Sprint 0.2

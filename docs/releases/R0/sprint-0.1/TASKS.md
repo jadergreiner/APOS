@@ -154,6 +154,13 @@
 
 ---
 
+## Commits de Rastreamento
+
+| Commit | Descrição | Data |
+|--------|-----------|------|
+| `d14f7c8` | feat: Sprint 0.1 merge — Platform Identity complete | 2026-07-20 |
+| `38ff1ef` | docs: update R0 README status after Sprint 0.1 merge | 2026-07-20 |
+
 **Criado**: 2026-07-19
 **Última Atualização**: 2026-07-20
 **Status**: ✅ **100% COMPLETO**
