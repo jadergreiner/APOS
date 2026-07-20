@@ -313,11 +313,17 @@ Validação:    ✅ (100% consenso entre personas)
 | 5ce6124 | docs: update Sprint 0.0 board - T0.0.2 Bootstrap Gate complete | 19 jul | BOARD.md |
 | e38dc9c | docs: JTBD interview kit + first interview raw notes (T0.0.A) | 19 jul | T0.0.A |
 | 10d4e11 | docs: update Sprint 0.0 README — sprint complete status | 19 jul | README.md |
+| 25f3474 | Merge pull request #1 from feature/release-0-s0 → develop | 20 jul | MERGE |
+| 88520f9 | perf: avoid double call to cycle_time_days (PR#1 review fix) | 20 jul | sprint.py |
+| 828cb2f | fix: skip redundant status_history on no-op transitions (PR#1 review) | 20 jul | sprint.py |
+| 6e8a670 | fix: guard cycle_time_days against invalid timestamps (PR#1 review) | 20 jul | sprint.py |
+| 060fb31 | fix: normalize participant filter + relocate tasks.json (PR#1 review) | 20 jul | daily_runner.py |
+| 67e574e | docs: RCA Sprint 0.0 learnings → apply to Sprint 0.1 | 20 jul | Sprint Planning |
 
 **Rastreamento Completo:** Todos os artefatos entregues possuem commits com refs diretas. Audit trail completo para retrospectiva.
 
 ---
 
-**Status Atualizado:** 2026-07-19 (20:00 — Sprint 0.0 FINAL)
-**Status:** ✅ ENCERRADO — Pronto para Release Planning (Sprint 0.1)
+**Status Atualizado:** 2026-07-20 — Sprint 0.0 MERGED TO DEVELOP
+**Status:** ✅ **ENCERRADO** — Merged via 25f3474. Pronto para Sprint 0.1
 **Próximo Milestone:** Sprint 0.1 Kick-off (22 jul)
