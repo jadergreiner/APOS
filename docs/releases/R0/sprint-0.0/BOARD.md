@@ -46,11 +46,12 @@ Backlog        A Fazer       Em Progresso    Em Revisão    Completo
 
 ### Tier 2: Validação de Job (JTBD Discovery)
 
-- [ ] **T0.0.A** — Conduzir Entrevistas JTBD (2d) *PREPARAÇÃO NECESSÁRIA*
+- [ ] **T0.0.A** — Conduzir Entrevistas JTBD (2d) 🔄 EM PROGRESSO (1/5)
   - 5+ personas: PM, Agente, CTO, Stakeholder, Early Adopter
-  - Preparar kit de entrevista (questões, roteiro)
-  - Agendar + conduzir entrevistas (23-24 jul)
-  - Documentar raw insights
+  - Preparar kit de entrevista (questões, roteiro) ✅
+  - [x] Entrevista 1/5 — Product Manager (Jader Greiner, Meu PDI) — 19 jul
+  - [ ] Entrevistas 2-5/5 — Agente, CTO, Stakeholder, Early Adopter
+  - Documentar raw insights ✅ [JTBD-INTERVIEWS-RAW-NOTES.md](JTBD-INTERVIEWS-RAW-NOTES.md)
 
 - [ ] **T0.0.B** — Mapear Forças de Progresso (1d) *DEPENDENTE DE T0.0.A*
   - Analisar Push/Pull/Ansiedade/Hábito por persona
@@ -68,10 +69,10 @@ Backlog        A Fazer       Em Progresso    Em Revisão    Completo
 
 **Prioridade ALTA — Iniciar HOJE (19 jul)**
 
-1. **[CRÍTICO]** Preparar Kit de Entrevista JTBD
-   - [ ] Estruturar questões por persona (PM vs Agente vs CTO)
-   - [ ] Criar roteiro (60-90 min)
-   - [ ] Preparar termo de consentimento
+1. **[CRÍTICO]** Preparar Kit de Entrevista JTBD ✅ ROTEIRO PRONTO
+   - [x] Estruturar questões por persona (PM, Agente, CTO, Stakeholder, Early Adopter)
+   - [x] Criar roteiro (60-90 min) — ver [JTBD_INTERVIEW_KIT.md](JTBD_INTERVIEW_KIT.md)
+   - [x] Preparar termo de consentimento
    - [ ] Setup de gravação (Zoom/Teams)
    - **Deadline**: 20 jul (segunda)
 
