@@ -92,6 +92,54 @@ pelo ponto de inflexao estrategico.
 
 ---
 
+## 🧭 Conexao com North Star
+
+**North Star:** *"Times visualizam e raciocinam sobre estrategia end-to-end — Task a OKR a Metrica."*
+
+### Cadeia de Valor: R0 → North Star
+
+```
+R0 ENTREGOU                                      NORTH STAR
+─────────────────────────────────────            ──────────────────────────
+KNOWLEDGE_GRAPH.md + graph.py                     "visualizam estrategia"
+  Node/Edge tipados                                Task-123 → Feature-X
+  URN schema (urn:apos:task:oauth-123)              → Release-v2.1
+  Traverse Q01-Q16                                  → OKR-Churn-5%
+                                                    → Metrica-LoginTime
+
+QUERY_PATTERNS.md (Q01-Q16)                       "raciocinam"
+  Task→OKR navegacao                               Agente responde:
+  Feature→Metricas impacto                          "Se mudar Task-123,
+  Orphans detect                                    qual Metrica afeta?"
+
+CONTEXT_MODEL.md + CONTEXT_BOUNDARIES.md           "com contexto embutido"
+  ContextPipeline                                   Agente recebe task
+  Injecao de contexto no prompt                     COM contexto completo
+  TokenBudget por tipo                              SEM precisar adivinhar
+
+EVALUATION_HARNESS.md + Trust Score                "validam alinhamento"
+  Metricas de qualidade                             Trust Score >85%
+  A/B testing                                       = alinhado com OKRs
+  Semantic Gates                                    <60% = desalinhado
+
+RETRO_ACTIONS.md + SprintPlanningSession            "decisoes intencionais"
+  Sprint Goal + OKR Alignment                       Humanos decidem
+  User Stories com criterios                         com dados, nao a deriva
+  Metricas da Sprint
+```
+
+### Cobertura dos Indicadores North Star
+
+| Indicador | R0 entregou | Target NS | Proximo passo em R1 |
+|-----------|-------------|-----------|-------------------|
+| Token Yield | CONTEXT_BOUNDARIES.md (limites por tipo) | -25% | Implementar medicao real |
+| Latencia | — | -50% | Otimizacao no ProjectAdapter |
+| Retrabalho | RETRO_ACTIONS tracker (50% resolucao) | -70% | Ciclo de feedback continuo |
+| Confianca | 134+ testes, 100% coverage graph.py | 90% | Testes em projetos reais |
+| Impacto mudancas | QUERY_PATTERNS Q06-Q09 (impacto) | <5min | CLI de impacto real |
+
+---
+
 ## 🧭 Ponto de Inflexao
 
 Durante a execucao de R0, foi identificado que APOS estava se autodesenvolvendo —
