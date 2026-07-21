@@ -24,7 +24,7 @@
 | T0.3.1 | Especificacao Tecnica (SPEC.md) | Design Plugin Jira + Trust Score + Deteccao Orfas; arquitetura; fluxo dados | 1.5d | Jader | ✅ 100% |
 | T0.3.2 | Design de API REST | Endpoints: /tasks, /okrs, /relationships, /trust-score; schemas; validacoes | 1.5d | Jader | ✅ 100% |
 | T0.3.3 | Implementacao Plugin Jira | Integracao Jira API; webhooks; auto-deteccao features orfas; UI plugin | 2d | Jader | ✅ 100% |
-| T0.3.4 | Trust Score Engine | Implementacao 0.0-1.0 score; calculo (coverage, quality, consistency); validacoes | 1.5d | Jader | 🔄 Em andamento |
+| T0.3.4 | Trust Score Engine | Implementacao 0.0-1.0 score; calculo (coverage, quality, consistency); validacoes | 1.5d | Jader | ✅ 100% |
 
 ### Tier 2: Important / Should-Have
 
@@ -44,14 +44,14 @@
 
 ## Progress Summary (Dia 2 — 2026-07-23)
 
-| Task | Completion | Commits | Notes |
-|------|----------|---------|-------|
-| T0.3.1 (Spec) | ✅ 100% | 7 | SPEC.md finalizado D1 |
-| T0.3.2 (API) | ✅ 100% | 4 | API_DESIGN.md finalizado D1 |
-| T0.3.3 (Plugin) | ✅ 100% | 3 | **5h/5h** Phase 1-4 completo! |
-| T0.3.4 (Score) | 🔄 0% | — | Iniciando agora (D2) |
-| T0.3.5-8 | 📋 0% | — | Bloqueados por T0.3.4 |
-| **Total** | **40%** | **14** | Ahead of schedule ✅ |
+| Task | Completion | Commits | Lines | Notes |
+|------|----------|---------|-------|-------|
+| T0.3.1 (Spec) | ✅ 100% | 7 | — | SPEC.md finalizado D1 |
+| T0.3.2 (API) | ✅ 100% | 4 | — | API_DESIGN.md finalizado D1 |
+| T0.3.3 (Plugin) | ✅ 100% | 3 | 2591 | **5h/5h** Phase 1-4 completo! |
+| T0.3.4 (Score) | ✅ 100% | 1 | 1122 | 18/18 testes passing, 3 componentes |
+| T0.3.5-8 | 📋 0% | — | — | Prontos para iniciar (D3) |
+| **Total** | **60%** | **15** | **3713** | +5 horas ahead! ✅ |
 
 ---
 
