@@ -10,6 +10,7 @@
 
 import JiraAPI from './api/JiraAPI';
 import APISClient from './api/APISClient';
+import APIService from './services/APIService';
 import { setupSidebar } from './modules/sidebar';
 import { setupWebhooks } from './modules/webhooks';
 import { setupContextMenu } from './modules/contextMenu';
@@ -26,6 +27,7 @@ class APOSJiraPlugin {
   constructor() {
     this.jiraAPI = null;
     this.apisClient = null;
+    this.apiService = null;
     this.initialized = false;
   }
 
@@ -46,15 +48,19 @@ class APOSJiraPlugin {
       const health = await this.apisClient.health();
       log(`✅ Backend API connected (${health.status})`);
 
-      // 3. Setup UI modules
-      await setupSidebar(this.jiraAPI, this.apisClient);
+      // 3. Create unified API service (orchestrates all calls)
+      this.apiService = new APIService(this.jiraAPI, this.apisClient);
+      log('✅ API Service initialized');
+
+      // 4. Setup UI modules with API service
+      await setupSidebar(this.apiService);
       log('✅ Sidebar initialized');
 
-      await setupContextMenu(this.jiraAPI, this.apisClient);
+      await setupContextMenu(this.apiService);
       log('✅ Context menu initialized');
 
-      // 4. Setup webhook receivers (backend → plugin)
-      await setupWebhooks(this.jiraAPI, this.apisClient);
+      // 5. Setup webhook receivers (backend → plugin)
+      await setupWebhooks(this.apiService);
       log('✅ Webhooks initialized');
 
       this.initialized = true;
@@ -92,7 +98,7 @@ class APOSJiraPlugin {
     if (!this.initialized) {
       throw new Error('Plugin not initialized');
     }
-    return this.jiraAPI.getCurrentIssue();
+    return this.apiService.getCurrentIssue();
   }
 
   /**
@@ -104,7 +110,7 @@ class APOSJiraPlugin {
     }
 
     try {
-      const orphans = await this.apisClient.getOrphans(projectId);
+      const orphans = await this.apiService.getOrphans(projectId);
       log(`📊 Synced ${orphans.data.length} orphans`);
       return orphans;
     } catch (error) {
@@ -122,12 +128,8 @@ class APOSJiraPlugin {
     }
 
     try {
-      const relationship = await this.apisClient.linkTaskToOKR(taskId, okrId);
+      const relationship = await this.apiService.linkTaskToOKR(taskId, okrId);
       log(`🔗 Linked ${taskId} → ${okrId}`);
-
-      // Update Jira issue (add custom field)
-      await this.jiraAPI.updateIssueOKRField(taskId, okrId);
-
       return relationship;
     } catch (error) {
       logError('Failed to link task', error);
@@ -144,13 +146,20 @@ class APOSJiraPlugin {
     }
 
     try {
-      const score = await this.apisClient.getTrustScore(projectId);
+      const score = await this.apiService.getTrustScore(projectId);
       log(`📈 Trust score: ${(score.score * 100).toFixed(1)}%`);
       return score;
     } catch (error) {
       logError('Failed to get trust score', error);
       throw error;
     }
+  }
+
+  /**
+   * Get cached instance (for debugging)
+   */
+  getAPIService() {
+    return this.apiService;
   }
 }
 

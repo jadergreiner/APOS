@@ -18,10 +18,9 @@ import './sidebar.css';
  * Setup sidebar module
  *
  * Called on plugin init to render sidebar in Jira UI
- * @param {JiraAPI} jiraAPI
- * @param {APISClient} apisClient
+ * @param {APIService} apiService - Unified API service
  */
-export async function setupSidebar(jiraAPI, apisClient) {
+export async function setupSidebar(apiService) {
   log('📊 Setting up Sidebar module...');
 
   // Mount React component to Jira sidebar DOM
@@ -34,7 +33,7 @@ export async function setupSidebar(jiraAPI, apisClient) {
 
   // Render Sidebar component
   const root = ReactDOM.createRoot(sidebarContainer);
-  root.render(<Sidebar jiraAPI={jiraAPI} apisClient={apisClient} />);
+  root.render(<Sidebar apiService={apiService} />);
 
   log('✅ Sidebar rendered');
 }
@@ -44,7 +43,7 @@ export async function setupSidebar(jiraAPI, apisClient) {
  *
  * Main UI for APOS plugin in Jira
  */
-function Sidebar({ jiraAPI, apisClient }) {
+function Sidebar({ apiService }) {
   const [orphans, setOrphans] = useState([]);
   const [trustScore, setTrustScore] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -71,16 +70,16 @@ function Sidebar({ jiraAPI, apisClient }) {
       setLoading(true);
 
       // Get current project
-      const currentIssue = await jiraAPI.getCurrentIssue();
+      const currentIssue = await apiService.getCurrentIssue();
       const project = currentIssue.project_id;
       setProjectKey(project);
 
       // Fetch orphans
-      const orphanData = await apisClient.getOrphans(project);
+      const orphanData = await apiService.getOrphans(project);
       setOrphans(orphanData.data || []);
 
       // Fetch trust score
-      const scoreData = await apisClient.getTrustScore(project);
+      const scoreData = await apiService.getTrustScore(project);
       setTrustScore(scoreData.score);
 
       log(`✅ Sidebar data loaded (${orphanData.data.length} orphans, score ${(scoreData.score * 100).toFixed(1)}%)`);
@@ -104,7 +103,7 @@ function Sidebar({ jiraAPI, apisClient }) {
    */
   async function handleLinkOKR(okrId) {
     try {
-      await apisClient.linkTaskToOKR(selectedOrphan.task_id, okrId);
+      await apiService.linkTaskToOKR(selectedOrphan.task_id, okrId);
       log(`✅ Linked ${selectedOrphan.task_id} → ${okrId}`);
 
       // Refresh sidebar data
@@ -176,7 +175,7 @@ function Sidebar({ jiraAPI, apisClient }) {
                 setShowModal(false);
                 setSelectedOrphan(null);
               }}
-              apisClient={apisClient}
+              apiService={apiService}
             />
           )}
 
@@ -196,7 +195,7 @@ function Sidebar({ jiraAPI, apisClient }) {
  *
  * Dialog to select which OKR to link the orphan task to
  */
-function LinkOKRModal({ orphan, onLink, onClose, apisClient }) {
+function LinkOKRModal({ orphan, onLink, onClose, apiService }) {
   const [okrs, setOkrs] = useState([]);
   const [selectedOKR, setSelectedOKR] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -207,7 +206,7 @@ function LinkOKRModal({ orphan, onLink, onClose, apisClient }) {
 
   async function loadOKRs() {
     try {
-      const data = await apisClient.getOKRs(orphan.project_id);
+      const data = await apiService.getOKRs(orphan.project_id);
       setOkrs(data.data || []);
     } catch (error) {
       logError('Failed to load OKRs', error);

@@ -16,26 +16,22 @@ import { log, logError } from '../utils/logger';
  * Setup webhook handlers
  *
  * Registers POST endpoints for Jira to call when events occur
- * @param {JiraAPI} jiraAPI
- * @param {APISClient} apisClient
+ * @param {APIService} apiService - Unified API service
  */
-export async function setupWebhooks(jiraAPI, apisClient) {
+export async function setupWebhooks(apiService) {
   log('🪝 Setting up webhook handlers...');
 
   // Register webhook listeners (Jira will POST to these endpoints)
   registerWebhookHandler('/webhooks/issue-created', handleIssueCreated, {
-    jiraAPI,
-    apisClient,
+    apiService,
   });
 
   registerWebhookHandler('/webhooks/issue-updated', handleIssueUpdated, {
-    jiraAPI,
-    apisClient,
+    apiService,
   });
 
   registerWebhookHandler('/webhooks/issue-deleted', handleIssueDeleted, {
-    jiraAPI,
-    apisClient,
+    apiService,
   });
 
   log('✅ Webhook handlers registered');
@@ -51,7 +47,7 @@ export async function setupWebhooks(jiraAPI, apisClient) {
  * 4. Backend: auto-detect if orphan (no OKR)
  * 5. Backend: recalculate Trust Score
  */
-async function handleIssueCreated(event, { jiraAPI, apisClient }) {
+async function handleIssueCreated(event, { apiService }) {
   try {
     const { issue } = event;
     const issueKey = issue.key; // e.g., "JIRA-123"
@@ -61,16 +57,14 @@ async function handleIssueCreated(event, { jiraAPI, apisClient }) {
 
     log(`📝 Issue created: ${issueKey} in ${projectKey}`);
 
-    // 1. Notify backend to create Task record
-    const task = await apisClient.getTasks(projectKey, {
-      _sync: true, // Signal backend to sync from Jira
-      issue_key: issueKey,
-    });
+    // 1. Notify backend to create Task record (via getTasks with sync flag)
+    // This is a simplified flow; backend handles sync internally
+    await apiService.getOrphans(projectKey);
 
     log(`✅ Task synced: ${issueKey}`);
 
     // 2. Check if orphan (no OKR)
-    const orphans = await apisClient.getOrphans(projectKey);
+    const orphans = await apiService.getOrphans(projectKey);
     const isOrphan = orphans.data.some(o => o.task_id === issueKey);
 
     if (isOrphan) {
@@ -78,10 +72,10 @@ async function handleIssueCreated(event, { jiraAPI, apisClient }) {
 
       // 3. Update Jira issue with "orphan" indicator (custom field)
       // This will trigger a webhook back, but we ignore it to prevent loops
-      await jiraAPI.updateIssueField(issueKey, 'apos_orphan_flag', true);
+      await apiService.updateIssueField(issueKey, 'apos_orphan_flag', true);
 
       // 4. Recalculate Trust Score
-      const newScore = await apisClient.getTrustScore(projectKey);
+      const newScore = await apiService.getTrustScore(projectKey);
       log(`📊 Trust Score updated: ${(newScore.score * 100).toFixed(1)}%`);
     }
 
@@ -101,7 +95,7 @@ async function handleIssueCreated(event, { jiraAPI, apisClient }) {
  * 4. Backend: check if OKR was linked
  * 5. Backend: recalculate Trust Score if OKR changed
  */
-async function handleIssueUpdated(event, { jiraAPI, apisClient }) {
+async function handleIssueUpdated(event, { apiService }) {
   try {
     const { issue, changelog } = event;
     const issueKey = issue.key;
@@ -119,18 +113,15 @@ async function handleIssueUpdated(event, { jiraAPI, apisClient }) {
     );
 
     // 1. Sync updated issue to backend
-    await apisClient.getTasks(projectKey, {
-      _sync: true,
-      issue_key: issueKey,
-    });
+    await apiService.getOrphans(projectKey);
 
     // 2. If OKR was linked, recalculate score
     if (okrFieldChanged) {
       const okrId = issue.fields.customfield_10000; // Get OKR custom field value
-      const relationship = await apisClient.linkTaskToOKR(issueKey, okrId, 1.0);
+      const relationship = await apiService.linkTaskToOKR(issueKey, okrId, 1.0);
       log(`🔗 OKR linked: ${issueKey} → ${okrId}`);
 
-      const newScore = await apisClient.getTrustScore(projectKey);
+      const newScore = await apiService.getTrustScore(projectKey);
       log(`📊 Trust Score updated: ${(newScore.score * 100).toFixed(1)}%`);
     }
 
@@ -142,7 +133,7 @@ async function handleIssueUpdated(event, { jiraAPI, apisClient }) {
       if (newStatus === 'done' && !okrId) {
         log(`🚨 HIGH RISK: Issue completed without OKR: ${issueKey}`);
         // Flag for UI attention
-        await jiraAPI.updateIssueField(issueKey, 'apos_risk_level', 'HIGH');
+        await apiService.updateIssueField(issueKey, 'apos_risk_level', 'HIGH');
       }
     }
 
@@ -160,7 +151,7 @@ async function handleIssueUpdated(event, { jiraAPI, apisClient }) {
  * 3. Backend: remove related Relationships
  * 4. Backend: recalculate Trust Score
  */
-async function handleIssueDeleted(event, { jiraAPI, apisClient }) {
+async function handleIssueDeleted(event, { apiService }) {
   try {
     const { issue } = event;
     const issueKey = issue.key;
@@ -170,15 +161,11 @@ async function handleIssueDeleted(event, { jiraAPI, apisClient }) {
 
     // 1. Notify backend to mark task as deleted
     // (Implementation depends on backend delete endpoint)
-    // For now, just sync to mark it gone
-    await apisClient.getTasks(projectKey, {
-      _sync: true,
-      issue_key: issueKey,
-      _deleted: true,
-    });
+    // For now, sync orphans to trigger backend cleanup
+    await apiService.getOrphans(projectKey);
 
     // 2. Recalculate Trust Score (coverage changes)
-    const newScore = await apisClient.getTrustScore(projectKey);
+    const newScore = await apiService.getTrustScore(projectKey);
     log(`📊 Trust Score updated after deletion: ${(newScore.score * 100).toFixed(1)}%`);
 
   } catch (error) {

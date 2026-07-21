@@ -127,6 +127,39 @@ class JiraAPI {
   }
 
   /**
+   * Update any issue field
+   *
+   * @param {string} issueKey - e.g. "JIRA-123"
+   * @param {string} fieldName - e.g. "labels", "status", "apos_okr_id"
+   * @param {any} value - Field value
+   */
+  async updateIssueField(issueKey, fieldName, value) {
+    let fieldId = fieldName;
+
+    // Map standard field names to field IDs
+    const fieldMap = {
+      labels: 'labels',
+      summary: 'summary',
+      description: 'description',
+      status: 'status',
+      assignee: 'assignee',
+    };
+
+    // Use mapped ID or get custom field ID
+    if (fieldMap[fieldName]) {
+      fieldId = fieldMap[fieldName];
+    } else {
+      fieldId = await this._getCustomFieldId(fieldName);
+    }
+
+    return this._request('PUT', `/rest/api/3/issues/${issueKey}`, {
+      fields: {
+        [fieldId]: value,
+      },
+    });
+  }
+
+  /**
    * Create a new issue
    */
   async createIssue(projectKey, summary, description = '') {

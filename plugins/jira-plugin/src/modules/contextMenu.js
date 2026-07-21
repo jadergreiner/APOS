@@ -15,19 +15,18 @@ import { log, logError } from '../utils/logger';
  * Setup context menu
  *
  * Registers context menu handlers for Jira issues
- * @param {JiraAPI} jiraAPI
- * @param {APISClient} apisClient
+ * @param {APIService} apiService - Unified API service
  */
-export async function setupContextMenu(jiraAPI, apisClient) {
+export async function setupContextMenu(apiService) {
   log('📋 Setting up Context Menu module...');
 
   // Register Jira context menu API
   if (window.AP?.jira?.issues?.context?.getSelectedIssues) {
     // Use Jira's context menu system
-    registerJiraContextMenu(jiraAPI, apisClient);
+    registerJiraContextMenu(apiService);
   } else {
     // Fallback: Manual right-click handler
-    registerManualContextMenu(jiraAPI, apisClient);
+    registerManualContextMenu(apiService);
   }
 
   log('✅ Context menu initialized');
@@ -36,7 +35,7 @@ export async function setupContextMenu(jiraAPI, apisClient) {
 /**
  * Register using Jira's built-in context menu API
  */
-function registerJiraContextMenu(jiraAPI, apisClient) {
+function registerJiraContextMenu(apiService) {
   // Jira API for context menu:
   // AP.jira.context.getSelectedIssues()
   // AP.jira.navContext.onIssuePageView()
@@ -46,7 +45,7 @@ function registerJiraContextMenu(jiraAPI, apisClient) {
 
     if (issueElement) {
       const issueKey = issueElement.getAttribute('data-issue-key');
-      handleContextMenu(e, issueKey, jiraAPI, apisClient);
+      handleContextMenu(e, issueKey, apiService);
     }
   });
 }
@@ -54,7 +53,7 @@ function registerJiraContextMenu(jiraAPI, apisClient) {
 /**
  * Fallback: Manual context menu handler
  */
-function registerManualContextMenu(jiraAPI, apisClient) {
+function registerManualContextMenu(apiService) {
   document.addEventListener('contextmenu', async e => {
     // Check if right-clicked on issue summary or key
     const summaryElement = e.target.closest('.issue-summary, [data-testid="issue.views.issue-base.foundation.summary.breadcrumbs.context.issue-key"]');
@@ -64,8 +63,8 @@ function registerManualContextMenu(jiraAPI, apisClient) {
       e.preventDefault();
 
       try {
-        const issue = await jiraAPI.getCurrentIssue();
-        showContextMenu(e.clientX, e.clientY, issue.id, jiraAPI, apisClient);
+        const issue = await apiService.getCurrentIssue();
+        showContextMenu(e.clientX, e.clientY, issue.id, apiService);
       } catch (error) {
         logError('Failed to get issue context', error);
       }
@@ -76,15 +75,15 @@ function registerManualContextMenu(jiraAPI, apisClient) {
 /**
  * Handle context menu event
  */
-function handleContextMenu(e, issueKey, jiraAPI, apisClient) {
+function handleContextMenu(e, issueKey, apiService) {
   e.preventDefault();
-  showContextMenu(e.clientX, e.clientY, issueKey, jiraAPI, apisClient);
+  showContextMenu(e.clientX, e.clientY, issueKey, apiService);
 }
 
 /**
  * Display context menu at position
  */
-function showContextMenu(x, y, issueKey, jiraAPI, apisClient) {
+function showContextMenu(x, y, issueKey, apiService) {
   // Remove existing menu
   const existing = document.getElementById('apos-context-menu');
   if (existing) {
@@ -120,7 +119,7 @@ function showContextMenu(x, y, issueKey, jiraAPI, apisClient) {
   menu.querySelectorAll('.apos-menu-item').forEach(item => {
     item.addEventListener('click', async () => {
       const action = item.getAttribute('data-action');
-      await handleMenuAction(action, issueKey, jiraAPI, apisClient);
+      await handleMenuAction(action, issueKey, apiService);
       menu.remove();
     });
   });
@@ -135,19 +134,19 @@ function showContextMenu(x, y, issueKey, jiraAPI, apisClient) {
 /**
  * Handle context menu actions
  */
-async function handleMenuAction(action, issueKey, jiraAPI, apisClient) {
+async function handleMenuAction(action, issueKey, apiService) {
   try {
     switch (action) {
       case 'link-okr':
-        await handleLinkOKR(issueKey, apisClient);
+        await handleLinkOKR(issueKey, apiService);
         break;
 
       case 'view-score':
-        await handleViewScore(issueKey, apisClient);
+        await handleViewScore(issueKey, apiService);
         break;
 
       case 'mark-strategic':
-        await handleMarkStrategic(issueKey, jiraAPI);
+        await handleMarkStrategic(issueKey, apiService);
         break;
 
       default:
@@ -161,15 +160,15 @@ async function handleMenuAction(action, issueKey, jiraAPI, apisClient) {
 /**
  * Action: Link to OKR
  */
-async function handleLinkOKR(issueKey, apisClient) {
+async function handleLinkOKR(issueKey, apiService) {
   log(`🔗 Link to OKR: ${issueKey}`);
 
   // Get current project
-  const issue = await jiraAPI.getCurrentIssue();
+  const issue = await apiService.getCurrentIssue();
   const projectKey = issue.project_id;
 
   // Fetch OKRs
-  const okrsData = await apisClient.getOKRs(projectKey);
+  const okrsData = await apiService.getOKRs(projectKey);
   const okrs = okrsData.data || [];
 
   if (okrs.length === 0) {
@@ -182,7 +181,7 @@ async function handleLinkOKR(issueKey, apisClient) {
 
   if (selectedOKR) {
     // Link task to OKR
-    await apisClient.linkTaskToOKR(issueKey, selectedOKR.id, 1.0);
+    await apiService.linkTaskToOKR(issueKey, selectedOKR.id, 1.0);
     alert(`✅ Linked ${issueKey} to ${selectedOKR.name}`);
   }
 }
@@ -190,15 +189,15 @@ async function handleLinkOKR(issueKey, apisClient) {
 /**
  * Action: View Trust Score
  */
-async function handleViewScore(issueKey, apisClient) {
+async function handleViewScore(issueKey, apiService) {
   log(`📊 View Trust Score: ${issueKey}`);
 
   // Get current project
-  const issue = await jiraAPI.getCurrentIssue();
+  const issue = await apiService.getCurrentIssue();
   const projectKey = issue.project_id;
 
   // Fetch trust score
-  const scoreData = await apisClient.getTrustScore(projectKey);
+  const scoreData = await apiService.getTrustScore(projectKey);
 
   const message = `
 📊 Trust Score: ${(scoreData.score * 100).toFixed(1)}%
@@ -218,11 +217,11 @@ ${scoreData.issues.map(i => `  • ${i}`).join('\n')}
 /**
  * Action: Mark as Strategic
  */
-async function handleMarkStrategic(issueKey, jiraAPI) {
+async function handleMarkStrategic(issueKey, apiService) {
   log(`⭐ Mark as Strategic: ${issueKey}`);
 
-  // Update Jira issue (add label or custom field)
-  await jiraAPI.updateIssueField(issueKey, 'labels', ['apos-strategic']);
+  // Update Jira issue (add label)
+  await apiService.updateIssueField(issueKey, 'labels', ['apos-strategic']);
 
   alert(`✅ Marked ${issueKey} as strategic`);
 }
