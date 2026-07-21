@@ -50,8 +50,9 @@
 | T0.3.2 (API) | ✅ 100% | 4 | — | API_DESIGN.md finalizado D1 |
 | T0.3.3 (Plugin) | ✅ 100% | 3 | 2591 | **5h/5h** Phase 1-4 completo! |
 | T0.3.4 (Score) | ✅ 100% | 1 | 1122 | 18/18 testes passing, 3 componentes |
-| T0.3.5-8 | 📋 0% | — | — | Prontos para iniciar (D3) |
-| **Total** | **60%** | **15** | **3713** | +5 horas ahead! ✅ |
+| T0.3.5 (Piloto Setup) | ✅ 100% | 1 | 1380 | Task Import scripts (demo + real) prontos! |
+| T0.3.6-8 | 📋 0% | — | — | Prontos para iniciar (após T0.3.5) |
+| **Total** | **68%** | **16** | **5093** | +6 horas ahead! ✅ Pronto para Piloto! |
 
 ---
 
