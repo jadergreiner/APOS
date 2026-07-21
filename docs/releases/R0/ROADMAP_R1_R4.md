@@ -29,7 +29,25 @@ A tabela abaixo mostra o que mudou.
 | Context Model | — | ✅ **JÁ ENTREGUE** | Sprint 0.5: CONTEXT_MODEL.md + MEMORY_MODEL.md + CONTEXT_BOUNDARIES.md + RETRIEVAL_STRATEGY.md |
 | Simulation Harness (design) | — | ✅ **JÁ ENTREGUE (design)** | Sprint 0.7: SIMULATION_HARNESS.md (5 tipos) |
 
-### O que AINDA NÃO foi entregue
+## O que AINDA NÃO foi entregue (e PRECISA ser implementado como codigo)
+
+### Implementacao obrigatoria antes de R1
+
+As Sprints 0.5-0.7 entregaram **especificacoes em markdown**, mas NAO codigo importavel.
+Um projeto que fizer `pip install apos` hoje NAO recebe Context Engine, Capability Model ou Harness.
+
+| Documento | Status | Precisa virar modulo | Estimativa |
+|-----------|--------|---------------------|-----------|
+| CONTEXT_MODEL.md + MEMORY_MODEL.md | 📋 design feito | `apos/context_engine/` | 3d |
+| CONTEXT_BOUNDARIES.md + RETRIEVAL_STRATEGY.md | 📋 design feito | `apos/context_engine/` | 2d |
+| CAPABILITY_MODEL.md + CAPABILITY_TAXONOMY.md | 📋 design feito | `apos/capabilities/` | 2d |
+| AGENT_MAP.md + CAPABILITY_ROUTING.md | 📋 design feito | `apos/capabilities/` | 2d |
+| HARNESS.md + AGENT_HARNESS.md | 📋 design feito | `apos/harness/` | 2d |
+| CAPABILITY_HARNESS.md + EVALUATION_HARNESS.md | 📋 design feito | `apos/harness/` | 2d |
+| SIMULATION_HARNESS.md | 📋 design feito | `apos/harness/` | 1d |
+| **Total** | | | **~14d** |
+
+### Demais entregas pendentes (R1-R4)
 
 - **Loaders reais** (MCP): Jira (temos sync, não loader), Notion, Slack
 - **MCP Server / protocol** para agentes externos
@@ -178,8 +196,9 @@ entregue como design/fundação em R0. O foco agora é **implementação real + 
 ```
 2026:
   JUL-AGO |████ R0.0-0.3 Sprint ████ R0.4-0.7 Sprint ████ | (Sprint 0.0-0.7)
-  SET     |█ Sprint 0.8-0.9 ██ (R0 encerramento)
-  OUT     |  ████ S1.0 ████ S1.1 ████ | (R1)
+  SET     |█ R0.8-0.9 ██ | (R0 encerramento)
+  ────────|─── R0.5-0.7 IMPL ◄── ~14d para virar codigo importavel
+  OUT     |  ████ S1.0 ████ S1.1 ████ | (R1 — loaders)
   NOV     | ████ S1.2 ████ S1.3 ████ | (R1)
   DEZ     | ████ S2.0 ████ S2.1 ████ | (R2)
 
@@ -191,6 +210,8 @@ entregue como design/fundação em R0. O foco agora é **implementação real + 
   MAI     | ████ S4.2 ████ S4.3 ████ | (R4)
   JUN     | ✅ COMPLETE
 ```
+
+> **⚠ Nota:** A implementacao dos modulos `apos/context_engine/`, `apos/capabilities/` e `apos/harness/` (docs → codigo) esta marcada como pre-requisito implicito antes de R1. Sem ela, `pip install apos` nao entrega as competencias de Sprint 0.5-0.7 como codigo importavel. Pode ser executada em paralelo com R0.8-0.9 ou como sprint dedicada de implementacao.
 
 ---
 
