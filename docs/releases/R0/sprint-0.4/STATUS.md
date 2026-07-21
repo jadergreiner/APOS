@@ -1,93 +1,62 @@
 # sprint-0.4 — Relatório de Status
 
-**Última Atualização:** 2026-07-21T10:06:47.506988
+**Sprint:** 0.4 — Knowledge Graph Design  
+**Periodo:** 2026-07-22 (Qua) a 2026-07-29 (Qua)  
+**Status:** 📋 PLANNED — Sprint Planning concluido  
+**Ultima Atualizacao:** 2026-07-21
 
 ---
 
 ## 📊 Status Geral
 
-**Fase Atual:** Planning
+**Fase Atual:** ✅ Sprint Planning Concluido — Aguardando Kick-off
 
 ```
-Progresso: 0 / N dias-pessoa (0%)
-├─ Completo: —
-├─ Em Progresso: —
-├─ Planejado: N tarefas
-└─ Em Risco: —
+Progresso: 0 / 5.0 dias-pessoa (0%)
+├─ Tasks planejadas: 6 (T0.4.1 a T0.4.6)
+├─ Goals: 4 (Graph model, implementacao, testes, docs)
+├─ Velocity target: 5.0d
+└─ Kick-off: 22 jul (Qua)
 ```
 
 ---
 
-## 📈 Burndown
+## 📈 Burndown (Planejado)
 
-| Dia | Planejado | Completo | Status |
-|-----|-----------|----------|--------|
-| D1 | — | — | — |
-| D2 | — | — | — |
-| D3 | — | — | — |
-| D4 | — | — | — |
-| D5 | — | — | — |
+| Dia | Data | Planejado | Tasks | Status |
+|-----|------|-----------|-------|--------|
+| D1 | 22 jul (Qua) | 1.5d | T0.4.1 + T0.4.2 | 📋 Planned |
+| D2 | 23 jul (Qui) | 1.5d | T0.4.3 + T0.4.4 | 📋 Planned |
+| D3 | 24 jul (Sex) | 1.5d | T0.4.5 graph.py | 📋 Planned |
+| D4 | 27 jul (Seg) | 0.5d | T0.4.6 testes | 📋 Planned |
+| D5 | 28-29 jul | buffer | Ajustes | 📋 Planned |
 
 ---
 
 ## ✅ Completo
 
-(Nenhum ainda)
+(Nenhum — sprint nao iniciada)
 
 ---
 
 ## 🔄 Em Progresso
 
-(Nenhum ainda)
+(Nenhum — sprint nao iniciada)
 
 ---
 
 ## ⏳ Planejado
 
-(Ver TASKS.md)
+6 tasks (5.0d estimados). Ver [TASKS.md](TASKS.md) e [SPRINT_PLANNING.md](SPRINT_PLANNING.md).
 
 ---
 
 ## 🚨 Riscos
 
-**Riscos Ativos:** 0
-**Riscos Mitigados:** 0
-
-Veja [RISK_MITIGATION.md](RISK_MITIGATION.md) para detalhes.
+- Stubs graph.py/types.py vazios podem exigir mais refatoracao
+- Dependencia sequencial: docs T0.4.1-4 antes do codigo T0.4.5
 
 ---
 
-## 🎯 Métricas
-
-| Métrica | Alvo | Atual | Status |
-|---------|------|-------|--------|
-| Conclusão | 100% | — | — |
-| Qualidade | — | — | — |
-| Velocity | — | — | — |
-
----
-
-## ⏱️ Métricas de Fluxo (Cycle Time)
-
-| Task/US | Entrou em Progresso | Saiu para Completo | Cycle Time (dias) | Responsável |
-|---------|---------------------|-------------------|-------------------|-------------|
-| | | | | |
-
-**Cycle Time Médio do Sprint:** — dias
-**Tasks acima da média (investigar gargalo):** —
-
----
-
-## 🔄 Retrabalho / Qualidade
-
-| Task/US | Voltou para revisão? | Motivo | Nº de vezes |
-|---------|----------------------|--------|-------------|
-| | | | |
-
-**Taxa de Retrabalho do Sprint:** — % (meta North Star: redução de 70%+ ao longo do tempo)
-**Bugs abertos durante o sprint:** —
-
----
-
-**Status Atualizado:** Diariamente (07:00)
-**Próxima Atualização:** Tomorrow
+**Status Atualizado:** 2026-07-21  
+**Proxima Atualizacao:** 22 jul (D1 — Kick-off)
