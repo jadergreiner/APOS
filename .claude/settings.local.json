@@ -18,7 +18,16 @@
       "Bash(flake8 apos/release_management/sprint.py tests/unit/test_sprint_markdown_loader.py)",
       "Bash(flake8 tests/unit/test_sprint_markdown_loader.py)",
       "Bash(grep -E \"\\\\.md$\")",
-      "Bash(gh pr *)"
+      "Bash(gh pr *)",
+      "Artifact",
+      "Bash(export JIRA_URL=\"https://jadergreiner.atlassian.net\")",
+      "Bash(export JIRA_EMAIL=\"jadergreiner@gmail.com\")",
+      "Bash(export JIRA_API_TOKEN=\"60274199\")",
+      "PowerShell([System.Environment]::SetEnvironmentVariable\\('PYTHONIOENCODING', 'utf-8', 'Process'\\); cd C:\\\\repo\\\\APOS && python -m apos init 2>&1)",
+      "mcp__plugin_product-management_atlassian__getJiraIssue",
+      "mcp__plugin_product-management_atlassian__editJiraIssue",
+      "mcp__plugin_product-management_atlassian__transitionJiraIssue",
+      "mcp__plugin_product-management_atlassian__searchJiraIssuesUsingJql"
     ]
   }
 }
