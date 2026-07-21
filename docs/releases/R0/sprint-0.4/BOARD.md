@@ -1,7 +1,7 @@
 # Sprint Board — Kanban
 
 **Sprint:** 0.4 — Knowledge Graph Design  
-**Status:** 📋 PLANNING  
+**Status:** 🟢 ACTIVE — D1 executando (T0.4.1 em progresso)  
 **Ultima Atualizacao:** 2026-07-21  
 
 ---

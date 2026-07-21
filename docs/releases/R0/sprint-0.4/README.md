@@ -1,8 +1,8 @@
 # Sprint 0.4 — Knowledge Graph Design
 
 **Release:** R0 (Fundações)  
-**Periodo:** A definir  
-**Status:** 📋 PLANNING  
+**Periodo:** 2026-07-22 (Qua) a 2026-07-29 (Qua)  
+**Status:** 🟢 ACTIVE — D1 em execucao (22 jul)  
 **Ultima Atualizacao:** 2026-07-21  
 
 ---

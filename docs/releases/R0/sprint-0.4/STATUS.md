@@ -2,7 +2,7 @@
 
 **Sprint:** 0.4 — Knowledge Graph Design  
 **Periodo:** 2026-07-22 (Qua) a 2026-07-29 (Qua)  
-**Status:** 📋 PLANNED — Sprint Planning concluido  
+**Status:** 🟢 ACTIVE — D1 executando (22 jul)  
 **Ultima Atualizacao:** 2026-07-21
 
 ---
