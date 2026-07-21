@@ -31,29 +31,35 @@
 
 ---
 
-### 🟠 Phase 2: Jira API Connection (IN PROGRESS)
+### ✅ Phase 2: Jira API Connection (COMPLETE)
 
 **Tasks:**
-- [ ] OAuth2 setup with Jira
-- [ ] Issue listing (GET /issues with JQL)
-- [ ] Webhook receiver (issue.created, updated, deleted)
-- [ ] Custom field reader/writer
-- [ ] Error handling + retry logic
+- [x] OAuth2 setup with Jira
+- [x] Issue listing (GET /issues with JQL)
+- [x] Webhook receiver (issue.created, updated, deleted)
+- [x] Custom field reader/writer
+- [x] Error handling + retry logic
 
 **Target:** 2h  
-**Status:** 🟠 PENDING
+**Status:** ✅ COMPLETE (~1.5h)
 
-**Next Steps:**
-1. Implement `src/api/JiraAPI.js` methods:
-   - `authenticate()` — OAuth2 flow
-   - `getIssues()` — List with JQL
+**Completed:**
+1. ✅ `src/api/JiraAPI.js` methods:
+   - `authenticate()` — OAuth2 flow with token refresh
+   - `getIssues()` — List with JQL + filters
    - `getIssue()` — Single issue details
    - `updateIssueOKRField()` — Set custom field
+   - `reauthenticate()` — Token expiry handling
 
-2. Implement webhook receiver:
-   - POST `/webhooks/issue-created` handler
-   - POST `/webhooks/issue-updated` handler
-   - Retry logic (3x exponential backoff)
+2. ✅ Webhook receiver (`src/modules/webhooks.js`):
+   - `handleIssueCreated()` — Sync task, detect orphans, recalc score
+   - `handleIssueUpdated()` — Detect OKR link, status changes, risk levels
+   - `handleIssueDeleted()` — Mark deleted, recalc score
+   - Retry logic (3x exponential backoff: 1min, 5min)
+
+3. ✅ Logging utility (`src/utils/logger.js`):
+   - `log()`, `logError()`, `logWarn()`
+   - Browser console + optional backend logging
 
 ---
 
@@ -95,13 +101,19 @@
 ## Cumulative Progress
 
 ```
-Scaffolding:    [████████] 100%  (Phase 1)
-API Connection: [░░░░░░░░] 0%    (Phase 2)
+Scaffolding:    [████████] 100%  (Phase 1) ✅
+API Connection: [████████] 100%  (Phase 2) ✅
 UI/Orphans:     [░░░░░░░░] 0%    (Phase 3)
 Integration:    [░░░░░░░░] 0%    (Phase 4)
 
-Overall:        [█░░░░░░░] 15%   (1/5h done)
+Overall:        [██░░░░░░] 40%   (2.5/5h done)
 ```
+
+**Completed in Phase 2:**
+- ✅ Webhook receiver (3 handlers)
+- ✅ Sidebar component (React)
+- ✅ Logging utility
+- ✅ Error handling + retry logic
 
 ---
 
