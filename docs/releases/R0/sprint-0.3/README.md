@@ -1,127 +1,197 @@
-# R0 - sprint-0.3: Beta Prep
+# APOS MVP - Plugin Jira + Semantic Context
 
-**Status:** 📋 **PREPARATION** — Kick-off pronto para 2026-07-22  
-**Período:** 2026-07-22 até 2026-07-29  
-**Responsável:** Jader Greiner + Piloto Personas (3)  
-**Tema:** Implementação MVP (Plugin Jira + Trust Score + Deteccao Orfas)
-
----
-
-## Contexto
-
-Sprint 0.3 implementa o MVP validado em Sprint 0.2:
-
-- ✅ Job Statement: validado com 5/5 personas
-- ✅ MVP Scope: Plugin Jira + Trust Score + Deteccao Orfas
-- ✅ Piloto personas: AI Architect, Product Ops, Early Adopter (4/5 interessados)
-- ✅ Riscos: mapeados + mitigacoes definidas
-
-**Lição de Qualidade Sprint 0.2:** Documentacao completa DESDE DIA 1 → zero retrabalho.
-
-**Aplicação Sprint 0.3:** Todos os 10 outputs (specs, APIs, pilot materials, metrics) estao estruturados ANTES de kick-off. Execucao paralela, consolidacao daily.
+**Status:** ✅ **RELEASE CANDIDATO** — Sprint 0.3 Completo  
+**Versão:** 0.1.0-beta  
+**Data:** 2026-07-29  
+**Última atualização:** 2026-07-29 20:00
 
 ---
 
-## 📋 Outputs Esperados (10 Documentos)
+## O que é APOS?
 
-### Core Deliverables (Sprint Execution)
+**APOS** é um plugin Jira que detecta **features orfas** (tarefas sem estratégia conectada) e calcula um **Trust Score** (0.0-1.0) que mede a confiança no contexto semântico do seu roadmap.
 
-| # | Documento | Proposito | Status | Pronto P/ D1? |
-|---|-----------|-----------|--------|---------------|
-| 1 | **TASKS.md** | 8 tarefas detalhadas, timeline | ✅ Pronto | ✅ Sim |
-| 2 | **SPEC.md** | Especificação técnica: Plugin Jira + Trust Score | 📋 Template | ✅ Sim |
-| 3 | **API_DESIGN.md** | Design REST API para contexto semântico | 📋 Template | ✅ Sim |
-| 4 | **PILOT_PLAN.md** | Plano de piloto (3 personas, 2 semanas) | 📋 Template | ✅ Sim |
-| 5 | **METRICS_BASELINE.md** | Baseline: reexplicacao (2-3h → <30min/semana) | 📋 Template | ✅ Sim |
+### Problema que resolve
 
-### Support Materials (Daily Operations)
+PMs perdem **2-3 horas por semana** re-explicando por que tarefas existem e como conectam com OKRs. APOS automatiza isso: une Tasks → OKRs → Métricas em um dashboard único, eliminando retrabalho.
 
-| # | Documento | Proposito | Status | Pronto P/ D1? |
-|---|-----------|-----------|--------|---------------|
-| 6 | **BOARD.md** | Kanban visual (To Do, In Progress, Review, Done) | 📋 Template | ✅ Sim |
-| 7 | **STATUS.md** | Burndown + métricas diárias | 📋 Template | ✅ Sim |
-| 8 | **DAILY_STANDUP_TEMPLATE.md** | Template para standups diários | 📋 Template | ✅ Sim |
-| 9 | **RISK_MITIGATION.md** | Riscos + mitigacoes (da Forças Analysis) | 📋 Template | ✅ Sim |
-| 10 | **RETRO.md** | Retrospectiva (preenchida ao final) | 📋 Template | ✅ Sim |
+### O que você recebe
 
-**Total:** 10 documentos (5 core + 5 support)  
-**Estrutura:** Definida ANTES de D1  
-**Preenchimento:** Daily durante execucao  
-**Objetivo:** Zero retrabalho (como Sprint 0.2)
+| Feature | Benefício |
+|---------|-----------|
+| **Detecção de Features Orfas** | Identifique tarefas sem OKR em segundos |
+| **Trust Score Automático** | Confiança 0.0-1.0 no seu contexto estratégico |
+| **Dashboard Visual** | Veja Task → OKR → Metrica conectadas |
+| **Sync em Tempo Real** | Webhook automático quando task muda |
 
 ---
 
-## 🎯 Tarefas & Timeline
+## Quick Start (5 minutos)
 
-Veja [TASKS.md](TASKS.md) para detalhes.
+### Pré-requisitos
 
-**Quick Overview:**
+- Jira Cloud account com permissão de Admin
+- API endpoint + API key (fornecido durante setup)
+- Browser: Chrome, Firefox ou Safari (últimas 2 versões)
 
-| Tier | Tarefas | Dias | Personas |
-|------|---------|------|----------|
-| **Core (Must-Have)** | T0.3.1-4 (Spec, API, Plugin, Trust Score) | 3d | Dev |
-| **Important (Should-Have)** | T0.3.5-6 (Piloto, Métricas) | 2d | Piloto + Ops |
-| **Support** | T0.3.7-8 (Docs, Testing) | 1.5d | Dev |
+### 4 Passos para Começar
 
-**Total Estimado:** 6.5d (paralelização esperada, similar a 0.2)
+#### 1. Instalar Plugin (2 min)
 
----
+- Acesse [Jira Marketplace](https://marketplace.atlassian.com)
+- Busque por "APOS"
+- Click **"Get it now"** → selecione seu workspace
+- Autorize permissões (leitura de tasks/issues)
 
-## 🚀 Diferença em Sprint 0.3
+#### 2. Setup Inicial (1 min)
 
-**Sprint 0.2:** Validação (entrevistas, forças analysis, job statement)  
-**Sprint 0.3:** Implementação (Plugin Jira, Trust Score, Deteccao Orfas)
+- Plugin sidebar aparece no Jira (ícone 🧠)
+- Click **"Settings"**
+- Cole **API endpoint** (ex: `https://api.apos.io/v1`)
+- Cole **API key** (fornecida por email após sign-up)
+- Click **"Test Connection"** → verde = sucesso
 
-**Estrutura de Qualidade (Aplicando Lição #5 de 0.2):**
-- ✅ Todos 10 documentos estruturados ANTES de D1
-- ✅ Templates prontos (não vazios, estrutura definida)
-- ✅ Execução paralela (Spec + API + Plugin simultâneos)
-- ✅ Consolidacao daily (status, riscos, aprendizados)
-- ✅ Zero retrabalho esperado (como 0.2)
+#### 3. Sincronizar Dados (1 min)
 
----
+- Click **"Sync Now"**
+- Backend inicia sync de todas as tasks (background job)
+- Status: "Syncing... 50/247 tasks"
+- Aguarde conclusão (~30-60s dependendo do volume)
 
-## 📊 Métricas de Sucesso
+#### 4. Verificar Dashboard (1 min)
 
-| Métrica | Alvo | Como Medir |
-|---------|------|-----------|
-| Tarefas completadas | 100% (8/8) | TASKS.md |
-| Qualidade de entregáveis | 95%+ | Code review + Spec validation |
-| Piloto personas satisfeitas | 3/3 SIM | Feedback pós-piloto |
-| Redução reexplicacao | 80% (2-3h → 30min) | METRICS_BASELINE.md |
-| Documentacao completa | 10/10 docs | 0 templates vazios |
-| Retrabalho | 0% | Nenhuma tarefa revisada |
+- Sync concluído? Dashboard aparece
+- Veja:
+  - **Total tasks:** X
+  - **Orphan tasks (sem OKR):** Y
+  - **Average Trust Score:** Z
 
----
-
-## 🎓 Aplicando Lição #5 (Docs Desde D1)
-
-**Sprint 0.2:** "Documentacao completa desde dia 1 economiza retrabalho"
-
-**Como aplicamos em 0.3:**
-
-1. ✅ **Estrutura definida ANTES de kick-off** — 10 documentos já têm template + proposito
-2. ✅ **Templates não vazios** — Cada template tem secoes estruturadas, so precisa preencher
-3. ✅ **Consolidacao daily** — Daily standup atualiza STATUS.md, BOARD.md (nao deixa para "depois")
-4. ✅ **Zero "documentacao atrasada"** — Se saiu de implementacao, já tem documento associado
-5. ✅ **Qualidade desde dia 1** — Documentacao e codigo evoluem juntos (nao sequencial)
+**Parabéns!** Seu APOS está pronto. Próximo passo: [TUTORIAL.md](TUTORIAL.md) para usar no dia-a-dia.
 
 ---
 
-## Kick-off Checklist
+## Arquitetura (em 4 camadas)
 
-- [ ] Leia este README.md (contexto)
-- [ ] Abra [TASKS.md](TASKS.md) (tarefas detalhadas)
-- [ ] Revise [SPEC.md](SPEC.md) (escopo tecnico)
-- [ ] Confira [PILOT_PLAN.md](PILOT_PLAN.md) (personas + cronograma)
-- [ ] Defina [METRICS_BASELINE.md](METRICS_BASELINE.md) (baseline: 2-3h → <30min)
-- [ ] Confirme interesse + disponibilidade de 3 personas
-- [ ] Comece T0.3.1-4 em paralelo (Spec, API, Plugin, Trust Score)
-
-**Kick-off Date:** 2026-07-22 (segunda, 9am)  
-**Duracao Esperada:** ~6.5 dias (ou menos, como 0.2)
+```
+┌─────────────────────────────────────────┐
+│  Jira Frontend (Plugin Sidebar)         │
+│  - Dashboard de orfas                  │
+│  - Modal "Vincular OKR"                │
+│  - Trust Score visual                  │
+└──────────────┬──────────────────────────┘
+               │ REST API
+               ↓
+┌─────────────────────────────────────────┐
+│  Backend API (REST, Port 5000)          │
+│  - GET /tasks, /okrs, /relationships    │
+│  - POST /relationships (vincular)       │
+│  - GET /trust-score (calcular)          │
+│  - GET /orphans (listar orfas)          │
+└──────────────┬──────────────────────────┘
+               │ Python
+               ↓
+┌─────────────────────────────────────────┐
+│  Semantic Layer (apos package)          │
+│  - Ontology (Task, OKR, Relationship)   │
+│  - KnowledgeGraph (calcular grafo)      │
+│  - SemanticGate (gerar Trust Score)     │
+└──────────────┬──────────────────────────┘
+               │ Query
+               ↓
+┌─────────────────────────────────────────┐
+│  Data Store (PostgreSQL + Cache)        │
+│  - Tasks (sync Jira)                    │
+│  - OKRs (Notion/custom field)          │
+│  - Relationships (Task ↔ OKR)           │
+│  - Scores (cache TTL 1h)                │
+└─────────────────────────────────────────┘
+```
 
 ---
 
-**Criado:** 2026-07-20T15:00:00  
-**Status:** 📋 Estrutura pronta, aguardando kick-off
+## Conceitos Chave
+
+### Task
+Uma issue/story no Jira. Exemplos: "Implementar login OAuth", "Refactor DB".
+
+### OKR (Objective & Key Results)
+Objetivo estratégico com métricas. Exemplo: "Aumentar retenção de usuários" (Key Result: "+15% DAU").
+
+Pode estar em:
+- Custom field Jira
+- Notion database
+- Spreadsheet linkado
+
+### Orphan (Feature Orfã)
+Task **sem OKR linkado**. Significa: ninguém sabe por que essa tarefa existe ou como conecta com a estratégia.
+
+### Trust Score
+Número 0.0-1.0 que mede confiança no seu contexto semântico:
+- **0.0-0.3** = Crítico (muitas orfas, contexto quebrado)
+- **0.3-0.7** = Caution (algumas gaps)
+- **0.7-1.0** = Healthy (confiança alta, contexto claro)
+
+Calculado por:
+```
+Score = (Coverage × 40%) + (Quality × 40%) + (Consistency × 20%)
+
+Coverage     = % de tasks com OKR linkado
+Quality      = Validade dos links (score 0-1)
+Consistency  = Sem conflitos/redundâncias
+```
+
+---
+
+## Fluxo de Uso Típico
+
+### Dia 1: Onboarding
+
+```
+1. Instala plugin Jira
+2. Setup: API key + endpoint
+3. Sync inicial: todas as tasks
+4. Vê dashboard: "Você tem 60 orfas"
+5. Começa a vincular OKRs
+```
+
+**Tempo:** ~30 min (primeira vez)
+
+### Dia-a-dia
+
+```
+1. Dev abre task no Jira
+2. Webhook → Backend
+3. Backend: auto-detecta "task sem OKR?"
+   - Se tem OKR histórico similar → auto-sugere
+   - Se não → marca orfã + alerta
+4. PM vê sidebar "Novos orfas: 2"
+5. PM: clica → modal "vincular OKR"
+6. Seleciona OKR → Backend recalcula score
+7. Trust Score sobe (coverage ↑)
+```
+
+**Latência:** <500ms (AI Architect requirement)
+
+---
+
+## Próximos Passos
+
+- **[TUTORIAL.md](TUTORIAL.md)** — Setup detalhado + primeiro uso
+- **[API_DOCS.md](API_DOCS.md)** — Referência técnica de endpoints
+- **[FAQ.md](FAQ.md)** — Troubleshooting + perguntas comuns
+
+---
+
+## Suporte & Feedback
+
+**Feedback durante piloto?** Abra uma issue em [GitHub](https://github.com/jadergreiner/APOS/issues)
+
+**Problema crítico?** Email: jadergreiner@gmail.com (tempo de resposta: <2h)
+
+**Documentação faltando algo?** Pull request bem-vindo!
+
+---
+
+**Status do Piloto:** 3/3 personas onboarded ✅  
+**Próximo Release:** R1 (Integração Slack, Custom Rules) — 2026-08-15  
+**Última atualização:** 2026-07-29  
