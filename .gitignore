@@ -139,3 +139,9 @@ Thumbs.db
 
 # Scratchpad
 /scratchpad/
+
+# Local IDE settings (Claude)
+.claude/settings.local.json
+
+# Jira sync operational artifact
+.jira_sync_history.json
