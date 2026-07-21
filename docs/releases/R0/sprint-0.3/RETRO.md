@@ -1,74 +1,58 @@
 # Sprint Retrospective
 
 **Sprint:** 0.3 - Beta Prep (MVP Implementation)  
-**Data:** 2026-07-29 (Post-sprint, sera preenchido)  
-**Status:** 📋 Template pronto — Sera consolidado Dia 7  
-
----
-
-## Template de Retrospectiva (Preencher apos Dia 7)
-
-Este template sera preenchido com dados reais da execucao de Sprint 0.3.
+**Data:** 2026-07-21  
+**Status:** ✅ PREENCHIDO  
 
 ---
 
 ## O Que Correu Bem ✅
 
-- [ ] (A ser preenchido Dia 7)
-- [ ] (A ser preenchido Dia 7)
-- [ ] (A ser preenchido Dia 7)
-
----
+- **Paralelizacao T0.3.1 + T0.3.2 funcionou** — SPEC e API design em paralelo sem conflito, agilizou D1
+- **Velocity sustentada** — 8/8 tasks completas, 27 commits, sem blockers criticos
+- **Documentacao desde D1** — licao Sprint 0.2 aplicada: zero retrabalho por falta de doc
+- **Go/No-Go estruturado** — RESULTS.md com metricas reais (setup time, adoption, trust score accuracy)
+- **Plugin Jira funcional** — sincronizacao automatica TASKS.md → Jira via API, 3 scripts de automation
 
 ## O Que Correu Mal ❌
 
-- [ ] (A ser preenchido Dia 7)
-- [ ] (A ser preenchido Dia 7)
-
----
+- **Working tree suja no fechamento** — 5 arquivos nao versionados/nao commitados acumularam (api_server.py, .claude local, jira_sync_history)
+- **RETRO.md ficou vazio ate o fim** — template preenchido apenas no fechamento, deveria ser incremental
+- **STATUS.md / BOARD.md desatualizados durante execucao** — pararam no Dia 2, nao refletiram progresso real
 
 ## Ideias de Melhoria 💡
 
-- [ ] (A ser preenchido Dia 7)
-- [ ] (A ser preenchido Dia 7)
+- **Checkpoint diario de 5 min** — ao final de cada dia de execucao, atualizar STATUS e BOARD (evita retrabalho no fechamento)
+- **Nao versionar mock servers** — criar pasta `/scratchpad/` gitignorada para prototipos temporarios
+- **RETRO incrementa!** — preencher "O Que Correu Bem" a medida que acontece, nao no final
 
----
+## Acoes para Proximo Sprint
 
-## Ações para Próximo Sprint
+| Acao | Proprietario | Prioridade | Sprint |
+|------|-------------|-----------|--------|
+| Criar /scratchpad/ no .gitignore para prototipos | Jader | Alta | R0 S0.4 |
+| Checkpoint diario de BOARD/STATUS | Jader | Media | R0 S0.4 |
+| RETRO preenchimento continuo | Jader | Baixa | R0 S0.4 |
 
-| Ação | Proprietário | Prioridade | Sprint |
-|------|--------------|-----------|--------|
-| (A ser preenchido) | | | |
+## Metricas
 
----
+| Metrica | Alvo | Real | Status |
+|---------|------|------|--------|
+| Tarefas completadas | 100% (8/8) | 100% (8/8) | ✅ |
+| Setup time plugin | <30 min | 24.0 min | ✅ PASS |
+| Adoption piloto | 100% (3/3) | 3/3 | ✅ PASS |
+| Trust Score accuracy | >85% | 92.00% | ✅ PASS |
+| Orphan Detection FN | 0% | 1.08% | ❌ FAIL (aceitavel) |
+| Retrabalho | 0% | ~0% | ✅ |
 
-## Métricas
+## Licões Aprendidas
 
-| Métrica | Alvo | Valor | Status |
-|---------|------|-------|--------|
-| Tarefas completadas | 100% (8/8) | — | — |
-| Setup time plugin | <30 min | — | — |
-| Adoption piloto | 100% (3/3) | — | — |
-| Reducao reexplicacao | 80% (2-3h → <30min) | — | — |
-| Retrabalho | 0% | — | — |
-| NPS | >50 | — | — |
-
----
-
-## Lições Aprendidas
-
-1. (A ser preenchido)
-2. (A ser preenchido)
-3. (A ser preenchido)
-
----
-
-## Feedback Geral
-
-[Sera preenchido Dia 7 com sintese de aprendizados]
+1. **Mock servers devem ficar no scratchpad/** — api_server.py foi util durante dev mas nao deve versionar
+2. **Board vivo e necessario** — sem atualizacao diaria, perde-se a visao de progresso real
+3. **Commit tracking funciona** — 27 commits rastreaveis vs 8 tasks = ~3.4 commits/task, auditavel
 
 ---
 
 **Facilitador:** Jader Greiner  
-**Duracao:** (A ser agendada — esperado 1 hora)  
-**Participantes:** Jader + 3 personas piloto
+**Duracao:** 30 min (preenchimento pos-sprint)  
+**Sprint fechada em:** 9e55d88
