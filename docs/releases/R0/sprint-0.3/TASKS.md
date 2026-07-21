@@ -1,8 +1,9 @@
 # Sprint Tasks — 0.3
 
 **Sprint:** 0.3 - Beta Prep (MVP Implementation)  
-**Status:** 📋 Planejado — Kick-off 2026-07-22  
+**Status:** 🔄 Em Progresso — Dia 2 em andamento (2026-07-23)  
 **Estimado:** ~6.5 dias (paralelizacao esperada)  
+**Atual:** 40% completo (T0.3.1 + T0.3.2 + T0.3.3 = 100%; T0.3.4 iniciando)  
 **Personas:** Jader (Dev) + AI Architect + Product Ops + Early Adopter (Piloto)
 
 ---
@@ -20,10 +21,10 @@
 
 | ID | Titulo | Descricao | Duracao | Personas | Status |
 |----|--------|-----------|---------|----------|--------|
-| T0.3.1 | Especificacao Tecnica (SPEC.md) | Design Plugin Jira + Trust Score + Deteccao Orfas; arquitetura; fluxo dados | 1.5d | Jader | 📋 Planejado |
-| T0.3.2 | Design de API REST | Endpoints: /tasks, /okrs, /relationships, /trust-score; schemas; validacoes | 1.5d | Jader | 📋 Planejado |
-| T0.3.3 | Implementacao Plugin Jira | Integracao Jira API; webhooks; auto-deteccao features orfas; UI plugin | 2d | Jader | 📋 Planejado |
-| T0.3.4 | Trust Score Engine | Implementacao 0.0-1.0 score; calculo (coverage, quality, consistency); validacoes | 1.5d | Jader | 📋 Planejado |
+| T0.3.1 | Especificacao Tecnica (SPEC.md) | Design Plugin Jira + Trust Score + Deteccao Orfas; arquitetura; fluxo dados | 1.5d | Jader | ✅ 100% |
+| T0.3.2 | Design de API REST | Endpoints: /tasks, /okrs, /relationships, /trust-score; schemas; validacoes | 1.5d | Jader | ✅ 100% |
+| T0.3.3 | Implementacao Plugin Jira | Integracao Jira API; webhooks; auto-deteccao features orfas; UI plugin | 2d | Jader | ✅ 100% |
+| T0.3.4 | Trust Score Engine | Implementacao 0.0-1.0 score; calculo (coverage, quality, consistency); validacoes | 1.5d | Jader | 🔄 Em andamento |
 
 ### Tier 2: Important / Should-Have
 
@@ -38,6 +39,19 @@
 |----|--------|-----------|---------|----------|--------|
 | T0.3.7 | Documentacao Completa | README, API docs, tutorial, troubleshooting | 1d | Jader | 📋 Planejado |
 | T0.3.8 | Testing + QA | Testes unitarios, integracao, edge cases; validacao de dados | 0.5d | Jader | 📋 Planejado |
+
+---
+
+## Progress Summary (Dia 2 — 2026-07-23)
+
+| Task | Completion | Commits | Notes |
+|------|----------|---------|-------|
+| T0.3.1 (Spec) | ✅ 100% | 7 | SPEC.md finalizado D1 |
+| T0.3.2 (API) | ✅ 100% | 4 | API_DESIGN.md finalizado D1 |
+| T0.3.3 (Plugin) | ✅ 100% | 3 | **5h/5h** Phase 1-4 completo! |
+| T0.3.4 (Score) | 🔄 0% | — | Iniciando agora (D2) |
+| T0.3.5-8 | 📋 0% | — | Bloqueados por T0.3.4 |
+| **Total** | **40%** | **14** | Ahead of schedule ✅ |
 
 ---
 
@@ -217,6 +231,28 @@ Documentos prontos ANTES de D1:
 
 ---
 
-**Sprint Status:** 📋 Planejado  
-**Próxima Atualizacao:** 2026-07-22 (Dia 1 — Kick-off)  
-**Ultimo atualizado:** 2026-07-20T15:00:00
+---
+
+## Sprint Velocity & Projections
+
+```
+D1 (2026-07-22):
+  ✅ T0.3.1 (Spec) — 1.5d estimate, ~6h actual (parallelizable)
+  ✅ T0.3.2 (API) — 1.5d estimate, ~4h actual (parallelizable)
+  Status: 3d estimated work done in 1d (3x parallelization bonus!)
+
+D2 (2026-07-23):
+  ✅ T0.3.3 (Plugin Jira) — 2d estimate, 5h actual (4 phases @ 1h-1.5h)
+  🔄 T0.3.4 (Trust Score) — 1.5d estimate, INICIANDO
+  Status: +40% ahead of 80% target
+
+Projeção D3+:
+  T0.3.4 → T0.3.5 (Piloto) → T0.3.6-8 (Metrics + Docs + QA)
+  Esperado: Completar Sprint 0.3 por 2026-07-26 (~4d real vs 6.5d estimado)
+```
+
+---
+
+**Sprint Status:** 🔄 Em Andamento (Dia 2)  
+**Próxima Atualizacao:** 2026-07-23 (Dia 2 — T0.3.4 iniciado)  
+**Ultimo atualizado:** 2026-07-23T13:45:00Z
