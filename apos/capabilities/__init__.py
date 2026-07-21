@@ -26,6 +26,13 @@ from apos.capabilities.agents import (
     get_primary_agent,
     get_fallback_agents,
 )
+from apos.capabilities.router import (
+    CapabilityRouter,
+    CapabilityRequest,
+    ResolutionResult,
+    MatchStrategy,
+    create_default_router,
+)
 
 __all__ = [
     "Capability", "CapabilityDomain", "CapabilityStatus", "CapabilityRegistry",
@@ -34,4 +41,6 @@ __all__ = [
     "Categoria", "Maturidade", "CriterioClassificacao",
     "AgentDescriptor", "AgentDominio", "AgentCategoria",
     "get_agent", "get_agents_by_capability", "get_primary_agent", "get_fallback_agents",
+    "CapabilityRouter", "CapabilityRequest", "ResolutionResult", "MatchStrategy",
+    "create_default_router",
 ]
