@@ -2,9 +2,30 @@
 
 **Release:** R0 → R1-R4  
 **Período:** Out 2026 - Jun 2027  
-**Status:** REVISADO (pós-Sprint 0.7)  
+**Status:** REPOSICIONADO (ponto de inflexao — APOS como framework projeto-consciente)  
 **Criado:** 20-07-2026 (Template)  
-**Revisado:** 21-07-2026 (Sprint 0.7)
+**Revisado:** 21-07-2026 (Ponto de inflexao — APOS para de se autogerir)
+
+---
+
+## 🧭 Ponto de Inflexao Estrategico
+
+**Problema identificado:** APOS passou 7 sprints se autodesenvolvendo — seus proprios OKRs, sprints, KG, capabilities, roadmap. Mas seu proposito nunca foi ser um projeto em si.
+
+**Correcao:** APOS deve ser um framework que, ao ser importado, aprende sobre o **projeto hospedeiro** (ex: Meu PDI) e aplica suas competencias a ele — nao a si mesmo.
+
+```
+ANTES (autorreferente)                     DEPOIS (projeto-consciente)
+───────────────────────────────            ───────────────────────────────
+from apos import SprintManager             from apos import ProjectAdapter
+sm = SprintManager("R0")                   projeto = ProjectAdapter()
+sm.create_sprint("sprint-0.8")             projeto.load("meu-pdi")
+# APOS gerencia APOS                       # APOS gerencia o projeto
+```
+
+**Isso reposiciona todo o roadmap de R1 em diante.**
+
+---
 
 ---
 
@@ -64,154 +85,181 @@ Um projeto que fizer `pip install apos` hoje NAO recebe Context Engine, Capabili
 
 ---
 
-## Visão Estratégica
+## Visão Estratégica (Reposicionada)
 
 Cada release move em direção ao North Star: **"Times visualizam e raciocinam sobre estratégia de ponta a ponta"**
 
+A diferença: quem "visualiza e raciocina" nao é o APOS sobre si mesmo — é o **projeto hospedeiro** usando APOS como framework.
+
 ```
-R0 (Jul-Set 2026): Fundações semânticas + MVP ✅
+R0 (Jul-Set 2026): Fundações semanticas + MVP (autodesenvolvimento) ✅
+    │  APOS aprendeu sobre si mesmo para poder ensinar outros.
+    │  Conhecimento adquirido: KG, Context, Capabilities, Harness.
     ↓
-R1 (Out-Nov 2026): Instanciar Knowledge Graph + Loaders MCP
+R1 (Out-Nov 2026): Project Adapter — APOS aprende sobre o PROJETO
+    │  from apos import ProjectAdapter
+    │  adapter = ProjectAdapter()
+    │  adapter.discover("meu-pdi")  # descobre stack, dominio, OKRs, times
     ↓
-R2 (Dez 2026-Fev 2027): Catálogo + Linhagem + Inteligência
+R2 (Dez 2026-Fev 2027): Domain KG — KG do dominio do projeto
+    │  adapter.kg.add_node(domain_entity)
+    │  adapter.ceremonies.sprint_planning()
     ↓
-R3 (Fev-Abr 2027): Governança + Auditoria + Compliance
+R3 (Fev-Abr 2027): Project Governance — Gates + Audit para o projeto
+    │  adapter.governance.validate_alignment()
     ↓
-R4 (Abr-Jun 2027): Ecossistema + Comunidade + Go-to-Market
+R4 (Abr-Jun 2027): Framework SDK — projetos empacotam APOS como dependencia
+    │  pip install apos
+    │  apos init meu-pdi  # setup automatico
 ```
 
-**Ajuste pós-R0:** O escopo de R1-R3 foi reduzido porque ~30% do que era planejado já foi
-entregue como design/fundação em R0. O foco agora é **implementação real + carga real**.
+**Ajuste pos-ponto de inflexao:** TODO o escopo de R1-R4 foi recalibrado.
+Nao se trata mais de "APOS construir seus loaders". Trata-se de APOS **servir** projetos.
 
 ---
 
-## R1: Instanciação + Transporte (Out-Nov 2026)
+## R1: Project Adapter — APOS aprende sobre o PROJETO (Out-Nov 2026)
 
-**Objetivo:** Instanciar knowledge graph com dados reais via loaders MCP, conectando Jira/Notion/Slack
+**Objetivo:** Criar o `ProjectAdapter` — camada que, ao ser importada, descobre o contexto do projeto hospedeiro e configura APOS para servi-lo.
+
+```
+# Visao de uso final
+from apos import ProjectAdapter
+
+adapter = ProjectAdapter()
+adapter.discover()  
+# → Detecta: pyproject.toml, CLAUDE.md, docs/, tests/
+# → Infere: stack (FastAPI/Django/Next.js), dominio, OKRs
+# → Sugere: ontologia adaptada ao dominio
+# → Configura: ceremonies, KG, capabilities para o projeto
+```
 
 **Key Results:**
-- KR1: 3 loaders MCP funcionais (Jira, Notion, Slack)
-- KR2: Knowledge graph com 100+ entidades instanciadas de projetos reais
-- KR3: Agentes conseguem navegar grafo usando query patterns Q01-Q16
+- KR1: `ProjectAdapter.discover()` analisa repositorio e extrai stack, dominio, estrutura
+- KR2: Bootstrap Gate 2.0 guia projeto na definicao de fundacoes (NORTH_STAR, OKR, ONTOLOGY)
+- KR3: Ontologia geral do APOS e adaptada ao vocabulario do projeto (ex: "Aluno" em vez de "Persona")
+- KR4: `from apos import SprintManager` usa configuracoes do projeto, nao do APOS
 
 **Temas de Sprint:**
-- S1.0: **Jira MCP Loader** — refatorar sync TASKS.md → Jira para loader MCP bidirecional; instanciar 50+ entidades Task/Feature/Release no KG
-- S1.1: **MCP Server** — servidor MCP para APOS expor KG + queries Q01-Q16 como tools para agentes externos
-- S1.2: **Notion Loader** — loader MCP para Notion (projetos, documentação, OKRs); instanciar 30+ entidades
-- S1.3: **Slack Loader + Data Load** — loader MCP para Slack (decisões, contextos); carga total 100+ entidades
+- S1.0: **ProjectAdapter core** — discover() que analisa repositorio (pyproject.toml, docs, CLAUDE.md)
+- S1.1: **Bootstrap Gate 2.0** — init guiado por contexto do projeto (nao generico)
+- S1.2: **Domain Ontology Adapter** — mapeia ontologia generica para vocabulario do projeto
+- S1.3: **Config Profiles** — perfis de configuracao (solo dev, squad, enterprise)
 
-**O que NÃO está mais em R1** (já foi entregue em R0):
-- Knowledge Graph core (graph.py) ✅ Sprint 0.4
-- Query patterns Q01-Q16 ✅ Sprint 0.4
-- Agent navigation design ✅ Sprint 0.6
+**O que NAO esta mais em R1** (reposicionado):
+- Loaders MCP (Jira, Notion, Slack) → movido para R2 (projeto pode usar se precisar)
+- MCP Server → movido para R2
 
 **Effort:** ~18 person-days  
 **Dependencies:**
-- R0 COMPLETE (fundações — em progresso)
-- Sprint 0.4 KG design (✅ já disponível)
-- Sprint 0.5 Retrieval Strategy (✅ já disponível)
+- R0 COMPLETE (fundacoes — em progresso)
+- Conhecimento adquirido em Sprints 0.4-0.7 (KG, Context, Capabilities, Harness) — disponivel como especificacao
 
 ---
 
-## R2: Inteligência + Rastreabilidade (Dez 2026-Fev 2027)
+## R2: Domain KG + Project Ceremonies (Dez 2026-Fev 2027)
 
-**Objetivo:** Catálogo + Linhagem + Impact Analysis operacional
+**Objetivo:** Knowledge Graph e cerimonias operando para o dominio do projeto, nao do APOS.
 
 **Key Results:**
-- KR1: Catálogo com schema formal e linhagem completa entre entidades
-- KR2: Impact analysis CLI em < 5 min (vs 2h manual)
-- KR3: Agentes executam queries semânticas com fallback e cache funcional
+- KR1: Projeto consegue instanciar entidades de seu dominio no KG (ex: "Aluno", "Curso", "Mentoria")
+- KR2: Sprint Planning e Daily usam dados reais do projeto, nao templates genericos
+- KR3: Cerimonias adaptadas ao ritmo do projeto (solo, squad, OKR-cycle)
+- KR4: Loaders MCP opcionais (Jira/Notion/Slack) disponiveis se projeto quiser conectar
 
 **Temas de Sprint:**
-- S2.0: **Data Catalog Schema** — schema formal de catálogo (tipos, atributos, indexação); API de busca + descoberta
-- S2.1: **Lineage Tracing Engine** — rastreio de linhagem entre Task → Feature → Release → OKR com propagação de mudanças
-- S2.2: **Impact Analysis CLI** — CLI que calcula impacto de mudanças usando queries Q09-Q12; output estruturado
-- S2.3: **Capability Routing Implementation** — implementar o algoritmo de resolução de CAPABILITY_ROUTING.md; chain, fallback, cache real
+- S2.0: **Domain Knowledge Graph** — adapter.kg.add_domain_entity("Aluno") cria no com atributos do projeto
+- S2.1: **Project Ceremonies** — Sprint Planning, Daily, Review, Retro com dados do projeto
+- S2.2: **MCP Loaders (opcionais)** — Jira, Notion, Slack loaders (se projeto usar essas ferramentas)
+- S2.3: **Capability Routing real** — implementar CAPABILITY_ROUTING.md para o dominio do projeto
 
-**O que NÃO está mais em R2** (já foi entregue em R0):
-- Agent Navigation Harness design ✅ Sprint 0.7 (AGENT_HARNESS.md)
-- Capability model design ✅ Sprint 0.6 (CAPABILITY_MODEL.md)
-- Agent Map + Matriz ✅ Sprint 0.6 (AGENT_MAP.md)
-- Capability Routing design ✅ Sprint 0.6 (CAPABILITY_ROUTING.md)
+**O que NAO esta mais em R2** (ja entregue em R0):
+- Agent Navigation design ✅ Sprint 0.6
+- Capability model design ✅ Sprint 0.6
+- Agent Map + Routing design ✅ Sprint 0.6
 
 **Effort:** ~20 person-days  
 **Dependencies:**
-- R1 loaders operacionais (dados reais no KG)
-- R1 MCP Server (para agentes consumirem)
+- R1 ProjectAdapter funcional
+- Sprint 0.4-0.7 designs como especificacao disponivel
 
 ---
 
-## R3: Governança + Auditoria (Fev-Abr 2027)
+## R3: Project Governance (Fev-Abr 2027)
 
-**Objetivo:** Validação automática + Auditoria + Observabilidade
+**Objetivo:** Gates, auditoria e compliance operando para o projeto, nao para o APOS.
 
 **Key Results:**
-- KR1: Semantic Gates implementados bloqueiam 95% de desalinhamentos
-- KR2: Audit Engine rastreia todas violações com diagnóstico
-- KR3: Trust Score tracking + dashboard de observabilidade
+- KR1: Semantic Gates validam alinhamento das entregas do projeto com seus OKRs
+- KR2: Audit Engine rastreia decisoes do projeto com diagnostico
+- KR3: Trust Score mede saude semântica do projeto (cobertura, qualidade, consistencia)
 
 **Temas de Sprint:**
-- S3.0: **Semantic Gates Implementation** — implementar gates baseados em EVALUATION_HARNESS.md; PASS/CONDITIONAL/FAIL com thresholds configuráveis
-- S3.1: **Audit Rules + Log Engine** — engine de auditoria que rastreia desvios, categoriza issues e gera diagnósticos acionáveis
-- S3.2: **Compliance Framework** — frameworks de compliance (LGPD, SOC 2); regras configuráveis por domínio
-- S3.3: **Observability Dashboard** — dashboard com Trust Score tracking, métricas de coverage, tendências, alertas
+- S3.0: **Project Gates** — gates configurados para o dominio do projeto (gates de ontologia, alinhamento, cobertura)
+- S3.1: **Project Audit** — auditoria rastreia decisoes do projeto, nao do APOS
+- S3.2: **Trust Score Dashboard** — dashboard com metricas do projeto (nao de APOS)
+- S3.3: **Compliance Templates** — LGPD, SOC 2 templates adaptaveis ao projeto
 
-**O que NÃO está mais em R3** (já foi entregue em R0):
-- Evaluation Harness design ✅ Sprint 0.7 (5 tipos, 16 métricas, A/B testing)
-- Trust Score Engine ✅ Sprint 0.3 (0.0-1.0, três dimensões)
-- Métricas baseline ✅ Sprint 0.3
+**O que NAO esta mais em R3** (ja entregue em R0):
+- Evaluation Harness design ✅ Sprint 0.7
+- Trust Score Engine ✅ Sprint 0.3
+- Metricas baseline ✅ Sprint 0.3
 
 **Effort:** ~20 person-days  
 **Dependencies:**
-- R2 catalog + lineage (gates dependem de linhagem)
-- Sprint 0.7 Evaluation Harness design (✅ já disponível)
+- R2 Domain KG populado com dados do projeto
+- Sprint 0.7 Evaluation Harness design (disponivel como especificacao)
 
 ---
 
-## R4: Ecossistema + Comunidade (Abr-Jun 2027)
+## R4: Framework SDK — APOS como dependencia de projetos (Abr-Jun 2027)
 
-**Objetivo:** Open source + SDK + Extensibilidade
+**Objetivo:** Projetos empacotam APOS como dependencia (`pip install apos`) e rodam `apos init` para configuracao automatica.
 
 **Key Results:**
-- KR1: 10+ extensões comunitárias
-- KR2: 1000+ downloads (PyPI)
-- KR3: "Ontologia de PM" como padrão de mercado
+- KR1: `pip install apos` + `apos init meu-projeto` configura tudo automaticamente
+- KR2: SDK publico com extension points para qualquer projeto
+- KR3: 5+ projetos usando APOS como framework de gestao semantica
 
 **Temas de Sprint:**
-- S4.0: **SDK Público + Documentação** — SDK Python público com extensão points, plugin architecture, contribution guide
-- S4.1: **Extensões de Domínio** — Sales, Support, Finance ontologies como pacotes instaláveis
-- S4.2: **Shared Ontology Library** — repositório comunitário de ontologias compartilhadas; sistema de review + versionamento
-- S4.3: **Go-to-Market + Comunidade** — landing page, pricing, case studies, webinars, open source community
+- S4.0: **CLI + Init** — `apos init <projeto>` detecta, configura e bootstrappa
+- S4.1: **Extension Points** — plugins de dominio (Educacao, Saude, Financas) como pacotes instalaveis
+- S4.2: **Documentation + Quickstart** — docs focadas no projeto, nao no APOS
+- S4.3: **Community + Case Studies** — Meu PDI como primeiro caso de uso documentado
+
+**O que NAO esta mais em R4** (reposicionado):
+- "Ontologia de PM como padrao de mercado" → nao é mais o objetivo. O objetivo é APOS como framework adaptavel a qualquer dominio.
 
 **Effort:** ~18 person-days  
 **Dependencies:**
-- R1-R3 estáveis
-- R2 MCP Server maduro
-- R3 gates + audit operacionais
+- R1-R3 estaveis
+- Meu PDI como projeto piloto validando o fluxo completo
 
 ---
 
-## Timeline Visual (Gantt Simplificado)
+## Timeline Visual (Gantt Simplificado) — Reposicionado
 
 ```
 2026:
-  JUL-AGO |████ R0.0-0.3 Sprint ████ R0.4-0.7 Sprint ████ | (Sprint 0.0-0.7)
-  SET     |█ R0.8-0.9 ██ | (R0 encerramento)
-  ────────|─── R0.5-0.7 IMPL ◄── ~14d para virar codigo importavel
-  OUT     |  ████ S1.0 ████ S1.1 ████ | (R1 — loaders)
+  JUL-AGO |████ R0.0-0.7 (autodesenvolvimento) ████ | ✅
+  SET     |█ R0.8-0.9 + implementacao 0.5-0.7 em code ██ |
+  ────────|─── Transicao: APOS para de se autogerir ─────
+  OUT     |  ████ S1.0 ████ S1.1 ████ | (R1 — ProjectAdapter)
   NOV     | ████ S1.2 ████ S1.3 ████ | (R1)
-  DEZ     | ████ S2.0 ████ S2.1 ████ | (R2)
+  DEZ     | ████ S2.0 ████ S2.1 ████ | (R2 — Domain KG + Ceremonies)
 
 2027:
   JAN     | ████ S2.2 ████ S2.3 ████ | (R2)
-  FEV     | ████ S3.0 ████ S3.1 ████ | (R3)
+  FEV     | ████ S3.0 ████ S3.1 ████ | (R3 — Project Governance)
   MAR     | ████ S3.2 ████ S3.3 ████ | (R3)
-  ABR     | ████ S4.0 ████ S4.1 ████ | (R4)
+  ABR     | ████ S4.0 ████ S4.1 ████ | (R4 — Framework SDK)
   MAI     | ████ S4.2 ████ S4.3 ████ | (R4)
-  JUN     | ✅ COMPLETE
+  JUN     | ✅ FRAMEWORK PRONTO
 ```
 
 > **⚠ Nota:** A implementacao dos modulos `apos/context_engine/`, `apos/capabilities/` e `apos/harness/` (docs → codigo) esta marcada como pre-requisito implicito antes de R1. Sem ela, `pip install apos` nao entrega as competencias de Sprint 0.5-0.7 como codigo importavel. Pode ser executada em paralelo com R0.8-0.9 ou como sprint dedicada de implementacao.
+
+> **⚠ Ponto de inflexao:** A partir de R1, APOS nao gerencia mais a si mesmo. O `ProjectAdapter` gerencia o projeto hospedeiro. O roadmap deixa de ser "o que APOS precisa construir" e passa a ser "o que APOS oferece a projetos".
 
 ---
 
