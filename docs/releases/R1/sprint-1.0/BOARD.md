@@ -10,7 +10,7 @@
 
 ```
 Backlog        A Fazer       Em Progresso    Em Revisão    Completo
-   (1)            (4)            (0)             (0)          (0)
+   (1)            (2)            (0)             (0)          (2)
 
    ---            ↓              ↓               ↓
  R0-AC04      R1-S1-A1       (vazio)          (vazio)
@@ -33,8 +33,6 @@ Backlog        A Fazer       Em Progresso    Em Revisão    Completo
 
 | ID | Descrição | Trilha | SP | Estimativa | Critério |
 |----|-----------|--------|----|-----------|----------|
-| R1-S1-A1 | Tests agent_harness (1.587 LOC) | A | 1.0 | 1 dia | Coverage ≥80% |
-| R1-S1-A2 | Tests capability_harness | A | 1.0 | 1 dia | Coverage ≥80% |
 | R1-S1-B1 | Implementar ProjectAdapter core | B | 1.5 | 1.5 dias | discover() extrai stack+módulos |
 | R1-S1-B2 | Testes ProjectAdapter em Meu PDI | B | 0.5 | 0.5 dia | ≥50% descoberta |
 
@@ -53,6 +51,11 @@ Backlog        A Fazer       Em Progresso    Em Revisão    Completo
 ---
 
 ## ✅ Completo
+
+| ID | Descrição | Trilha | SP | Entregue |
+|----|-----------|--------|----|----------|
+| R1-S1-A1 | Tests agent_harness (1.587 LOC) | A | 0.75 | 100 testes, 100% pass ✅ |
+| R1-S1-A2 | Tests capability_harness | A | 0.75 | 80 testes, 100% pass ✅ |
 
 *(vazio)*
 

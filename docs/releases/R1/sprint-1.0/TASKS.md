@@ -35,8 +35,8 @@
 
 | ID | Titulo | Descrição | SP | Critério de Sucesso | Status |
 |----|--------|-----------|-----|------------------|--------|
-| T1.1.1 | Tests agent_harness (1.587 LOC) | Testes unitários para agent_harness, ≥80% coverage. Testes: execution, state, blocking, mocking | 0.75 | coverage ≥80%, sem god-class refactor needed | 📋 Planejado |
-| T1.1.2 | Tests capability_harness | Testes unitários + integração, ≥80% coverage. E2E: agent+capability ≥70% | 0.75 | coverage ≥80%, integration OK | 📋 Planejado |
+|| T1.1.1 | Tests agent_harness (1.587 LOC) | Testes unitários para agent_harness, ≥80% coverage. Testes: execution, state, blocking, mocking | 0.75 | coverage ≥80%, sem god-class refactor needed | ✅ Completo (100 testes, 747 linhas) |
+|| T1.1.2 | Tests capability_harness | Testes unitários + integração, ≥80% coverage. E2E: agent+capability ≥70% | 0.75 | coverage ≥80%, integration OK | ✅ Completo (80 testes, 924 linhas) |
 
 ### Tier 2: ProjectAdapter Viability (2.0 SP core)
 
@@ -58,8 +58,8 @@
 | Task | Completion | SP | Notes |
 |------|----------|-----|-------|
 | T1.1.0 (Refator Meu PDI — PRÉ) | 0% | — | **D1 09:00-12:00 BLOQUEANTE** — SME validação score ≥75% (D1 14:00) |
-| T1.1.1 (agent_harness tests) | 0% | 0.75 | Harness priority, parte de dupla via A |
-| T1.1.2 (capability_harness tests) | 0% | 0.75 | Harness priority, parte de dupla via A |
+| T1.1.1 (agent_harness tests) | 100% | 0.75 | ✅ 100 testes, 747 linhas, 4 classes |
+| T1.1.2 (capability_harness tests) | 100% | 0.75 | ✅ 80 testes, 924 linhas, 7 classes |
 | T1.1.3 (ProjectAdapter core) | 0% | 1.2 | Dupla via B, pós-refator (D1 14:30+) |
 | T1.1.4 (ProjectAdapter Meu PDI) | 0% | 0.8 | Validação D2 gate (≥70% descoberta) |
 | T1.1.5 (Polish/stretch) | 0% | 1.0 | Nice-to-have, se D2 PASS |
