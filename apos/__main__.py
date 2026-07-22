@@ -22,6 +22,8 @@ def main():
         return 0
     elif command == "daily":
         return handle_daily_command(sys.argv[2:])
+    elif command in ("init-sprint", "init_sprint"):
+        return handle_init_sprint_command(sys.argv[2:])
     elif command == "validate-sprint":
         return handle_validate_sprint_command(sys.argv[2:])
     elif command == "--version":
@@ -218,6 +220,78 @@ def handle_daily_command(args):
         return 1
 
 
+def handle_init_sprint_command(args):
+    """Handle 'init-sprint' command — create sprint directory with standard structure.
+
+    python -m apos init-sprint --sprint sprint-0.2 --release R0
+    python -m apos init-sprint --sprint sprint-0.2 --release R0 --dry-run
+    """
+    parser = argparse.ArgumentParser(
+        prog="python -m apos init-sprint",
+        description="Criar diretório de sprint com estrutura padrão (BOARD, USER_STORIES, RETRO, etc)",
+    )
+    parser.add_argument(
+        "--sprint",
+        required=True,
+        help="ID do sprint (ex: sprint-0.2)",
+    )
+    parser.add_argument(
+        "--release",
+        default="R0",
+        help="ID da release (default: R0)",
+    )
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Apenas mostrar quais arquivos seriam criados, sem criar",
+    )
+
+    try:
+        parsed_args = parser.parse_args(args)
+    except SystemExit:
+        return 1
+
+    from apos.release_management.sprint import Sprint, SprintManager
+
+    sm = SprintManager(release_id=parsed_args.release)
+    sm.create_sprint(
+        sprint_id=parsed_args.sprint,
+        title=parsed_args.sprint,
+        start_date=datetime.now().strftime("%Y-%m-%d"),
+        end_date="",
+    )
+
+    if parsed_args.dry_run:
+        sprint_dir = sm.release_dir / parsed_args.sprint
+        print(f"Dry-run: os seguintes arquivos seriam criados em {sprint_dir}/")
+        print("  - README.md")
+        print("  - TASKS.md")
+        print("  - USER_STORIES.md")
+        print("  - BOARD.md")
+        print("  - STATUS.md")
+        print("  - RISK_MITIGATION.md")
+        print("  - RETRO.md")
+        print(f"  - DAILY_STANDUP_{datetime.now().strftime('%Y-%m-%d')}.md")
+        print("  (Nenhum arquivo foi criado — use --dry-run para confirmar)")
+        return 0
+
+    sprint_dir = sm.initialize_sprint_directory(parsed_args.sprint)
+    print(f"✅ Sprint {parsed_args.sprint} inicializado em {sprint_dir}/")
+    print("  ├── README.md")
+    print("  ├── TASKS.md")
+    print("  ├── USER_STORIES.md")
+    print("  ├── BOARD.md")
+    print("  ├── STATUS.md")
+    print("  ├── RISK_MITIGATION.md")
+    print("  ├── RETRO.md")
+    print(f"  └── DAILY_STANDUP_{datetime.now().strftime('%Y-%m-%d')}.md")
+    print("")
+    print("Estrutura de sprint gerada com templates padrao (espelhando Sprint 0.0).")
+    print("Preencha TASKS.md e execute:")
+    print(f"  python -m apos daily --sprint {parsed_args.sprint} --release {parsed_args.release}")
+    return 0
+
+
 def handle_validate_sprint_command(args):
     """Handle 'validate-sprint' command for commit tracking validation.
 
@@ -310,6 +384,7 @@ Usage:
 
 Commands:
     init              Initialize APOS project (validate foundations, bootstrap if needed)
+    init-sprint       Create sprint directory with standard structure (BOARD, USER_STORIES, RETRO, etc)
     daily             Execute Daily Standup for a sprint
                       Use: python -m apos daily --sprint SPRINT_ID [--tasks-json FILE] [--mode MODE] [--date DATE] [--release RELEASE]
                       --tasks-json is optional: if omitted, tasks are reconstructed

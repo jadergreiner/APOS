@@ -558,40 +558,55 @@ class SprintManager:
         return sorted(self.sprints.values(), key=lambda s: s.id)
 
     def initialize_sprint_directory(self, sprint_id: str) -> Path:
-        """Criar diretório de sprint com estrutura padrão.
+        """Criar diretório de sprint com estrutura padrão e templates preenchidos.
 
-        Cria:
+        Gera automaticamente todos os artefatos do sprint usando
+        ReleaseTemplateGenerator, garantindo estrutura consistente
+        entre sprints (espelhando Sprint 0.0 como referência).
+
+        Artefatos criados:
         - README.md: Contexto do sprint
-        - TASKS.md: Tarefas detalhadas
-        - USER_STORIES.md: User stories
-        - BOARD.md: Kanban board
-        - STATUS.md: Relatório de status
-        - DAILY_STANDUP_[DATE].md: Daily standup template
-        - RISK_MITIGATION.md: Riscos e mitigações
-        - RETRO.md: Retrospectiva template
+        - TASKS.md: Tarefas detalhadas (template tabular)
+        - USER_STORIES.md: User stories (template)
+        - BOARD.md: Kanban board (template)
+        - STATUS.md: Relatório de status (template com métricas)
+        - RISK_MITIGATION.md: Riscos e mitigações (template)
+        - RETRO.md: Retrospectiva (template)
+        - DAILY_STANDUP_{date}.md: Daily standup template
 
         Args:
-            sprint_id: ID do sprint
+            sprint_id: ID do sprint (ex: "sprint-0.2")
 
         Returns:
             Caminho do diretório criado
         """
+        from apos.release_management.templates import ReleaseTemplateGenerator
+
         sprint_dir = self.release_dir / sprint_id
         sprint_dir.mkdir(parents=True, exist_ok=True)
+        now_str = datetime.now().strftime("%Y-%m-%d")
 
-        # Criar estrutura padrão de sprint
-        files = [
-            "README.md",
-            "TASKS.md",
-            "USER_STORIES.md",
-            "BOARD.md",
-            "STATUS.md",
-            "RISK_MITIGATION.md",
-            "RETRO.md",
+        # Gerar templates via ReleaseTemplateGenerator
+        templates = [
+            ("README.md", ReleaseTemplateGenerator.generate_sprint_readme(
+                sprint_id=sprint_id, release_id=self.release_id,
+                title=sprint_id, start_date=now_str, end_date=now_str,
+            )),
+            ("TASKS.md", ReleaseTemplateGenerator.generate_sprint_tasks_template()),
+            ("USER_STORIES.md", ReleaseTemplateGenerator.generate_user_stories_template()),
+            ("BOARD.md", ReleaseTemplateGenerator.generate_sprint_board_template()),
+            ("STATUS.md", ReleaseTemplateGenerator.generate_sprint_status_template(sprint_id)),
+            ("RISK_MITIGATION.md", ReleaseTemplateGenerator.generate_risk_mitigation_template()),
+            ("RETRO.md", ReleaseTemplateGenerator.generate_retro_template()),
+            (f"DAILY_STANDUP_{now_str}.md", ReleaseTemplateGenerator.generate_daily_standup_template(
+                sprint_id, format_type="markdown"
+            )),
         ]
 
-        for filename in files:
-            (sprint_dir / filename).touch()
+        for filename, content in templates:
+            filepath = sprint_dir / filename
+            if not filepath.exists():
+                filepath.write_text(content, encoding="utf-8")
 
         return sprint_dir
 

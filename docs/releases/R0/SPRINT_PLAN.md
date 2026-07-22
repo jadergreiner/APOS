@@ -1,9 +1,9 @@
-# APOS R0 Sprint Plan — 10 Sprints (Full Release)
+# APOS R0 Sprint Plan — Atualizado
 
 **Release:** R0 (APOS Foundations)  
 **Sprints:** 0.0 - 0.9  
-**Duração Total:** 10 semanas (2026-07-22 a 2026-09-30)  
-**Status:** IN PROGRESS (Sprint 0.0 Complete, Sprint 0.1 Next)  
+**Duracao Total:** 10 semanas (2026-07-22 a 2026-09-30)  
+**Status:** ✅ Sprint 0.0 → Sprint 0.3 CONCLUIDAS — SHIP MVP  
 **Lead Skill:** PM-Skills
 
 ---
@@ -16,24 +16,22 @@ R0 estabelece todas as **fundações do APOS** através do Skill Council (11 ski
 
 ---
 
-## Sprint Overview
+## Sprint Overview — Estado Real vs Planejado
 
-| Sprint | Tema | Skill Lead | Deliverables | Status |
-|--------|------|-----------|--------------|--------|
-| **0.0** | Knowledge Consolidation | JTBD Framework | JTBD-INTERVIEWS-RAW-NOTES.md, JOB_STATEMENT.md, FORCES_ANALYSIS.md | ✅ MERGED TO develop (25f3474) |
-| **0.1** | Platform Identity | Anthropic PM | NORTH_STAR_FINAL.md, OKR.md | 📅 PLANNED |
-| **0.2** | Ontology | Ontology Engineering | ONTOLOGY.md, Entity Model | 📅 PLANNED |
-| **0.3** | Semantic Layer | Semantic Layer Design | SEMANTIC_LAYER.md, Rules | 📅 PLANNED |
-| **0.4** | Knowledge Graph | Knowledge Graph Design | KNOWLEDGE_GRAPH.md, Model | 📅 PLANNED |
-| **0.5** | Context Engineering | Context Engineering | CONTEXT_MODEL.md, MEMORY_MODEL.md | 📅 PLANNED |
-| **0.6** | Capability Modeling | Agentic Architecture | CAPABILITY_MODEL.md, AGENT_MAP.md | 📅 PLANNED |
-| **0.7** | Harness | Harness Design | HARNESS.md, Harness Spec | 📅 PLANNED |
-| **0.8** | Governance | AI Governance | GOVERNANCE.md, EVALUATIONS.md, OBSERVABILITY.md | 📅 PLANNED |
-| **0.9** | Agent Contracts | Agentic Architecture | AGENT_CONTRACTS.md, Specification | 📅 PLANNED |
+| Sprint | Tema Original | Tema Real | Status | 
+|--------|--------------|-----------|--------|
+| **0.0** | Knowledge Consolidation | Knowledge Consolidation | ✅ COMPLETE (25f3474) |
+| **0.1** | Platform Identity | Platform Identity | ✅ COMPLETE (d14f7c8) |
+| **0.2** | Ontology | **JTBD Deep Dive** ↻ | ✅ COMPLETA (pivot p/ validacao) |
+| **0.3** | Semantic Layer | **Beta Prep — MVP** ↻ | ✅ COMPLETA — SHIP MVP |
+| **0.4** | Knowledge Graph | Knowledge Graph | 📅 PLANNED |
+| **0.5** | Context Engineering | Context Engineering | 📅 PLANNED |
+| **0.6** | Capability Modeling | Capability Modeling | 📅 PLANNED |
+| **0.7** | Harness | Harness | 📅 PLANNED |
+| **0.8** | Governance | Governance | 📅 PLANNED |
+| **0.9** | Agent Contracts | Agent Contracts | 📅 PLANNED |
 
 ---
-
-## Sprint Detalhados
 
 ### Sprint 0.0: Knowledge Consolidation ✅ COMPLETE
 
@@ -56,75 +54,67 @@ R0 estabelece todas as **fundações do APOS** através do Skill Council (11 ski
 - ✅ `FORCES_ANALYSIS.md` — Matriz Push/Pull/Ansiedade/Hábito consolidada
 - ✅ `JOB_STATEMENT.md` — Job Statement final validado com 100% consenso
 
-**Key Findings:**
-
-- **Problem Root:** Contexto desatualizado (não alucinação clássica) = 90% de erros de agentes
-- **Job Statement:** "When [PM/Agente define trabalho sem contexto], I want [camada semântica viva], so I can [evitar alucinação/retrabalho]"
-- **6 Requisitos de Produto Emergentes** documentados
-- **Kernel Patterns Estabelecidos:** Bootstrap Gate, Semantic Validation, Commit Tracking
-
-**Metrics:**
-
-- Effort: 8 dias planejado / 3 dias real (**+250% velocity**)
-- Personas: 7/5 entrevistadas (**+40% meta**)
-- Story Points: 6.5/6.5 (**100% conclusão**)
-- Test Coverage: 145 tests, 83% (**exceeds 80% target**)
-- Team Consensus: 100% (7/7 personas aligned)
-
 **Status:** ✅ **COMPLETO** ([Relatório Completo](sprint-0.0/README.md))
 
 ---
 
-### Sprint 0.1: Platform Identity (Jul 29 - Aug 02)
+### Sprint 0.1: Platform Identity ✅ COMPLETE
 
-**Lead Skill:** Anthropic PM Plugin  
+**Period:** 2026-07-19 (1 dia)  
 **Goal:** Definir identidade, proposta, posicionamento de APOS
 
 **Deliverables:**
-- NORTH_STAR_REFINED.md (visão final)
-- VALUE_PROPOSITION_FINAL.md (proposta validada)
-- COMPETITIVE_POSITIONING.md (diferenciação)
-- OKR.md (OKRs de Produto R0-R4)
-- ROADMAP_R1_R4.md (plano de releases)
+- VALUE_PROPOSITION.md — Proposta de valor final
+- COMPETITIVE_POSITIONING.md — Diferenciação competitiva
+- OKR.md — OKRs de Produto R0-R4
+- ROADMAP_R1_R4.md — Plano de releases
 
-**Effort:** 5 person-days  
-**Status:** PLANNED
+**Status:** ✅ **COMPLETO** (d14f7c8)
 
 ---
 
-### Sprint 0.2: Ontology (Aug 05-09)
+### Sprint 0.2: JTBD Deep Dive ✅ COMPLETA (Pivot Estratégico)
 
-**Lead Skill:** Ontology Engineering  
-**Goal:** Definir ontologia formal de APOS
+**Period:** 2026-07-20 (1 dia sprint agil)  
+**Pivot:** Originalmente "Ontology", re-planejado para validacao mais profunda com stakeholders reais  
+**Goal:** 6 entrevistas JTBD documentadas, forças analysis, validação VALUE_PROPOSITION
 
 **Deliverables:**
-- ONTOLOGY.md (conceitos core)
-- ENTITY_MODEL.md (entidades, atributos)
-- RELATIONSHIP_MAP.md (relações entre conceitos)
-- CONSTRAINTS.md (restrições de domínio)
+- ✅ 6 entrevistas JTBD documentadas (5 personas + Jader PM)
+- ✅ FORCES_ANALYSIS.md — Matriz completa
+- ✅ JOB_STATEMENT.md — Formalizado + validado
+- ✅ BETA_PROGRAM.md — Programa piloto MVP
+- ✅ VALUE_PROPOSITION: 4.5/5 validado (VERY STRONG)
 
-**Effort:** 5 person-days  
-**Status:** PLANNED
+**Status:** ✅ **COMPLETA** — Decisao: VERDE, proceder MVP
 
 ---
 
-### Sprint 0.3: Semantic Layer (Aug 12-16)
+### Sprint 0.3: Beta Prep — MVP Implementation ✅ COMPLETA
 
-**Lead Skill:** Semantic Layer Design  
-**Goal:** Normalizar significado através de regras semânticas
+**Period:** 2026-07-22 a 2026-07-29 (sprint de execucao)  
+**Pivot:** Originalmente "Semantic Layer", re-planejado para implementar MVP  
+**Goal:** Entregar MVP funcional — Plugin Jira, Trust Score Engine, Piloto, Metricas
 
 **Deliverables:**
-- SEMANTIC_LAYER.md (20+ regras de negócio)
-- TAXONOMY.md (taxonomias)
-- METADATA_MODEL.md (modelo de metadados)
+- ✅ T0.3.1 SPEC.md — Especificação técnica
+- ✅ T0.3.2 API_DESIGN.md — Design de API REST (6 endpoints)
+- ✅ T0.3.3 Plugin Jira — Sincronização automática TASKS.md → Jira
+- ✅ T0.3.4 Trust Score Engine — Cálculo 0.0-1.0 (coverage, quality, consistency)
+- ✅ T0.3.5 Piloto Setup — Scripts, onboarding, personas
+- ✅ T0.3.6 Metricas Baseline — Setup monitoring + coleta
+- ✅ T0.3.7 Documentação MVP — README, API docs, tutorial
+- ✅ T0.3.8 Testing + QA — Validação final
 
-**Effort:** 5 person-days  
-**Status:** PLANNED
+**Resultado:** 🟢 **GREEN — SHIP MVP**  
+**Commits:** 30+ na branch develop  
+**Status:** ✅ **COMPLETA** ([Sprint 0.3](sprint-0.3/README.md))
 
 ---
 
-### Sprint 0.4: Knowledge Graph (Aug 19-23)
+### Sprint 0.4: Knowledge Graph (Proximo)
 
+**Period:** (A definir)  
 **Lead Skill:** Knowledge Graph Design  
 **Goal:** Projetar modelo de grafo conectado
 
@@ -135,12 +125,13 @@ R0 estabelece todas as **fundações do APOS** através do Skill Council (11 ski
 - QUERY_PATTERNS.md (padrões de navegação)
 
 **Effort:** 5 person-days  
-**Status:** PLANNED
+**Status:** 📅 PLANNED
 
 ---
 
-### Sprint 0.5: Context Engineering (Aug 26-30)
+### Sprint 0.5: Context Engineering
 
+**Period:** (A definir)  
 **Lead Skill:** Context Engineering  
 **Goal:** Modelar contexto e memória de APOS
 
@@ -151,12 +142,13 @@ R0 estabelece todas as **fundações do APOS** através do Skill Council (11 ski
 - RETRIEVAL_STRATEGY.md (estratégia de recuperação)
 
 **Effort:** 5 person-days  
-**Status:** PLANNED
+**Status:** 📅 PLANNED
 
 ---
 
-### Sprint 0.6: Capability Modeling (Sep 02-06)
+### Sprint 0.6: Capability Modeling
 
+**Period:** (A definir)  
 **Lead Skill:** Agentic Architecture  
 **Goal:** Modelar capabilities e mapear agentes
 
@@ -167,12 +159,13 @@ R0 estabelece todas as **fundações do APOS** através do Skill Council (11 ski
 - CAPABILITY_ROUTING.md (roteamento de capabilities)
 
 **Effort:** 5 person-days  
-**Status:** PLANNED
+**Status:** 📅 PLANNED
 
 ---
 
-### Sprint 0.7: Harness (Sep 09-13)
+### Sprint 0.7: Harness
 
+**Period:** (A definir)  
 **Lead Skill:** Harness Design  
 **Goal:** Projetar harness de agentes, capabilities, avaliação e simulação
 
@@ -184,12 +177,13 @@ R0 estabelece todas as **fundações do APOS** através do Skill Council (11 ski
 - SIMULATION_HARNESS.md (harness de simulação)
 
 **Effort:** 6 person-days  
-**Status:** PLANNED
+**Status:** 📅 PLANNED
 
 ---
 
-### Sprint 0.8: Governance (Sep 16-20)
+### Sprint 0.8: Governance
 
+**Period:** (A definir)  
 **Lead Skill:** AI Governance  
 **Goal:** Estruturar governança, avaliações e observabilidade
 
@@ -201,12 +195,13 @@ R0 estabelece todas as **fundações do APOS** através do Skill Council (11 ski
 - AUDIT_FRAMEWORK.md (framework de auditoria)
 
 **Effort:** 6 person-days  
-**Status:** PLANNED
+**Status:** 📅 PLANNED
 
 ---
 
-### Sprint 0.9: Agent Contracts (Sep 23-27)
+### Sprint 0.9: Agent Contracts
 
+**Period:** (A definir)  
 **Lead Skill:** Agentic Architecture  
 **Goal:** Especificar contratos de agentes
 
@@ -217,43 +212,7 @@ R0 estabelece todas as **fundações do APOS** através do Skill Council (11 ski
 - EXECUTION_PROTOCOL.md (protocolo de execução)
 
 **Effort:** 5 person-days  
-**Status:** PLANNED
-
----
-
-## Capacity Planning
-
-**Total Capacity:** 10 semanas × 5 dias × 1 person = 50 person-days
-
-**Alocação por Sprint:**
-- Sprint 0.0: 4 days
-- Sprints 0.1-0.7: 5 days each (7 × 5 = 35 days)
-- Sprints 0.8-0.9: 6 days each (2 × 6 = 12 days)
-- **Total:** 51 person-days (ligeiramente over, mas com parallelização possível)
-
-**Parallelização Possível:**
-- Sprints 0.2-0.6 podem executar parcialmente em paralelo
-- Skills podem trabalhar em dependências antecipadas
-
----
-
-## Dependências Críticas
-
-```
-0.0 (JTBD)
-    ↓
-0.1 (Platform Identity)
-    ↓
-0.2 (Ontology)
-    ├─→ 0.3 (Semantic Layer)
-    │   ├─→ 0.4 (Knowledge Graph)
-    │   └─→ 0.5 (Context Engineering)
-    │
-    └─→ 0.6 (Capability Modeling)
-        └─→ 0.7 (Harness)
-            ├─→ 0.8 (Governance)
-            └─→ 0.9 (Agent Contracts)
-```
+**Status:** 📅 PLANNED
 
 ---
 
@@ -263,19 +222,17 @@ R0 é COMPLETE quando:
 
 - ✅ 0.0: Job validado com stakeholder sign-off
 - ✅ 0.1: North Star, OKRs, Roadmap R1-R4 finalizados
-- ✅ 0.2: Ontologia formal especificada e validada
-- ✅ 0.3: Semantic layer com 20+ regras documentadas
-- ✅ 0.4: Grafo knowledge especificado (pronto para implementação R1)
-- ✅ 0.5: Contexto e memória modelados
-- ✅ 0.6: Capabilities mapeadas, agentes categorizados
-- ✅ 0.7: Harness especificado (4 tipos)
-- ✅ 0.8: Governança, avaliações, observabilidade definidas
-- ✅ 0.9: Contratos de agentes especificados
-- ✅ All deliverables reviewed and approved by PM-Skills
-- ✅ R1 kick-off scheduled
+- ✅ 0.2: JTBD validado com 6 entrevistas reais (pivot estrategico)
+- ✅ 0.3: MVP implementado e validado (SHIP MVP)
+- 📅 0.4: Grafo knowledge especificado (pronto para implementação R1)
+- 📅 0.5: Contexto e memória modelados
+- 📅 0.6: Capabilities mapeadas, agentes categorizados
+- 📅 0.7: Harness especificado (4 tipos)
+- 📅 0.8: Governança, avaliações, observabilidade definidas
+- 📅 0.9: Contratos de agentes especificados
 
 ---
 
 **Created:** 2026-07-19  
-**Version:** 2.0 (Expanded to 10 sprints)  
-**Next:** Skill Council execution
+**Updated:** 2026-07-21 — Sprint 0.3 completa SHIP MVP  
+**Next:** Sprint 0.4 (Knowledge Graph) ou R1 planning

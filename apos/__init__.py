@@ -30,6 +30,18 @@ def is_apos_project(project_root: Optional[Path] = None) -> bool:
     return (root / APOS_PROJECT_METADATA["marker_file"]).exists()
 
 
+from apos.core import (  # noqa: E402
+    KnowledgeGraph,
+    Node,
+    NodeType,
+    NodeMetadata,
+    Edge,
+    EdgeType,
+    EdgeMetadata,
+    make_urn,
+    parse_urn,
+    is_valid_urn,
+)
 from apos.bootstrap import (  # noqa: E402
     BootstrapGate,
     FoundationDefinitionSession,
@@ -45,6 +57,16 @@ __all__ = [
     "__version__",
     "APOS_PROJECT_METADATA",
     "is_apos_project",
+    "KnowledgeGraph",
+    "Node",
+    "NodeType",
+    "NodeMetadata",
+    "Edge",
+    "EdgeType",
+    "EdgeMetadata",
+    "make_urn",
+    "parse_urn",
+    "is_valid_urn",
     "BootstrapGate",
     "FoundationDefinitionSession",
     "SessionManager",
