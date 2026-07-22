@@ -16,7 +16,6 @@ from apos.project_adapter.detector import (
 )
 from apos.project_adapter.errors import DetectorExecutionError
 
-
 # =============================================================================
 # Detector ABC
 # =============================================================================

@@ -1,4 +1,9 @@
-class DetectorExecutionError(Exception):
+"""Exceções do módulo ProjectAdapter."""
+
+from apos.errors import AposError
+
+
+class DetectorExecutionError(AposError):
     """Erro durante execucao de um detector."""
 
     def __init__(self, message: str):

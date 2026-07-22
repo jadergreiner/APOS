@@ -11,8 +11,23 @@ from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import Any
 
-
-IGNORE_DIRS = frozenset({"node_modules", "venv", ".venv", ".git", "__pycache__", ".mypy_cache", ".pytest_cache", "dist", "build", ".tox", "eggs", ".eggs", "env"})
+IGNORE_DIRS = frozenset(
+    {
+        "node_modules",
+        "venv",
+        ".venv",
+        ".git",
+        "__pycache__",
+        ".mypy_cache",
+        ".pytest_cache",
+        "dist",
+        "build",
+        ".tox",
+        "eggs",
+        ".eggs",
+        "env",
+    }
+)
 
 
 class Detector(ABC):
@@ -73,20 +88,22 @@ class StackDetector(Detector):
             if "psycopg" in deps_lower or "asyncpg" in deps_lower:
                 result["database"] = "PostgreSQL"
             elif "sqlalchemy" in deps_lower:
-                result["database"] = result.get("database") or "SQLAlchemy"
+                result["database"] = "SQLAlchemy"
             elif "pymongo" in deps_lower or "motor" in deps_lower:
                 result["database"] = "MongoDB"
 
         # --- package.json ---
         if package_json.exists():
-            result["language"] = result["language"] if result["language"] != "unknown" else "JavaScript"
+            if result["language"] == "unknown":
+                result["language"] = "JavaScript"
             content = package_json.read_text(encoding="utf-8", errors="replace")
             deps_lower = content.lower()
 
             if "next" in deps_lower:
                 result["framework"] = "Next.js"
             elif "react" in deps_lower:
-                result["framework"] = result.get("framework") if result.get("framework") != "unknown" else "React"
+                if result.get("framework") == "unknown":
+                    result["framework"] = "React"
             elif "express" in deps_lower:
                 result["framework"] = "Express"
             elif "vue" in deps_lower:
@@ -159,7 +176,11 @@ class ModuleDetector(Detector):
                     core_modules.append(entry.name)
 
             # Count total LOC in .py files (non-recursive in root, recursive in modules)
-            py_files = list(project_root.rglob("*.py"))
+            try:
+                py_files = list(project_root.rglob("*.py"))
+            except (OSError, PermissionError):
+                # Some dirs may be inaccessible (e.g., .venv/lib64 on Windows)
+                py_files = []
             for pyf in py_files:
                 # Skip files inside ignored dirs
                 rel = pyf.relative_to(project_root)
@@ -244,11 +265,17 @@ class PatternDetector(Detector):
         if has_entities and has_use_cases:
             patterns.append("clean_architecture")
 
+        # Collect py files with error handling (can fail on inaccessible dirs)
+        try:
+            py_files = list(project_root.rglob("*.py"))
+        except (OSError, PermissionError):
+            py_files = []
+
         # --- FastAPI routes ---
         fastapi_pattern = re.compile(
-            r"@\w*\.?(get|post|put|delete|patch|router\.get|router\.post|router\.put|router\.delete|router\.patch)"
+            r"@\w*\.(get|post|put|delete|patch)|" r"@router\.(get|post|put|delete|patch)"
         )
-        for py_file in project_root.rglob("*.py"):
+        for py_file in py_files:
             rel = py_file.relative_to(project_root)
             if any(part in IGNORE_DIRS for part in rel.parts):
                 continue
@@ -262,7 +289,7 @@ class PatternDetector(Detector):
 
         # --- Lambda handlers ---
         lambda_pattern = re.compile(r"def lambda_handler\s*\(|from\s+aws_lambda|boto3")
-        for py_file in project_root.rglob("*.py"):
+        for py_file in py_files:
             rel = py_file.relative_to(project_root)
             if any(part in IGNORE_DIRS for part in rel.parts):
                 continue
@@ -275,8 +302,14 @@ class PatternDetector(Detector):
                 continue
 
         # --- DynamoDB (single-table pattern via boto3 references) ---
-        dynamodb_pattern = re.compile(r"boto3\.resource\(.*['\"]dynamodb['\"]|boto3\.client\(.*['\"]dynamodb['\"]|dynamodb|table\.get_item|table\.put_item|table\.query")
-        for py_file in project_root.rglob("*.py"):
+        dynamodb_pattern = re.compile(
+            r"boto3\.resource.*dynamodb|"
+            r"boto3\.client.*dynamodb|"
+            r"table\.get_item|"
+            r"table\.put_item|"
+            r"table\.query"
+        )
+        for py_file in py_files:
             rel = py_file.relative_to(project_root)
             if any(part in IGNORE_DIRS for part in rel.parts):
                 continue
@@ -311,21 +344,28 @@ class SemanticDetector(Detector):
         has_ontology = docs_sdd.is_dir()
         if not has_ontology:
             # Broader: any */ontology* file or dir
-            for p in project_root.rglob("*"):
-                if p.name.startswith("."):
-                    continue
-                if any(part in IGNORE_DIRS for part in p.relative_to(project_root).parts):
-                    continue
-                if "ontology" in p.name.lower() and p.is_file():
-                    has_ontology = True
-                    break
+            try:
+                for p in project_root.rglob("*"):
+                    if p.name.startswith("."):
+                        continue
+                    if any(part in IGNORE_DIRS for part in p.relative_to(project_root).parts):
+                        continue
+                    if "ontology" in p.name.lower() and p.is_file():
+                        has_ontology = True
+                        break
+            except (OSError, PermissionError):
+                pass
 
         result["has_ontology"] = has_ontology
 
         # --- Domain entities from SDD files ---
         domain_entities: list[str] = []
         if docs_sdd.is_dir():
-            for sdd_file in sorted(docs_sdd.rglob("*.md")):
+            try:
+                sdd_files = sorted(docs_sdd.rglob("*.md"))
+            except (OSError, PermissionError):
+                sdd_files = []
+            for sdd_file in sdd_files:
                 try:
                     text = sdd_file.read_text(encoding="utf-8", errors="replace")
                     # Extract class/entity definitions
@@ -358,11 +398,14 @@ class SemanticDetector(Detector):
         result["domain_entities"] = domain_entities
 
         # --- Naming convention sampling ---
-        py_files = [
-            p
-            for p in project_root.rglob("*.py")
-            if not any(part in IGNORE_DIRS for part in p.relative_to(project_root).parts)
-        ]
+        try:
+            py_files = [
+                p
+                for p in project_root.rglob("*.py")
+                if not any(part in IGNORE_DIRS for part in p.relative_to(project_root).parts)
+            ]
+        except (OSError, PermissionError):
+            py_files = []
         if py_files:
             snake_count = 0
             camel_count = 0
@@ -376,13 +419,19 @@ class SemanticDetector(Detector):
                         line = line.strip()
                         if line.startswith("#") or line.startswith('"') or line.startswith("'"):
                             continue
-                        # Look for function/class defs and variable assignments
-                        for token in re.findall(r"(?:def |class |@\w+\.)?([a-zA-Z_]\w*)\s*(?:\(|=|:)", line):
+                        # Function/class defs and variable assignments
+                        pattern = r"(?:def |class |@\w+\.)?([a-zA-Z_]\w*)\s*(?:\(|=|:)"
+                        for token in re.findall(pattern, line):
                             if "_" in token and token == token.lower():
                                 snake_count += 1
                             elif token and token[0].isupper() and "_" not in token:
                                 pascal_count += 1
-                            elif token and token[0].islower() and token != token.lower() and "_" not in token:
+                            elif (
+                                token
+                                and token[0].islower()
+                                and token != token.lower()
+                                and "_" not in token
+                            ):
                                 camel_count += 1
                             samples += 1
                 except Exception:

@@ -74,9 +74,7 @@ class ProjectAdapter:
             except DetectorExecutionError:
                 raise
             except Exception as e:
-                raise DetectorExecutionError(
-                    f"Detector '{detector.name}' falhou: {e}"
-                ) from e
+                raise DetectorExecutionError(f"Detector '{detector.name}' falhou: {e}") from e
 
         return self._build_profile(results)
 

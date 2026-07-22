@@ -11,7 +11,6 @@ from pydantic import ValidationError
 from apos.project_adapter import Detector, ProjectAdapter, ProjectProfile
 from apos.project_adapter.errors import DetectorExecutionError
 
-
 # =============================================================================
 # ProjectProfile
 # =============================================================================
@@ -178,9 +177,7 @@ class TestProjectAdapter:
         (tmp_path / "apos").mkdir()
         (tmp_path / "apos" / "__init__.py").write_text("#")
         (tmp_path / "docs" / "SDD").mkdir(parents=True)
-        (tmp_path / "docs" / "SDD" / "arch.md").write_text(
-            "entity Project\nentity Task\n"
-        )
+        (tmp_path / "docs" / "SDD" / "arch.md").write_text("entity Project\nentity Task\n")
         (tmp_path / "router.py").write_text(
             "from fastapi import APIRouter\nrouter = APIRouter()\n@router.get('/')\ndef h(): pass\n"
         )
@@ -198,9 +195,11 @@ class TestProjectAdapter:
 def test_discover_apos_itself():
     """Descobre o profile do proprio projeto APOS."""
     pa = ProjectAdapter()
-    repo = Path("/mnt/c/repo/APOS")
-    if repo.exists():
-        profile = pa.discover(repo)
-        assert profile.language == "Python"
-        assert isinstance(profile.module_count, int)
-        assert isinstance(profile.total_loc, int)
+    # Get repo root: tests/unit/test_project_adapter/test_adapter.py -> APOS/
+    repo = Path(__file__).resolve().parents[3]
+    if not (repo / "apos" / "project_adapter").exists():
+        pytest.skip("Not in APOS repo root")
+    profile = pa.discover(repo)
+    assert profile.language == "Python"
+    assert isinstance(profile.module_count, int)
+    assert isinstance(profile.total_loc, int)
