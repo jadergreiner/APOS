@@ -56,6 +56,7 @@ Backlog        A Fazer       Em Progresso    Em Revisão    Completo
 |----|-----------|--------|----|----------|
 | R1-S1-A1 | Tests agent_harness (1.587 LOC) | A | 0.75 | 100 testes, 100% pass ✅ |
 | R1-S1-A2 | Tests capability_harness | A | 0.75 | 80 testes, 100% pass ✅ |
+| R1-S1-B1 | Implementar ProjectAdapter core | B | 1.2 | 45 testes, discover() funcional ✅ |
 
 *(vazio)*
 
