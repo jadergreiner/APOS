@@ -121,7 +121,7 @@ class TasksParser:
                     cells = [c.strip() for c in row.split('|')[1:-1]]
                     if len(cells) >= 5:
                         task_id = cells[0]
-                        if task_id and task_id.startswith('T0.'):
+                        if task_id and task_id[0] == 'T' and len(task_id) > 1 and task_id[1].isdigit():
                             task = Task(
                                 task_id=task_id,
                                 titulo=cells[1],
@@ -330,7 +330,7 @@ def main():
     logger.info("")
 
     # Parse tasks
-    parser = TasksParser("docs/releases/R0/sprint-0.3/TASKS.md")
+    parser = TasksParser("docs/releases/R1/sprint-1.0/TASKS.md")
     tasks = parser.parse()
     logger.info("")
 

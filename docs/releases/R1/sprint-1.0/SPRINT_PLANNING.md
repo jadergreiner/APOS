@@ -1,117 +1,112 @@
-# Sprint Planning — R1-sprint-1.0
+# Sprint Planning — R1 Sprint 1
 
 **Data:** 2026-07-21
-**Duracao:** 60min
-**Participantes:** Jader
+**Duração:** 60min
+**Participantes:** Jader (CEO + Tech Lead + PM + SME)
+**Formato:** Dupla Via
 
 ---
 
 ## 🎯 Sprint Goal
 
-> Criar o ProjectAdapter — modulo que descobre o contexto do projeto hospedeiro e configura APOS para servi-lo
+> Tornar APOS operacional no Meu PDI: agent_harness/capability_harness ≥80% + ProjectAdapter protótipo funcional.
 
 ---
 
-## 🎯 Alinhamento com OKRs
+## ✅ Pré-Requisitos Verificados
 
-- R1-KR1: ProjectAdapter.discover() analisa repositorio e extrai stack, dominio, estrutura
-- R1-KR2: Bootstrap Gate 2.0 guia projeto na definicao de fundacoes
-- R1-KR3: Ontologia adaptada ao vocabulario do projeto
-
-Este sprint implementa o core do R1 (ProjectAdapter). E o primeiro sprint pos-ponto-de-inflexao: APOS para de se autogerir e comeca a servir projetos.
-
----
-
-## 📖 User Stories
-
-### US-001: Descoberta automatica de contexto
-
-**Descricao:** Como desenvolvedor, quero rodar ProjectAdapter.discover() no meu repositorio para que APOS entenda minha stack, dominio e estrutura automaticamente
-
-**Prioridade:** P0
-
-**Criterios de Aceitacao:**
-- [ ] Detecta pyproject.toml, package.json, CLAUDE.md
-- [ ] Extrai nome, descricao, stack (Python/Node/Go)
-- [ ] Identifica framework (FastAPI/Django/Next)
-- [ ] Detecta docs/ tests/ src/ structure
-
-### US-002: Init guiado por contexto
-
-**Descricao:** Como desenvolvedor, quero rodar apos init e receber perguntas adaptadas ao meu dominio, nao perguntas genericas de PM
-
-**Prioridade:** P0
-
-**Criterios de Aceitacao:**
-- [ ] Perguntas adaptadas ao dominio (educacao, saude, fintech)
-- [ ] Sugestoes de entidades baseadas no contexto
-- [ ] Fallback para template generico se dominio desconhecido
-
-### US-003: Ontologia adaptada ao projeto
-
-**Descricao:** Como desenvolvedor, quero que APOS use os termos do MEU projeto (ex: Aluno, Curso, Mentoria) em vez de termos genericos (Task, Feature)
-
-**Prioridade:** P1
-
-**Criterios de Aceitacao:**
-- [ ] Mapper Persona→Aluno, Task→Atividade configurado
-- [ ] Mapper reverso para reports (Aluno→Persona)
-- [ ] Plugavel: projetos podem customizar mapeamentos
+| Pré-Requisito | Status | Evidência |
+|--------------|--------|-----------|
+| Sprint Zero executado | ✅ | Tag `r0-2026-07-21`, working tree limpo |
+| Jira sync configurado | ✅ | `.jira_sync_history.json` (SCRUM-22 a SCRUM-29) |
+| Tag de rollback | ✅ | `r0-2026-07-21` |
+| BOARD.md populado | 🔄 | Este documento |
 
 ---
 
-## 📋 Tasks Planejadas
+## 📊 Alinhamento com OKRs
 
-| ID | Titulo | Estimativa | Story |
-|----|--------|-----------|-------|
-| R1.1 | ProjectAdapter core — descoberta | 3.0d | - |
-| R1.2 | Bootstrap Gate 2.0 — init guiado | 3.0d | - |
-| R1.3 | Domain Ontology Adapter — mapper | 2.0d | - |
-
-**Total:** 8.0d | **Velocity target:** 3.0d
+| KR | Descrição | Sprint | Status |
+|----|-----------|--------|--------|
+| KR1 | ProjectAdapter descobre ≥80% Meu PDI | S1 protótipo, S2 completo | 🎯 Sprint 1 alvo |
+| KR2a | agent_harness + capability_harness ≥80% | Sprint 1 (2 SP) | 🎯 Sprint 1 alvo |
+| KR4 | Baseline métricas + 1º comparativo | Iniciar imediatamente | 📋 Iniciar |
 
 ---
 
-## 🔗 Mapa de Dependencias
+## 🚂 Dupla Via — Sprint 1
 
-- `R1.1` → `R1.2`: Gate 2.0 depende do contexto descoberto pelo ProjectAdapter
-- `R1.1` → `R1.3`: Ontology Adapter usa contexto do ProjectAdapter
+### Trilha A: Harness Coverage (2 SP)
+**Meta:** agent_harness + capability_harness ≥80%
+**Owner:** Jader
+**Milestone:** Dia 2 — coverage report deve mostrar ≥70% ou repriorizar
+
+| Task | Estimativa | Critério de Sucesso |
+|------|-----------|---------------------|
+| R1-S1-A1: Tests agent_harness (1.587 LOC) | 1.0 SP | coverage report ≥80% |
+| R1-S1-A2: Tests capability_harness | 1.0 SP | coverage report ≥80% |
+
+### Trilha B: ProjectAdapter Protótipo (2 SP)
+**Meta:** `ProjectAdapter.discover()` funcional em Meu PDI
+**Owner:** Jader
+**Milestone:** Dia 2 — `discover()` deve extrair ≥50% da estrutura ou pausar
+
+| Task | Estimativa | Critério de Sucesso |
+|------|-----------|---------------------|
+| R1-S1-B1: Implementar ProjectAdapter core | 1.5 SP | discover() extrai stack + módulos |
+| R1-S1-B2: Testes ProjectAdapter em Meu PDI | 0.5 SP | ≥50% descoberta automatizada |
+
+### Buffer (1 dia)
+- Folga para imprevistos, integração, ou dívida técnica de R0
+
+---
+
+## ⏱ Milestone de 2 Dias (Obrigatório)
+
+| Dia | Trilha A | Trilha B | Gate |
+|-----|----------|----------|------|
+| **Dia 1** | Setup testes + agent_harness | Esboço ProjectAdapter | — |
+| **Dia 2** | capability_harness coverage | discover() funcional | **🔴 MILESTONE** — Decisão: continua dupla via ou converge? |
+| **Dia 3** | Buffer / Convergência | Buffer / Convergência | Decisão documentada |
+
+**Regra:** Se no Dia 2 nenhuma trilha atingir milestone → convergir para Trilha A (harness é crítico para R2). Se ambas progredindo → manter dupla via.
 
 ---
 
 ## 🚨 Riscos
 
-| Risco | Prob | Impacto | Mitigacao |
+| Risco | Prob | Impacto | Mitigação |
 |-------|------|---------|-----------|
-| Projetos podem ter estruturas muito diferentes — discover() pode falhar | Media | Alto | Detectores modulares com fallback generico |
-| Ontologia generica do APOS pode nao se adaptar bem a dominios muito especificos | Baixa | Medio | Mapper configurável, documentar limites |
+| ProjectAdapter é arquiteturalmente mais complexo que estimado | Média | Alto | Protótipo primeiro; milestone Dia 2 valida |
+| Harness 50%→80% expõe dívida técnica profunda | Baixa | Alto | Se coverage >70% no Dia 2, aceitar como suficiente para S1 |
+| Dependência de Meu PDI real para testes | Média | Médio | Usar estrutura do próprio APOS para testes offline |
+| Jira sync não integrado com Sprint Start | Baixa | Médio | Sync manual temporário; automatizar no S2 |
 
 ---
 
-## 👥 Entrevistas com Stakeholders
+## 🔄 Ações da Retro Anterior (Baseline R0)
 
-_[Entrevistar stakeholders para validar escopo]_
-
+| ID | Descrição | Critério de Verificação | Dono | Prioridade | Due |
+|----|-----------|------------------------|------|-----------|-----|
+| R0-AC01 | Planning paralelo (Tier 1+2) como default | SPRINT_PLANNING.md tem trilhas paralelas | SM | high | S1 |
+| R0-AC02 | Templates de cerimônia pré-criados no kickoff | BOARD.md + TASKS.md + SPRINT_PLANNING.md existem no D1 | SM | high | S1 |
+| R0-AC03 | Commit Tracking validation integrado | Script de verificação commit → task linkado | Dev | medium | S2 |
+| R0-AC04 | Recrutar persona real externa para validação | 1 entrevista externa agendada | CEO | high | S2 |
+| R0-AC05 | Refinar baseline de velocity | Estimativas vs real do Sprint Zero documentado | SM | medium | S1 |
 
 ---
 
-## 📊 Metricas da Sprint
+## 📈 Métricas da Sprint
 
-| Metrica | Alvo | Descricao |
+| Métrica | Alvo | Como medir |
 |---------|------|-----------|
-| ProjectAdapter | discover() funcional | Analisa repositorio e extrai contexto |
-| Bootstrap Gate | init guiado por contexto | Perguntas adaptadas ao dominio |
-| Ontology Adapter | mapper funcional | Traduz ontologia generica para projeto |
-
----
-
-## 🔄 Acoes da Retro Anterior
-
-- Sprint Planning + Jira sync automatico — Status: ✅ Concluido — Dono: Hermes
-- User Stories no Sprint Planning — Status: ✅ Concluido — Dono: Hermes
-- Retro Actions Tracker mantido — Status: ✅ Concluido — Dono: Hermes
+| Harness coverage | ≥80% | `pytest --cov=apos/harness --cov=apos/capabilities` |
+| ProjectAdapter discovery | ≥50% estrutura Meu PDI | `adapter.discover()` + inspeção manual |
+| Milestone Dia 2 | Decisão tomada | Registro em DAILY_STANDUP.md |
+| Velocity | 4 SP + buffer | Story points completos / dias |
 
 ---
 
 **Sprint Planning criado:** 2026-07-21
-
+**Scrum Master:** Hermes Agent
+**Aprovação:** Pendente — CEO deve revisar milestone rules
