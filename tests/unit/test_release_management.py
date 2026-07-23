@@ -16,6 +16,8 @@ from apos.release_management import (
     SprintPlanningSession,
     Retrospective,
     RetroAction,
+    RoadmapCeremony,
+    RoadmapPhase,
 )
 
 
@@ -637,3 +639,104 @@ class TestRetrospective:
         retro.add_action(action)
         assert len(retro.action_items) == 1
         assert len(retro.get_high_priority_actions()) == 1
+
+
+class TestRoadmapCeremony:
+    """Testes para Roadmap Ceremony."""
+
+    def test_create_roadmap(self):
+        """Testar criar roadmap ceremony."""
+        roadmap = RoadmapCeremony(
+            product_id="meu-pdi",
+            date="2026-07-23",
+            north_star="Tornar cada profissional capaz de evoluir continuamente",
+            north_star_metric="Taxa de conclusao de ciclos de desenvolvimento",
+        )
+
+        assert roadmap.product_id == "meu-pdi"
+        assert len(roadmap.phases) == 0
+
+    def test_add_attendee(self):
+        """Testar adicionar participante (sem duplicar)."""
+        roadmap = RoadmapCeremony(product_id="meu-pdi", date="2026-07-23")
+
+        roadmap.add_attendee("Jader")
+        roadmap.add_attendee("Jader")
+
+        assert roadmap.attendees == ["Jader"]
+
+    def test_add_phase_returns_phase_for_chaining(self):
+        """Testar que add_phase retorna a fase para adicionar itens."""
+        roadmap = RoadmapCeremony(product_id="meu-pdi", date="2026-07-23")
+
+        phase = roadmap.add_phase("Fundacao", "2026 Q2-Q3", goal="Estabelecer a base do produto")
+        phase.add_item("P0", "CAP-IDENTITY", "Auth multi-role")
+        phase.add_item("P0", "CAP-PLANS", "PDI manual + IA")
+
+        assert len(roadmap.phases) == 1
+        assert roadmap.phases[0].name == "Fundacao"
+        assert len(roadmap.phases[0].priority_items) == 2
+
+    def test_add_dependency(self):
+        """Testar registrar dependencia entre itens."""
+        roadmap = RoadmapCeremony(product_id="meu-pdi", date="2026-07-23")
+
+        roadmap.add_dependency("CAP-GOALS", "CAP-CAREER")
+
+        assert len(roadmap.dependency_matrix) == 1
+        assert roadmap.dependency_matrix[0] == {"item": "CAP-GOALS", "depends_on": "CAP-CAREER"}
+
+    def test_total_items(self):
+        """Testar contagem total de itens priorizados em todas as fases."""
+        roadmap = RoadmapCeremony(product_id="meu-pdi", date="2026-07-23")
+
+        p1 = roadmap.add_phase("Fundacao", "2026 Q2-Q3")
+        p1.add_item("P0", "CAP-IDENTITY", "Auth")
+        p2 = roadmap.add_phase("Core Produto", "2026 Q3-Q4")
+        p2.add_item("P0", "CAP-GOALS", "Metas")
+        p2.add_item("P1", "CAP-COACH", "Check-ins")
+
+        assert roadmap.total_items() == 3
+
+    def test_render_markdown_includes_key_sections(self):
+        """Testar que o markdown renderizado contem as secoes oficiais."""
+        roadmap = RoadmapCeremony(
+            product_id="meu-pdi",
+            date="2026-07-23",
+            north_star="Evoluir continuamente",
+            north_star_metric="Ciclos concluidos",
+        )
+        phase = roadmap.add_phase("Fundacao", "2026 Q2-Q3", goal="Base do produto")
+        phase.add_item("P0", "CAP-IDENTITY", "Auth")
+        roadmap.add_dependency("CAP-GOALS", "CAP-CAREER")
+
+        md = roadmap.render_markdown()
+
+        assert "# Roadmap — meu-pdi" in md
+        assert "North Star" in md
+        assert "Evoluir continuamente" in md
+        assert "Fundacao (2026 Q2-Q3)" in md
+        assert "CAP-IDENTITY" in md
+        assert "CAP-GOALS` depende de `CAP-CAREER`" in md
+
+    def test_render_markdown_placeholders_when_empty(self):
+        """Testar que secoes vazias geram placeholders, nao quebram."""
+        roadmap = RoadmapCeremony(product_id="meu-pdi", date="2026-07-23")
+
+        md = roadmap.render_markdown()
+
+        assert "_[Definir North Star do produto]_" in md
+        assert "_[Definir fases do roadmap]_" in md
+        assert "_[Mapear dependências entre itens do roadmap]_" in md
+
+    def test_to_dict(self):
+        """Testar serializacao."""
+        roadmap = RoadmapCeremony(product_id="meu-pdi", date="2026-07-23")
+        phase = roadmap.add_phase("Fundacao", "2026 Q2-Q3")
+        phase.add_item("P0", "CAP-IDENTITY", "Auth")
+
+        d = roadmap.to_dict()
+
+        assert d["product_id"] == "meu-pdi"
+        assert d["num_phases"] == 1
+        assert d["total_items"] == 1

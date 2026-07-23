@@ -34,6 +34,8 @@ from apos.release_management.ceremonies import (
     SprintPlanningSession,
     Retrospective,
     RetroAction,
+    RoadmapCeremony,
+    RoadmapPhase,
 )
 from apos.release_management.templates import ReleaseTemplateGenerator
 from apos.release_management.daily_runner import (
@@ -59,6 +61,8 @@ __all__ = [
     "SprintPlanningSession",
     "Retrospective",
     "RetroAction",
+    "RoadmapCeremony",
+    "RoadmapPhase",
     # Templates
     "ReleaseTemplateGenerator",
     # Daily Runner
