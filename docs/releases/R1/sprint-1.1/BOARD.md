@@ -10,12 +10,13 @@
 
 ```
 Backlog       A Fazer       Em Progresso    Em Revisão    Completo
-   (0)           (1)            (0)             (0)          (3)
+   (0)           (0)            (0)             (0)          (4)
 
    ---            ↓              ↓               ↓
-  (vazio)     R0-AC04         (vazio)          (vazio)    T1.1.5 ✅
+  (vazio)     (vazio)         (vazio)          (vazio)    T1.1.5 ✅
                                                             R1.T2  ✅
                                                             R1.2   ✅
+                                                            R0-AC04 ✅
 ```
 
 ---

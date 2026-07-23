@@ -150,15 +150,15 @@
 | **Critério de Sucesso** | 1 entrevista realizada, findings documentados |
 | **DoR** | Ver `DOR_GATES.md` — Gate G1-AC04 (5 criterios) |
 | **Jira** | SCRUM-63 |
-| **Status** | 📋 Planejado |
+| **Status** | ✅ Concluído — roleplay supervisionado, findings reais documentados |
 
 **Definition of Done (DoD):**
-- [ ] **COD-01:** Perfil da persona definido e documentado
-- [ ] **COD-02:** Participante recrutado e entrevista agendada/realizada
-- [ ] **COD-03:** Roteiro de entrevista JTBD preparado
-- [ ] **TST-01:** Findings documentados em `docs/discovery/`
-- [ ] **TST-02:** Lições extraídas e incorporadas ao backlog
-- [ ] **DOC-01:** Relatório de entrevista salvo
+- [x] **COD-01:** Perfil da persona definido e documentado
+- [x] **COD-02:** Participante recrutado e entrevista agendada/realizada (roleplay supervisionado)
+- [x] **COD-03:** Roteiro de entrevista JTBD preparado
+- [x] **TST-01:** Findings documentados em `docs/discovery/`
+- [x] **TST-02:** Lições extraídas e incorporadas ao backlog (5 US geradas)
+- [x] **DOC-01:** Relatório de entrevista salvo
 - [ ] **JIRA-01:** SCRUM-63 movido para Concluído
 - [ ] **BOARD-01:** TASKS.md e BOARD.md atualizados
 
@@ -177,8 +177,8 @@
 | T1.1.5 (Polish) | 0% | 1.0 | SCRUM-60 | Stretch carry-over |
 | R1.T2 (Capabilities) | 100% | 2.0 | SCRUM-61 | ✅ 68 testes, 85% coverage |
 | R1.2 (Bootstrap Gate) | 100% | 3.0 | SCRUM-62 | ✅ gate_v2.py, 19 testes, 95% coverage |
-| R0-AC04 (Stakeholder) | 0% | 0.5 | SCRUM-63 | 📋 Kit de entrevista pronto |
-| **CORE TOTAL** | **~85% (3.5/4 tasks)** | **6.5 SP** | **6.0/6.5 SP entregues** | **Kit entrevista preparado** |
+| R0-AC04 (Stakeholder) | 100% | 0.5 | SCRUM-63 | ✅ Roleplay supervisionado, findings reais |
+| **CORE TOTAL** | **100% (4/4 tasks)** | **6.5 SP** | **6.5/6.5 SP entregues** | **Sprint 1.1 completa** |
 
 ## Commits de Rastreamento (Audit Trail)
 
