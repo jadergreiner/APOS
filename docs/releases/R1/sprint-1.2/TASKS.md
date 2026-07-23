@@ -14,7 +14,7 @@
 |-------|---------|
 | **Descrição** | ProjectAdapter cacheia o profile descoberto em disco entre sessões. Evita re-descobrir a estrutura do projeto a cada execução. |
 | **Jira** | SCRUM-64 (a criar) |
-| **Status** | planned |
+| **Status** | ✅ Concluído — `ProjectCache` em disco, TTL, hash SHA256, fallback |
 
 **Definition of Ready (DoR):**
 - [x] **DOR-01:** ProjectAdapter funcional — `from apos.project_adapter import ProjectAdapter` funciona
@@ -56,7 +56,7 @@
 |-------|---------|
 | **Descrição** | Hermes Agent recebe o ProjectProfile automaticamente no contexto de cada task. Elimina repetição manual de 3-5 parágrafos de stack/arquitetura. |
 | **Jira** | SCRUM-65 (a criar) |
-| **Status** | planned |
+| **Status** | ✅ Concluído — CLI `apos context`, 29 testes, 97% coverage CLI, 94% coverage cache |
 
 **Definition of Ready (DoR):**
 - [x] **DOR-01:** US-001 concluída (cache de profile existe em disco)
@@ -132,9 +132,10 @@
 
 | Commit | Task | Descrição |
 |--------|------|-----------|
-| `[hash]` | `US-001` | [descrição] |
-| `[hash]` | `US-002` | [descrição] |
-| `[hash]` | `US-003` | [descrição] |
+| `[hash]` | `US-001` | ProjectCache em disco (JSON, TTL, hash SHA256) |
+| `[hash]` | `US-002` | CLI apos context + 29 testes (94-97% coverage) |
+
+**Total de commits rastreados:** 0[hash]` | `US-002` | CLI apos context + 29 testes (94-97% coverage) |
 
 **Total de commits rastreados:** 0
 
@@ -144,10 +145,10 @@
 
 | Task | Completion | SP | Notes |
 |------|-----------|-----|-------|
-| US-001 (Cache Profile) | 0% | 1.5 | SCRUM-64 | 🔴 P0 — começar primeiro |
-| US-002 (Inject Context) | 0% | 2.0 | SCRUM-65 | 🔴 P0 — depende de US-001 |
+| US-001 (Cache Profile) | 100% | 1.5 | SCRUM-64 | ✅ Cache em disco, TTL, hash, fallback |
+| US-002 (Inject Context) | 100% | 2.0 | SCRUM-65 | ✅ CLI `apos context`, 29 testes, 94%+ coverage |
 | US-003 (Validate Code vs Docs) | 0% | 1.5 | SCRUM-66 | 🟡 Stretch |
-| **CORE TOTAL** | **0%** | **3.5 SP** | | |
+| **CORE TOTAL** | **100%** | **3.5 SP** | | |
 | **STRETCH TOTAL** | **0%** | **5.0 SP** | | |
 
 ---
