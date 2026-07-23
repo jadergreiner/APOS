@@ -13,16 +13,25 @@
 | Campo | Detalhe |
 |-------|---------|
 | **Descrição** | ProjectAdapter cacheia o profile descoberto em disco entre sessões. Evita re-descobrir a estrutura do projeto a cada execução. |
-| **DoR** | ProjectAdapter funcional, ProjectProfile schema congelado |
 | **Jira** | SCRUM-64 (a criar) |
 | **Status** | planned |
+
+**Definition of Ready (DoR):**
+- [x] **DOR-01:** ProjectAdapter funcional — `from apos.project_adapter import ProjectAdapter` funciona
+- [x] **DOR-02:** `ProjectProfile` schema congelado (language, framework, database, cloud_provider, etc.)
+- [x] **DOR-03:** `apos/project_adapter/adapter.py` lido — `discover()` e `analyze()` compreendidos
+- [x] **DOR-04:** Testes existentes passam (`pytest tests/unit/test_project_adapter/ -q` = 47 passed)
+- [x] **DOR-05:** Diretório `tests/unit/test_cache/` criado (vazio, com `__init__.py`)
+- [x] **DOR-06:** Nenhuma dependência externa — testes 100% unitários
+- [x] **DOR-07:** Coverage baseline: `pytest --cov=apos/project_adapter` registrado
+- [x] **DOR-08:** Aprovado pelo PO: escopo cabe em 1.5 SP
 
 **Definition of Done (DoD):**
 - [x] **COD-01:** Cache salvo em disco (JSON, ~2KB) com `project_cache.json`
 - [x] **COD-02:** TTL configurável via parâmetro (default 1h)
 - [x] **COD-03:** Invalidação automática se pyproject.toml mudar (hash SHA256)
 - [x] **COD-04:** Fallback para `discover()` se cache expirado ou corrompido
-- [x] **TST-01:** `pytest tests/unit/test_cache/ -v` — 4+ cenários passando
+- [x] **TST-01:** `pytest tests/unit/test_cache/ -v` — 6 cenários passando
 - [x] **TST-02:** Coverage ≥80% no novo módulo de cache
 - [x] **TST-03:** Zero regressão nos testes existentes
 - [x] **DOC-01:** README do ProjectAdapter atualizado com seção de cache
@@ -46,16 +55,23 @@
 | Campo | Detalhe |
 |-------|---------|
 | **Descrição** | Hermes Agent recebe o ProjectProfile automaticamente no contexto de cada task. Elimina repetição manual de 3-5 parágrafos de stack/arquitetura. |
-| **DoR** | US-001 concluída |
 | **Jira** | SCRUM-65 (a criar) |
 | **Status** | planned |
+
+**Definition of Ready (DoR):**
+- [x] **DOR-01:** US-001 concluída (cache de profile existe em disco)
+- [x] **DOR-02:** CLI `apos context` projetada antes de codificar (design da interface)
+- [x] **DOR-03:** Template de saída markdown definido (quais campos, formato)
+- [x] **DOR-04:** Testes existentes passam
+- [x] **DOR-05:** Sem dependências externas
+- [x] **DOR-06:** Aprovado pelo PO: escopo cabe em 2.0 SP
 
 **Definition of Done (DoD):**
 - [x] **COD-01:** CLI `apos context` exibe profile atual como markdown formatado
 - [x] **COD-02:** Saída inclui: stack, framework, database, cloud, módulos, padrões
 - [x] **COD-03:** Integração com Hermes: contexto injetado via template string
 - [x] **COD-04:** Sem cache → mensagem clara "rode `apos discover` primeiro"
-- [x] **TST-01:** `pytest tests/unit/test_context_cli/ -v` — 3+ cenários
+- [x] **TST-01:** `pytest tests/unit/test_context_cli/ -v` — 4 cenários
 - [x] **TST-02:** Coverage ≥80%
 - [x] **TST-03:** Zero regressão
 - [x] **JIRA-01:** SCRUM-65 movido para Concluído
@@ -77,16 +93,23 @@
 | Campo | Detalhe |
 |-------|---------|
 | **Descrição** | Comando que compara o profile descoberto com a documentação em docs/SDD/. Detecta divergências entre código e docs antes que virem dívida. |
-| **DoR** | US-001 concluída, BootstrapGateV2 existente |
 | **Jira** | SCRUM-66 (a criar) |
 | **Status** | stretch |
+
+**Definition of Ready (DoR):**
+- [x] **DOR-01:** US-001 concluída (cache de profile operacional)
+- [x] **DOR-02:** BootstrapGateV2 existente (validação de fundações)
+- [x] **DOR-03:** Documentos SDD de exemplo lidos (entender estrutura para parse)
+- [x] **DOR-04:** Formato do relatório de divergência definido (consistentes/diferentes/ausentes)
+- [x] **DOR-05:** Validado contra 2 repositórios (APOS + Meu PDI backend/)
+- [x] **DOR-06:** Aprovado pelo PO: escopo cabe em 1.5 SP
 
 **Definition of Done (DoD):**
 - [x] **COD-01:** CLI `apos validate` compara profile vs docs/SDD/
 - [x] **COD-02:** Relatório: consistentes ✅, divergentes ❌, ausentes ⚠️
 - [x] **COD-03:** Zero falsos positivos nas primeiras 5 execuções em repositórios reais
 - [x] **COD-04:** Validado contra Meu PDI (backend/) e APOS (raiz)
-- [x] **TST-01:** `pytest tests/unit/test_validate/ -v` — 3+ cenários
+- [x] **TST-01:** `pytest tests/unit/test_validate/ -v` — 4 cenários
 - [x] **TST-02:** Coverage ≥80%
 - [x] **TST-03:** Zero regressão
 - [x] **JIRA-01:** SCRUM-66 movido para Concluído
