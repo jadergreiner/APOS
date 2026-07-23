@@ -180,6 +180,16 @@
 | R0-AC04 (Stakeholder) | 0% | 0.5 | SCRUM-63 | 📋 Kit de entrevista pronto |
 | **CORE TOTAL** | **~85% (3.5/4 tasks)** | **6.5 SP** | **6.0/6.5 SP entregues** | **Kit entrevista preparado** |
 
+## Commits de Rastreamento (Audit Trail)
+
+| Commit | Task | Descrição |
+|--------|------|-----------|
+| `9c638ad` | T1.1.5, R1.T2, R1.2 | Sprint 1.1 completa: Polish, Capabilities, Bootstrap Gate V2 |
+
+**Total de commits rastreados:** 1
+
+---
+
 ## Timeline
 
 ```

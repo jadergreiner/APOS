@@ -76,5 +76,13 @@ Backlog       A Fazer       Em Progresso    Em Revisão    Completo
 
 ---
 
-**Board atualizado:** 2026-07-22 (Sprint iniciando)
-**Próxima atualização:** Daily Standup D1
+## Audit Trail
+
+| Commit | Entrega |
+|--------|---------|
+| `9c638ad` | T1.1.5 + R1.T2 + R1.2 (Sprint 1.1 completa) |
+
+---
+
+**Board atualizado:** 2026-07-23 (Sprint 1.1 concluída)
+**Próximo:** Sprint 1.2
