@@ -344,6 +344,16 @@ Veja [RISK_MITIGATION.md](RISK_MITIGATION.md) para detalhes.
 
 ---
 
+## 📌 Commit Tracking (Audit Trail)
+
+*Registre commits das tasks concluídas durante a sprint.*
+
+| Commit | Descrição | Task |
+|--------|-----------|------|
+| `[hash]` | | |
+
+---
+
 **Status Atualizado:** Diariamente (07:00)
 **Próxima Atualização:** Tomorrow
 """
