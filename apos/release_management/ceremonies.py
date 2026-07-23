@@ -225,6 +225,123 @@ class SprintPlanningSession:
 
 
 @dataclass
+class RoadmapPhase:
+    """Uma fase do roadmap do produto (ex: Fundacao, Core Produto, Hub Bilateral)."""
+
+    name: str
+    period: str  # ex: "2026 Q2-Q3"
+    goal: str = ""
+    priority_items: List[dict] = field(default_factory=list)  # {priority, item, delivery}
+
+    def add_item(self, priority: str, item: str, delivery: str) -> None:
+        """Adicionar item priorizado a fase."""
+        self.priority_items.append({"priority": priority, "item": item, "delivery": delivery})
+
+
+@dataclass
+class RoadmapCeremony:
+    """Cerimonia de Roadmap Planning — estrutura oficial de roadmap do produto.
+
+    Consolida North Star, fases priorizadas e matriz de dependencias em um
+    unico documento de roadmap, no mesmo espirito de SprintPlanningSession
+    mas em escala de produto (multiplas fases/releases) em vez de sprint.
+    """
+
+    product_id: str
+    date: str  # ISO format
+    facilitator: str = ""
+    attendees: List[str] = field(default_factory=list)
+    north_star: str = ""
+    north_star_metric: str = ""
+    phases: List[RoadmapPhase] = field(default_factory=list)
+    dependency_matrix: List[dict] = field(default_factory=list)  # {item, depends_on}
+    notes: str = ""
+
+    def add_attendee(self, name: str) -> None:
+        """Adicionar participante."""
+        if name not in self.attendees:
+            self.attendees.append(name)
+
+    def add_phase(self, name: str, period: str, goal: str = "") -> RoadmapPhase:
+        """Criar e adicionar uma fase ao roadmap, retornando-a para configuracao adicional."""
+        phase = RoadmapPhase(name=name, period=period, goal=goal)
+        self.phases.append(phase)
+        return phase
+
+    def add_dependency(self, item: str, depends_on: str) -> None:
+        """Registrar dependencia entre itens do roadmap."""
+        self.dependency_matrix.append({"item": item, "depends_on": depends_on})
+
+    def total_items(self) -> int:
+        """Total de itens priorizados em todas as fases."""
+        return sum(len(p.priority_items) for p in self.phases)
+
+    def to_dict(self) -> dict:
+        """Serializar roadmap ceremony."""
+        return {
+            "product_id": self.product_id,
+            "date": self.date,
+            "num_attendees": len(self.attendees),
+            "north_star": self.north_star,
+            "north_star_metric": self.north_star_metric,
+            "num_phases": len(self.phases),
+            "total_items": self.total_items(),
+            "num_dependencies": len(self.dependency_matrix),
+        }
+
+    def render_markdown(self) -> str:
+        """Renderizar estrutura oficial de ROADMAP.md."""
+        lines = [f"# Roadmap — {self.product_id}", ""]
+        lines += [f"**Data:** {self.date}"]
+        if self.facilitator:
+            lines += [f"**Facilitador:** {self.facilitator}"]
+        if self.attendees:
+            lines += [f"**Participantes:** {', '.join(self.attendees)}"]
+        lines += [""]
+
+        # North Star
+        lines += ["---", "", "## 🌟 North Star", ""]
+        if self.north_star:
+            lines += [f"> {self.north_star}", ""]
+        else:
+            lines += ["_[Definir North Star do produto]_", ""]
+        if self.north_star_metric:
+            lines += [f"**North Star Metric:** {self.north_star_metric}", ""]
+
+        # Phases
+        lines += ["---", "", "## 🗺️ Fases", ""]
+        if self.phases:
+            for phase in self.phases:
+                lines += [f"### {phase.name} ({phase.period})", ""]
+                if phase.goal:
+                    lines += [f"**Goal:** {phase.goal}", ""]
+                if phase.priority_items:
+                    lines += ["| Prioridade | Item | Entrega |", "|---|---|---|"]
+                    for it in phase.priority_items:
+                        lines += [f"| {it['priority']} | {it['item']} | {it['delivery']} |"]
+                    lines += [""]
+                else:
+                    lines += ["_[Priorizar itens desta fase]_", ""]
+        else:
+            lines += ["_[Definir fases do roadmap]_", ""]
+
+        # Dependency Matrix
+        lines += ["---", "", "## 🔗 Matriz de Dependências", ""]
+        if self.dependency_matrix:
+            for d in self.dependency_matrix:
+                lines += [f"- `{d['item']}` depende de `{d['depends_on']}`"]
+            lines += [""]
+        else:
+            lines += ["_[Mapear dependências entre itens do roadmap]_", ""]
+
+        if self.notes:
+            lines += ["---", "", "## 📝 Notas", "", self.notes, ""]
+
+        lines += ["---", "", f"**Roadmap gerado:** {self.date}", ""]
+        return "\n".join(lines) + "\n"
+
+
+@dataclass
 class RetroAction:
     """Uma ação de melhoria da retrospectiva."""
 
