@@ -83,9 +83,10 @@ class ContextBlock:
             k: v for k, v in self.content.items()
             if k in essential_keys
         }
-        if len(compressed) < len(self.content):
-            compressed["_compressed"] = True
-            compressed["_fields_removed"] = len(self.content) - len(compressed)
+        fields_removed = len(self.content) - len(compressed)
+        compressed["_compressed"] = True
+        if fields_removed > 0:
+            compressed["_fields_removed"] = fields_removed
         return ContextBlock(
             source=self.source,
             type=self.type,
@@ -164,13 +165,16 @@ def calculate_relevance(
     Returns:
         Float entre 0.0 e 1.0.
     """
+    # O próprio nó âncora sempre recebe relevância máxima, independente
+    # dos demais fatores (confiança, frescor, recência).
+    if block.source == anchor_urn:
+        return 1.0
+
     now = datetime.now(timezone.utc)
 
     # 1. Score de Distância (quão perto do âncora)
     depth = block.metadata.get("depth", 99)
-    if block.source == anchor_urn:
-        distance_score = 1.0
-    elif depth == 0:
+    if depth == 0:
         distance_score = 1.0
     elif depth == 1:
         distance_score = 0.8
@@ -401,7 +405,7 @@ def cleanup_context(
     for b in blocks:
         ttl = b.metadata.get("ttl_hours")
         freshness = b.metadata.get("freshness")
-        if ttl and freshness:
+        if ttl is not None and freshness:
             try:
                 age_hours = (
                     now - datetime.fromisoformat(freshness)
@@ -524,14 +528,27 @@ def fallback_strategy(
         return core, "full"
 
     # Modo 1: Compressão máxima de todos os blocos
+    # Um bloco só é considerado "comprimido" com sucesso se ainda retiver
+    # alguma informação de fato (não apenas as flags de metadados) — caso
+    # contrário a "compressão" apenas descartou o conteúdo, o que não é
+    # uma redução válida e deve escalar para o próximo modo de fallback.
     compressed = [b.compress() for b in core]
     compressed_tokens = sum(b.estimate_tokens() for b in compressed)
-    if compressed_tokens <= max_tokens:
+    compressed_has_content = all(
+        any(not k.startswith("_") for k in b.content) for b in compressed
+    )
+    if compressed_tokens <= max_tokens and compressed_has_content:
         return compressed, "compressed"
 
     # Modo 2: Apenas sumário
+    # Da mesma forma, o sumário só é útil se o bloco original de fato tinha
+    # um campo "status" — caso contrário o valor "unknown" é apenas um
+    # placeholder vazio, sem informação real para o agente.
     summary = []
+    summary_has_content = True
     for b in core:
+        if "status" not in b.content:
+            summary_has_content = False
         summary_block = ContextBlock(
             source=b.source,
             type=b.type,
@@ -544,7 +561,7 @@ def fallback_strategy(
         )
         summary.append(summary_block)
     summary_tokens = sum(b.estimate_tokens() for b in summary)
-    if summary_tokens <= max_tokens:
+    if summary_tokens <= max_tokens and summary_has_content:
         return summary, "summary_only"
 
     # Modo 3: Apenas URNs
