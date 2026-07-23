@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import re
 from abc import ABC, abstractmethod
+import os
 from pathlib import Path
 from typing import Any
 
@@ -28,6 +29,38 @@ IGNORE_DIRS = frozenset(
         "env",
     }
 )
+
+
+def _walk_files_by_suffix(root: Path, suffix: str) -> list[Path]:
+    """Coleta arquivos com sufixo específico pulando IGNORE_DIRS na travessia.
+
+    Usa os.walk() que permite modificar dirnames in-place para
+    evitar entrar em diretórios ignorados — ao contrário de
+    Path.rglob() que percorre TUDO antes de filtrar.
+    """
+    files: list[Path] = []
+    try:
+        for dirpath, dirnames, filenames in os.walk(
+            str(root), followlinks=False
+        ):
+            dirnames[:] = sorted(
+                d for d in dirnames
+                if d not in IGNORE_DIRS and not d.startswith(".")
+            )
+            for f in filenames:
+                if f.endswith(suffix):
+                    files.append(Path(dirpath) / f)
+    except (OSError, PermissionError):
+        pass
+    return files
+
+
+def _walk_py_files(root: Path) -> list[Path]:
+    """Coleta arquivos .py pulando IGNORE_DIRS durante a travessia.
+
+    Delega para _walk_files_by_suffix() genérica.
+    """
+    return _walk_files_by_suffix(root, ".py")
 
 
 class Detector(ABC):
@@ -91,6 +124,8 @@ class StackDetector(Detector):
                 result["database"] = "SQLAlchemy"
             elif "pymongo" in deps_lower or "motor" in deps_lower:
                 result["database"] = "MongoDB"
+            elif "boto3" in deps_lower:
+                result["database"] = "DynamoDB"
 
         # --- package.json ---
         if package_json.exists():
@@ -177,7 +212,7 @@ class ModuleDetector(Detector):
 
             # Count total LOC in .py files (non-recursive in root, recursive in modules)
             try:
-                py_files = list(project_root.rglob("*.py"))
+                py_files = _walk_py_files(project_root)
             except (OSError, PermissionError):
                 # Some dirs may be inaccessible (e.g., .venv/lib64 on Windows)
                 py_files = []
@@ -205,7 +240,7 @@ class ModuleDetector(Detector):
                     continue
                 if entry.is_dir():
                     # Check if any subdir has __init__.py (nested python modules)
-                    sub_inits = list(entry.rglob("__init__.py"))
+                    sub_inits = _walk_files_by_suffix(entry, "__init__.py")
                     if len(sub_inits) > 1:
                         has_nested_modules = True
                     # Monorepo hints: packages/ or apps/ directory
@@ -267,7 +302,7 @@ class PatternDetector(Detector):
 
         # Collect py files with error handling (can fail on inaccessible dirs)
         try:
-            py_files = list(project_root.rglob("*.py"))
+            py_files = _walk_py_files(project_root)
         except (OSError, PermissionError):
             py_files = []
 
@@ -343,15 +378,22 @@ class SemanticDetector(Detector):
         docs_sdd = project_root / "docs" / "SDD"
         has_ontology = docs_sdd.is_dir()
         if not has_ontology:
-            # Broader: any */ontology* file or dir
+            # Broader: any */ontology* file or dir (os.walk evita IGNORE_DIRS)
             try:
-                for p in project_root.rglob("*"):
-                    if p.name.startswith("."):
-                        continue
-                    if any(part in IGNORE_DIRS for part in p.relative_to(project_root).parts):
-                        continue
-                    if "ontology" in p.name.lower() and p.is_file():
-                        has_ontology = True
+                for dirpath, dirnames, filenames in os.walk(
+                    str(project_root), followlinks=False
+                ):
+                    dirnames[:] = sorted(
+                        d for d in dirnames
+                        if d not in IGNORE_DIRS and not d.startswith(".")
+                    )
+                    for f in filenames:
+                        if f.startswith("."):
+                            continue
+                        if "ontology" in f.lower():
+                            has_ontology = True
+                            break
+                    if has_ontology:
                         break
             except (OSError, PermissionError):
                 pass
@@ -399,11 +441,7 @@ class SemanticDetector(Detector):
 
         # --- Naming convention sampling ---
         try:
-            py_files = [
-                p
-                for p in project_root.rglob("*.py")
-                if not any(part in IGNORE_DIRS for part in p.relative_to(project_root).parts)
-            ]
+            py_files = _walk_py_files(project_root)
         except (OSError, PermissionError):
             py_files = []
         if py_files:

@@ -121,6 +121,32 @@ class TestStackDetector:
         result = d.detect(tmp_path)
         assert result["language"] == "Python"
 
+    def test_pyproject_boto3_only_dynamodb(self, tmp_path: Path):
+        """boto3 sozinho no pyproject.toml → database=DynamoDB"""
+        pyproject = tmp_path / "pyproject.toml"
+        pyproject.write_text(
+            '[project]\nname = "myapp"\n'
+            'dependencies = ["boto3"]\n'
+        )
+        d = StackDetector()
+        result = d.detect(tmp_path)
+        assert result["database"] == "DynamoDB"
+        assert result["cloud_provider"] == "AWS"
+        assert result["language"] == "Python"
+
+    def test_pyproject_boto3_with_psycopg(self, tmp_path: Path):
+        """boto3 + psycopg2 → database=PostgreSQL (precedência)"""
+        pyproject = tmp_path / "pyproject.toml"
+        pyproject.write_text(
+            '[project]\nname = "myapp"\n'
+            'dependencies = ["boto3", "psycopg2-binary"]\n'
+        )
+        d = StackDetector()
+        result = d.detect(tmp_path)
+        # PostgreSQL tem precedência sobre DynamoDB
+        assert result["database"] == "PostgreSQL"
+        assert result["cloud_provider"] == "AWS"
+
 
 # =============================================================================
 # ModuleDetector
