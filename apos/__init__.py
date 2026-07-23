@@ -52,6 +52,10 @@ from apos.kernel import (  # noqa: E402
     CommitTrackingValidator,
     CommitTrackingResult,
 )
+from apos.project_adapter import (  # noqa: E402
+    ProjectAdapter,
+    ProjectProfile,
+)
 
 __all__ = [
     "__version__",
@@ -73,4 +77,6 @@ __all__ = [
     "matches_session_trigger",
     "CommitTrackingValidator",
     "CommitTrackingResult",
+    "ProjectAdapter",
+    "ProjectProfile",
 ]
