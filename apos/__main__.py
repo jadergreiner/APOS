@@ -298,6 +298,45 @@ def handle_init_sprint_command(args):
     return 0
 
 
+def _create_status_file(sprint_root: Path) -> Path:
+    """Auto-cria STATUS.md a partir do template padrao quando ausente."""
+    from datetime import datetime
+
+    status_file = sprint_root / "STATUS.md"
+    sprint_id = sprint_root.name
+
+    content = f"""# {sprint_id} — Relatorio de Status
+
+**Ultima Atualizacao:** {datetime.now().isoformat()}
+
+---
+
+## 📊 Status Geral
+
+**Fase Atual:** Active
+**Total de Tasks:** 0
+**Concluidas:** 0
+**Em Andamento:** 0
+
+---
+
+## 📌 Commit Tracking (Audit Trail)
+
+*Arquivo auto-gerado por `apos validate-sprint --create-status`.*
+
+| Commit | Descricao | Task |
+|--------|-----------|------|
+| `[hash]` | | |
+
+---
+
+**Template gerado por APOS SprintQualityGate**
+"""
+    status_file.write_text(content, encoding="utf-8")
+    print(f"📄 STATUS.md criado automaticamente em {status_file}")
+    return status_file
+
+
 def handle_validate_sprint_command(args):
     """Handle 'validate-sprint' command for commit tracking validation.
 
@@ -318,6 +357,11 @@ def handle_validate_sprint_command(args):
         action="store_true",
         help="Modo restrito: FAIL se score < 1.0 (deve ter 100% de rastreamento)",
     )
+    parser.add_argument(
+        "--create-status",
+        action="store_true",
+        help="Auto-criar STATUS.md se ausente, usando template padrao",
+    )
 
     try:
         parsed_args = parser.parse_args(args)
@@ -333,6 +377,13 @@ def handle_validate_sprint_command(args):
 
     validator = CommitTrackingValidator(str(sprint_root))
     result = validator.validate()
+
+    # Auto-create STATUS.md if missing
+    status_file = sprint_root / "STATUS.md"
+    if not status_file.exists() and parsed_args.create_status:
+        _create_status_file(sprint_root)
+        # Re-validate after creating STATUS.md
+        result = validator.validate()
 
     # Print results
     print("\nValidando Rastreamento de Commits")
