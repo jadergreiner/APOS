@@ -25,12 +25,13 @@
 | Testes totais | — | **237** (180+47+10) | ✅ |
 | SP entregues | 3.5 | **3.5** | ✅ |
 
-## Commits Rastreados
+## 📌 Commit Tracking (Audit Trail)
 
-| Commit | Task |
-|--------|------|
-| `abf6e0d` | T1.1.1 + T1.1.2 (Harness) |
-| `4014967` | T1.1.3 (ProjectAdapter core) |
-| `60f9b8d` | T1.1.3 (Code review fixes) |
-| `054cb44` | Merge PR #6 |
-| `f41cbcd` + `eb6d416` | T1.1.4 (Validação Meu PDI) |
+| Commit | Descrição | Task |
+|--------|-----------|------|
+| `abf6e0d` | Trilha A completa — Harness Coverage (180 testes) | T1.1.1 + T1.1.2 |
+| `4014967` | Trilha B parcial — ProjectAdapter core | T1.1.3 |
+| `60f9b8d` | ProjectAdapter code review fixes (PR #6) | T1.1.3 |
+| `054cb44` | Merge PR #6 — feature/r1-sprint1 → main | — |
+| `f41cbcd` | Export ProjectAdapter e ProjectProfile no package root | T1.1.4 |
+| `eb6d416` | Fix pytest collection errors e ContextBlock bugs | T1.1.4 |

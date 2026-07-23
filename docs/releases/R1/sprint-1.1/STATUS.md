@@ -26,8 +26,8 @@
 | Testes totais | — | **305** (200+68+19+18) | ✅ |
 | SP entregues | 6.5 | **6.0** | ✅ |
 
-## Commits Rastreados
+## 📌 Commit Tracking (Audit Trail)
 
-| Commit | Task |
-|--------|------|
-| `9c638ad` | T1.1.5 + R1.T2 + R1.2 (Sprint completa) |
+| Commit | Descrição | Task |
+|--------|-----------|------|
+| `9c638ad` | Sprint 1.1 completa: Polish, Capabilities, Bootstrap Gate V2 | T1.1.5 + R1.T2 + R1.2 |
