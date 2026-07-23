@@ -60,4 +60,4 @@
 
 ---
 
-**Última Atualização:** {datetime.now().isoformat()}
+**Última Atualização:** 2026-07-23T07:07:44
