@@ -56,6 +56,10 @@ from apos.project_adapter import (  # noqa: E402
     ProjectAdapter,
     ProjectProfile,
 )
+from apos.validate import (  # noqa: E402
+    ProjectValidator,
+    ValidationReport,
+)
 
 __all__ = [
     "__version__",
@@ -79,4 +83,6 @@ __all__ = [
     "CommitTrackingResult",
     "ProjectAdapter",
     "ProjectProfile",
+    "ProjectValidator",
+    "ValidationReport",
 ]

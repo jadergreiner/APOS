@@ -31,6 +31,12 @@ def main():
 
         print(f"APOS {__version__}")
         return 0
+    elif command == "context":
+        from apos.cli import main as cli_main
+
+        return cli_main(sys.argv[1:])
+    elif command == "validate":
+        return handle_validate_command(sys.argv[2:])
     elif command in ("--help", "-h"):
         print_help()
         return 0
@@ -373,6 +379,55 @@ def handle_validate_sprint_command(args):
             return 1
 
 
+def handle_validate_command(args):
+    """Handle 'validate' command — compara codigo vs documentacao SDD.
+
+    python -m apos validate [--root PATH] [--format markdown|json]
+    """
+    parser = argparse.ArgumentParser(
+        prog="python -m apos validate",
+        description="Validar consistencia entre codigo e documentacao SDD",
+    )
+    parser.add_argument(
+        "--root",
+        default=str(Path.cwd()),
+        help="Raiz do projeto (default: diretorio atual)",
+    )
+    parser.add_argument(
+        "--format",
+        choices=["markdown", "json"],
+        default="markdown",
+        help="Formato do relatorio (default: markdown)",
+    )
+
+    try:
+        parsed_args = parser.parse_args(args)
+    except SystemExit:
+        return 1
+
+    root = Path(parsed_args.root)
+    if not root.exists():
+        print(f"Erro: diretorio '{root}' nao existe")
+        return 1
+
+    from apos.validate import ProjectValidator
+
+    validator = ProjectValidator(root)
+    report = validator.validate()
+
+    if parsed_args.format == "json":
+        import json as json_mod
+
+        print(json_mod.dumps(report.to_dict(), indent=2, ensure_ascii=False))
+    else:
+        print(report.to_markdown())
+        print()
+
+    if report.divergent or report.absent_code or report.absent_doc:
+        return 1
+    return 0
+
+
 def print_help():
     from apos import __version__
 
@@ -392,6 +447,10 @@ Commands:
     validate-sprint   Validate commit tracking in sprint artifacts
                       Use: python -m apos validate-sprint --sprint-root SPRINT_DIR [--strict]
                       Checks: TASKS.md, BOARD.md, STATUS.md, USER_STORIES.md, RETRO.md
+    context           Exibe o ProjectProfile como markdown formatado
+                      Use: python -m apos context
+    validate          Compara codigo vs documentacao SDD
+                      Use: python -m apos validate [--root PATH] [--format markdown|json]
     --version         Show version
     --help            Show this help message
 """.strip())
