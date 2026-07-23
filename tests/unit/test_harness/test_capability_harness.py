@@ -389,6 +389,73 @@ class TestFallbackHandler:
         err = ErrorResponse(status="error", error="fail")
         assert _match_condition(alt, "cap:x", err) is False
 
+    # ── Fallback multiple conditions (1.5) ──────────────
+
+    @pytest.mark.asyncio
+    async def test_fallback_multiple_conditions(self):
+        """3+ condições de fallback, apenas uma match."""
+        self.handler.register_fallback("cap:main", {
+            "alternatives": [
+                {"capability_id": "cap:version", "condition": "version_mismatch"},
+                {"capability_id": "cap:unavail", "condition": "primary_unavailable"},
+                {"capability_id": "cap:catchall", "condition": "any"},
+            ],
+        })
+        original = CapabilityRequest(capability_id="cap:main", params={"x": 1})
+        error = ErrorResponse(status="timeout", error="timeout")
+        result = await self.handler.resolve_fallback("cap:main", original, error)
+        # primary_unavailable match (status=timeout)
+        assert result is not None
+        assert result.capability_id == "cap:unavail"
+
+    @pytest.mark.asyncio
+    async def test_fallback_multiple_conditions_version_match(self):
+        """Version_mismatch é a condição que match."""
+        self.handler.register_fallback("cap:main", {
+            "alternatives": [
+                {"capability_id": "cap:v", "condition": "version_mismatch"},
+                {"capability_id": "cap:a", "condition": "any"},
+            ],
+        })
+        original = CapabilityRequest(capability_id="cap:main")
+        error = ErrorResponse(status="error", error="version conflict detected")
+        result = await self.handler.resolve_fallback("cap:main", original, error)
+        assert result is not None
+        assert result.capability_id == "cap:v"
+
+    @pytest.mark.asyncio
+    async def test_fallback_multiple_conditions_any_as_last_resort(self):
+        """any é o fallback universal se nenhuma condição específica match."""
+        self.handler.register_fallback("cap:main", {
+            "alternatives": [
+                {"capability_id": "cap:v", "condition": "version_mismatch"},
+                {"capability_id": "cap:u", "condition": "primary_unavailable"},
+                {"capability_id": "cap:a", "condition": "any"},
+            ],
+        })
+        original = CapabilityRequest(capability_id="cap:main")
+        error = ErrorResponse(status="unknown", error="generic failure")
+        result = await self.handler.resolve_fallback("cap:main", original, error)
+        # version_mismatch falha (error não contém "version")
+        # primary_unavailable falha (status não é timeout nem service_unavailable)
+        # any match
+        assert result is not None
+        assert result.capability_id == "cap:a"
+
+    @pytest.mark.asyncio
+    async def test_fallback_all_conditions_fail(self):
+        """Nenhum fallback match → None."""
+        self.handler.register_fallback("cap:main", {
+            "alternatives": [
+                {"capability_id": "cap:v", "condition": "version_mismatch"},
+                {"capability_id": "cap:u", "condition": "primary_unavailable"},
+            ],
+        })
+        original = CapabilityRequest(capability_id="cap:main", params={"x": 1})
+        error = ErrorResponse(status="unknown", error="generic failure")
+        result = await self.handler.resolve_fallback("cap:main", original, error)
+        assert result is None
+
 
 # ═══════════════════════════════════════════════════════════
 # 6. TestParameterResolver
@@ -922,3 +989,134 @@ class TestCapabilityHarness:
         result = await self.h.execute(req)
         assert result.status == "invalid_input"
         assert "Schema" in (result.error or "")
+
+    # ── _validate_schema stub (1.3) ─────────────────────
+
+    @pytest.mark.asyncio
+    async def test_validate_schema_stub_returns_empty_list(self):
+        """_validate_schema stub sempre retorna []."""
+        assert self.h._validate_schema({}) == []
+        assert self.h._validate_schema({"any": "value"}) == []
+        assert self.h._validate_schema({}) == []
+        assert self.h._validate_schema({"nested": {"deep": 42}}) == []
+
+    @pytest.mark.asyncio
+    async def test_execute_invalid_input_reaches_stub(self):
+        """Fluxo de execução normal chega no _validate_schema stub sem erro."""
+        impl = AsyncMock()
+        impl.execute = AsyncMock(return_value={"ok": True})
+        self.h.register_capability_impl("cap:stub-test", impl)
+
+        req = CapabilityRequest(
+            capability_id="cap:stub-test",
+            params={"name": "World"},
+            metadata=RequestMetadata(trace_id="t-stub-test"),
+        )
+
+        with patch.object(self.h, "_validate_schema", wraps=self.h._validate_schema) as spy:
+            result = await self.h.execute(req)
+            spy.assert_called_once_with({"name": "World"})
+            assert result.status == "success"
+
+    # ── Chain complexas (1.5) ───────────────────────────
+
+    @pytest.mark.asyncio
+    async def test_chain_all_optional_links(self):
+        """Todos os links são opcionais e falham → chain falha graciosamente."""
+        impl_a = AsyncMock()
+        impl_a.execute = AsyncMock(side_effect=ValueError("fail a"))
+        impl_b = AsyncMock()
+        impl_b.execute = AsyncMock(side_effect=ValueError("fail b"))
+        impl_c = AsyncMock()
+        impl_c.execute = AsyncMock(return_value={"ok": True})
+        self.h.register_capability_impl("cap:a", impl_a)
+        self.h.register_capability_impl("cap:b", impl_b)
+        self.h.register_capability_impl("cap:c", impl_c)
+
+        self.h.retry_policy.retryable_errors = set()
+        self.h.retry_policy.max_retries = 1
+
+        chain = [
+            ChainLink(capability_id="cap:a", params_template={}, required=False),
+            ChainLink(capability_id="cap:b", params_template={}, required=False),
+            ChainLink(capability_id="cap:c", params_template={}),
+        ]
+        metadata = RequestMetadata(trace_id="t-chain-all-opt")
+        results = await self.h.execute_chain(chain, {}, metadata=metadata)
+        # a e b falham (opcionais), c executa
+        assert len(results) == 3
+        assert results[0].status in ("execution_error", "invalid_input")
+        assert results[1].status in ("execution_error", "invalid_input")
+        assert results[2].status == "success"
+
+    @pytest.mark.asyncio
+    async def test_chain_mixed_required_optional(self):
+        """Required fail interrompe; optional fail continua."""
+        impl_a = AsyncMock()
+        impl_a.execute = AsyncMock(side_effect=ValueError("fail required"))
+        impl_b = AsyncMock()
+        impl_b.execute = AsyncMock(return_value={"ok": True})
+        impl_c = AsyncMock()
+        impl_c.execute = AsyncMock(return_value={"done": True})
+        self.h.register_capability_impl("cap:a", impl_a)
+        self.h.register_capability_impl("cap:b", impl_b)
+        self.h.register_capability_impl("cap:c", impl_c)
+
+        self.h.retry_policy.retryable_errors = set()
+        self.h.retry_policy.max_retries = 1
+
+        chain = [
+            ChainLink(capability_id="cap:a", params_template={}, required=True),
+            ChainLink(capability_id="cap:b", params_template={}, required=False),
+            ChainLink(capability_id="cap:c", params_template={}),
+        ]
+        metadata = RequestMetadata(trace_id="t-chain-mixed")
+        results = await self.h.execute_chain(chain, {}, metadata=metadata)
+        # a falha (required) → chain quebra, b e c não executam
+        assert len(results) == 1
+        assert results[0].status in ("execution_error", "invalid_input")
+
+    @pytest.mark.asyncio
+    async def test_chain_cancellation_during_execution(self):
+        """Cancelamento no meio da chain — links após cancelamento não executam."""
+        started = asyncio.Event()
+
+        async def blocking_execute(params, context):
+            started.set()
+            await asyncio.Event().wait()  # nunca termina
+            return {"done": True}
+
+        impl_a = AsyncMock()
+        impl_a.execute = blocking_execute
+        impl_b = AsyncMock()
+        impl_b.execute = AsyncMock(return_value={"ok": True})
+        self.h.register_capability_impl("cap:block", impl_a)
+        self.h.register_capability_impl("cap:after", impl_b)
+
+        # Timeout curto para o link bloqueante
+        self.h.set_timeout_override("cap:block", 2)
+
+        ct = CancellationToken(trace_id="t-chain-cancel-mid")
+        self.h._cancel_tokens["t-chain-cancel-mid"] = ct
+
+        chain = [
+            ChainLink(capability_id="cap:block", params_template={}),
+            ChainLink(capability_id="cap:after", params_template={}),
+        ]
+        metadata = RequestMetadata(trace_id="t-chain-cancel-mid")
+
+        task = asyncio.create_task(
+            self.h.execute_chain(chain, {}, metadata=metadata, cancel_token=ct)
+        )
+        await asyncio.wait_for(started.wait(), timeout=5)
+
+        # Cancela no meio da execução
+        ct.cancel("interrompido")
+
+        results = await task
+        # Apenas o primeiro link executou (ou 0 se cancelamento foi instantâneo)
+        assert len(results) <= 1
+        if results:
+            # Pode ser timeout (task ainda rodando quando ct.cancel for verificado),
+            # cancelled (se interrompido antes), ou execution_error
+            assert results[0].status in ("cancelled", "timeout", "execution_error", "invalid_input")

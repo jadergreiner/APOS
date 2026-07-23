@@ -1,22 +1,22 @@
 # Sprint 1 — Quadro Kanban
 
-**Sprint:** R1 Sprint 1 (Dupla Via)
-**Data:** 2026-07-21
-**Milestone:** Dia 2 (2026-07-23)
+**Sprint:** R1 Sprint 1 (Dupla Via) — ✅ Concluído
+**Data:** 2026-07-22
+**Resultado:** 3.5/3.5 SP core entregues. Trilha A (Harness) 180 testes, 99% coverage. Trilha B (ProjectAdapter) 47+10 testes, discover() funcional.
 
 ---
 
 ## 📊 Resumo Visual
 
 ```
-Backlog        A Fazer       Em Progresso    Em Revisão    Completo
-   (1)            (2)            (0)             (0)          (2)
+Backlog       A Fazer       Em Progresso    Em Revisão    Completo
+   (1)           (0)            (0)             (0)          (4)
 
    ---            ↓              ↓               ↓
- R0-AC04      R1-S1-A1       (vazio)          (vazio)
-               R1-S1-A2
-               R1-S1-B1
-               R1-S1-B2
+ R0-AC04      (vazio)        (vazio)          (vazio)    R1-S1-A1
+                                                            R1-S1-A2
+                                                            R1-S1-B1
+                                                            R1-S1-B2
 ```
 
 ---
@@ -31,10 +31,7 @@ Backlog        A Fazer       Em Progresso    Em Revisão    Completo
 
 ## ✅ A Fazer (Pronto para Começar)
 
-| ID | Descrição | Trilha | SP | Estimativa | Critério |
-|----|-----------|--------|----|-----------|----------|
-| R1-S1-B1 | Implementar ProjectAdapter core | B | 1.5 | 1.5 dias | discover() extrai stack+módulos |
-| R1-S1-B2 | Testes ProjectAdapter em Meu PDI | B | 0.5 | 0.5 dia | ≥50% descoberta |
+*(vazio — todas as tasks core foram iniciadas)*
 
 ---
 
@@ -57,6 +54,7 @@ Backlog        A Fazer       Em Progresso    Em Revisão    Completo
 | R1-S1-A1 | Tests agent_harness (1.587 LOC) | A | 0.75 | 100 testes, 100% pass ✅ |
 | R1-S1-A2 | Tests capability_harness | A | 0.75 | 80 testes, 100% pass ✅ |
 | R1-S1-B1 | Implementar ProjectAdapter core | B | 1.2 | 45 testes, discover() funcional ✅ |
+| R1-S1-B2 | Testes ProjectAdapter em Meu PDI | B | 0.8 | ✅ discover() 36.6s root, 10/10 integração, 3 gaps corrigidos |
 
 *(vazio)*
 
@@ -78,16 +76,27 @@ Backlog        A Fazer       Em Progresso    Em Revisão    Completo
 
 ---
 
-## 📈 Milestone Dia 2 — Critérios de Decisão
+## 📈 Milestone Dia 2 — Realizado
 
-| Cenário | Decisão |
-|---------|---------|
-| ✅ Trilha A ≥70% E Trilha B funcional | Manter dupla via |
-| ✅ Só Trilha A progrediu | Convergir para A (harness prioritário) |
-| ✅ Só Trilha B progrediu | Convergir para B (KR1 prioritário) |
-| ❌ Nenhuma progrediu | Pausar, reavaliar escopo |
+| Cenário | Resultado |
+|---------|-----------|
+| ✅ Trilha A ≥70% | **100%** — 180 testes, 99% coverage |
+| ✅ Trilha B funcional | **47+10 testes, discover() 36.6s root, 3 gaps corrigidos** |
+
+**Decisão final:** ✅ PASS — Dupla via manteve-se. Sprint 1.0 completo com 3.5/3.5 SP core.
 
 ---
 
-**Board atualizado:** 2026-07-21
-**Próxima atualização:** Daily Standup Dia 2 (2026-07-23)
+## Audit Trail
+
+| Commit | Entrega |
+|--------|---------|
+| `abf6e0d` | R1-S1-A1 + A2 (180 testes Harness) |
+| `4014967` | R1-S1-B1 (ProjectAdapter core) |
+| `60f9b8d` | R1-S1-B1 (Code review fixes) |
+| `f41cbcd` + `eb6d416` | R1-S1-B2 (Validação Meu PDI) |
+
+---
+
+**Board atualizado:** 2026-07-23 (Sprint Concluída)
+**Próximo:** Sprint 1.2

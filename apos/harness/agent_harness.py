@@ -11,6 +11,7 @@ from __future__ import annotations
 import asyncio
 import json
 import logging
+import math
 import random
 import uuid
 from dataclasses import dataclass, field
@@ -629,6 +630,26 @@ class AgentHarness:
                 hb_age_s = (now - hb_time).total_seconds()
             except (ValueError, TypeError):
                 hb_age_s = float("inf")
+
+        # Se hb_age_s não for finito (inf, NaN), trata como UNHEALTHY
+        # sem tentar divisão que causaria OverflowError
+        if not math.isfinite(hb_age_s):
+            result = HealthCheckResult(
+                agent_id=urn,
+                status=HealthStatus.UNHEALTHY,
+                last_heartbeat=last_hb,
+                response_time_ms=random.uniform(1.0, 50.0),
+                memory_usage_mb=random.uniform(50.0, reg.isolation.max_memory_mb),
+                active_requests=1 if state == AgentLifecycle.RUNNING else 0,
+                consecutive_failures=self._consecutive_failures.get(urn, 0),
+                uptime_s=0,
+                active_capability=None,
+                error_count=self._consecutive_failures.get(urn, 0),
+                warnings=["Heartbeat date is invalid or extreme"],
+            )
+            self._health_cache[urn] = result
+            self._log_event("health.unhealthy", urn, {"response_time_ms": result.response_time_ms, "reason": "invalid_heartbeat"})
+            return result
 
         missed = int(hb_age_s / reg.health.heartbeat_interval_s) if reg.health.heartbeat_interval_s > 0 else 0
 

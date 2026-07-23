@@ -530,11 +530,20 @@ class TestHealthCheck:
         result = self.h.health_check("urn:agent-hc")
         assert result.status == HealthStatus.UNHEALTHY
 
-    def test_health_check_invalid_heartbeat_raises_overflow(self):
-        """Heartbeat com formato inválido → ValueError → hb_age_s = inf → OverflowError (bug conhecido)."""
+    def test_health_check_invalid_heartbeat_date(self):
+        """Heartbeat inválido → UNHEALTHY sem OverflowError."""
         self.h._heartbeats["urn:agent-hc"] = "not-a-date"
-        with pytest.raises(OverflowError):
-            self.h.health_check("urn:agent-hc")
+        result = self.h.health_check("urn:agent-hc")
+        assert result.status == HealthStatus.UNHEALTHY
+        assert "Heartbeat date is invalid or extreme" in result.warnings
+
+    def test_health_check_extreme_timestamp(self):
+        """Timestamp extremamente antigo (ano 1900) → trata sem OverflowError."""
+        old_ts = datetime(1900, 1, 1, tzinfo=timezone.utc).isoformat()
+        self.h._heartbeats["urn:agent-hc"] = old_ts
+        result = self.h.health_check("urn:agent-hc")
+        # deve ser UNHEALTHY (muitos heartbeats perdidos) sem OverflowError
+        assert result.status == HealthStatus.UNHEALTHY
 
     def test_health_check_consecutive_failures_propagated(self):
         self.h._consecutive_failures["urn:agent-hc"] = 2
@@ -745,3 +754,174 @@ class TestMockingContext:
 
     def test_agent_state_is_alias(self):
         assert AgentState.__members__ == AgentLifecycle.__members__
+
+
+# ═══════════════════════════════════════════════════════════
+# TestConcurrency (1.4)
+# ═══════════════════════════════════════════════════════════
+
+class TestConcurrency:
+    """Edge cases de concorrência: registros simultâneos,
+    transições concorrentes e idempotência de registro."""
+
+    def test_simultaneous_registrations(self):
+        """2 agentes registrados em sequência rápida, ambos existem."""
+        h = AgentHarness()
+        reg_a = make_registration("urn:conc:a")
+        reg_b = make_registration("urn:conc:b")
+
+        assert h.register(reg_a) is True
+        assert h.register(reg_b) is True
+
+        assert h.get_state("urn:conc:a") == AgentLifecycle.REGISTERED
+        assert h.get_state("urn:conc:b") == AgentLifecycle.REGISTERED
+        assert sorted(h.list_agents()) == ["urn:conc:a", "urn:conc:b"]
+
+    def test_concurrent_state_transitions(self):
+        """Transições concorrentes não corrompem estado."""
+        import threading
+
+        h = AgentHarness()
+        h.register(make_registration("urn:conc-trans"))
+        h.ready("urn:conc-trans")
+
+        errors = []
+
+        def try_transition(target_state):
+            try:
+                if target_state == "run":
+                    h.run("urn:conc-trans")
+                elif target_state == "pause":
+                    h.pause("urn:conc-trans")
+                elif target_state == "stop":
+                    h.stop("urn:conc-trans")
+            except Exception as e:
+                errors.append(str(e))
+
+        threads = [
+            threading.Thread(target=try_transition, args=("run",)),
+            threading.Thread(target=try_transition, args=("pause",)),
+            threading.Thread(target=try_transition, args=("stop",)),
+        ]
+
+        for t in threads:
+            t.start()
+        for t in threads:
+            t.join()
+
+        # Nenhuma exceção, estado final é um dos estados válidos
+        assert len(errors) == 0
+        final_state = h.get_state("urn:conc-trans")
+        assert final_state in (AgentLifecycle.RUNNING, AgentLifecycle.PAUSED,
+                               AgentLifecycle.STOPPED)
+
+    def test_concurrent_ready_transitions(self):
+        """Múltiplas chamadas READY concorrentes não quebram estado."""
+        h = AgentHarness()
+        h.register(make_registration("urn:conc-ready"))
+
+        results = set()
+        results.add(h.ready("urn:conc-ready"))  # primeira
+        results.add(h.ready("urn:conc-ready"))  # segunda (idempotente)
+
+        # READY é idempotente — ambas retornam True
+        assert results == {True}
+        assert h.get_state("urn:conc-ready") == AgentLifecycle.READY
+
+    def test_registration_idempotency(self):
+        """Registrar mesmo agente 2x → segundo não cria duplicata."""
+        h = AgentHarness()
+        reg = make_registration("urn:dup")
+
+        first = h.register(reg)
+        second = h.register(reg)
+
+        assert first is True
+        assert second is False  # False indica que já existia
+
+        # Apenas uma entrada em _agents
+        assert len(h._agents) == 1
+        assert h.get_state("urn:dup") == AgentLifecycle.REGISTERED
+
+    def test_registration_idempotency_different_objects(self):
+        """Registrar mesmo URN com objeto diferente não duplica."""
+        h = AgentHarness()
+        reg1 = make_registration("urn:dup2", name="First")
+        reg2 = make_registration("urn:dup2", name="Second")
+
+        assert h.register(reg1) is True
+        assert h.register(reg2) is False  # mesmo URN → False
+
+        # O primeiro registro é preservado
+        assert h.get_registration("urn:dup2") is reg1
+        assert h.get_registration("urn:dup2").name == "First"
+
+
+# ═══════════════════════════════════════════════════════════
+# TestGlobalConfig — to_dict / with_overrides
+# ═══════════════════════════════════════════════════════════
+
+
+class TestGlobalConfig:
+    """Testes para HarnessGlobalConfig.to_dict() e .with_overrides()."""
+
+    EXPECTED_TO_DICT_KEYS: int = 13  # Contagem das chaves em to_dict()
+
+    def test_to_dict_returns_all_fields(self):
+        d = HarnessGlobalConfig().to_dict()
+        assert isinstance(d, dict)
+        assert len(d) == self.EXPECTED_TO_DICT_KEYS
+
+    def test_to_dict_values_match(self):
+        cfg = HarnessGlobalConfig()
+        d = cfg.to_dict()
+        assert d["default_timeout_seconds"] == 30
+        assert d["max_timeout_seconds"] == 300
+        assert d["context_timeout_seconds"] == 10
+        assert d["kg_query_timeout_seconds"] == 5
+        assert d["max_retries"] == 3
+        assert d["retry_base_delay_seconds"] == 1.0
+        assert d["max_concurrent_executions"] == 10
+        assert d["log_level"] == "INFO"
+        assert d["metrics_enabled"] is True
+        assert d["trace_enabled"] is True
+        assert d["event_logging"] is True
+        assert d["health_check_interval_seconds"] == 30
+        assert d["auto_recover"] is True
+
+    def test_with_overrides_partial(self):
+        cfg = HarnessGlobalConfig()
+        overrides = {
+            "log_level": "DEBUG",
+            "max_retries": 5,
+            "health_check_interval_seconds": 15,
+        }
+        new = cfg.with_overrides(overrides)
+        # 3 overridden
+        assert new.log_level == "DEBUG"
+        assert new.max_retries == 5
+        assert new.health_check_interval_seconds == 15
+        # 10 preserved
+        assert new.default_timeout_seconds == 30
+        assert new.max_timeout_seconds == 300
+        assert new.context_timeout_seconds == 10
+        assert new.kg_query_timeout_seconds == 5
+        assert new.retry_base_delay_seconds == 1.0
+        assert new.max_concurrent_executions == 10
+        assert new.metrics_enabled is True
+        assert new.trace_enabled is True
+        assert new.event_logging is True
+        assert new.auto_recover is True
+
+    def test_with_overrides_empty(self):
+        cfg = HarnessGlobalConfig(log_level="DEBUG")
+        new = cfg.with_overrides({})
+        assert new.log_level == "DEBUG"
+        assert new.default_timeout_seconds == 30
+
+    def test_with_overrides_invalid_key(self):
+        """Chave desconhecida é ignorada sem erro."""
+        cfg = HarnessGlobalConfig()
+        new = cfg.with_overrides({"nonexistent": 42})
+        assert new.log_level == "INFO"  # default preservado
+        assert not hasattr(new, "nonexistent")

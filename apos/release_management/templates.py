@@ -159,6 +159,18 @@ Veja [RETRO.md](RETRO.md) para lições aprendidas.
 
 ---
 
+## 📌 Commits de Rastreamento (Audit Trail)
+
+*Registre aqui os commits a cada task concluída durante a sprint.*
+
+| Commit | Task | Descrição |
+|--------|------|-----------|
+| `[hash]` | `[T-ID]` | [descrição] |
+
+**Total de commits rastreados:** 0
+
+---
+
 **Última Atualização:** {datetime.now().isoformat()}
 """
 
@@ -221,6 +233,16 @@ Backlog        A Fazer       Em Progresso    Em Revisão    Completo
 ## 🚨 Bloqueado
 
 (Nenhum)
+
+---
+
+## Audit Trail
+
+| Commit | Task | Descrição |
+|--------|------|-----------|
+| `[hash]` | `[T-ID]` | [descrição] |
+
+**Total de commits rastreados:** 0
 
 ---
 
